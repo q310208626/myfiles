@@ -26,10 +26,10 @@ public interface MyFilesManService {
 	 * @Title: resgistFileManager   
 	 * @Description: TODO注册文件管理员（需要激活）
 	 * @param myFilesManager      
-	 * @return: void      
+	 * @return: Map 返回结果集      
 	 * @throws   
 	 */  
-	public void registFileManager(MyFilesManager myFilesManager);
+	public Map registFileManager(MyFilesManager myFilesManager);
 	
 	/**   
 	 * @Title: loginFileManager   

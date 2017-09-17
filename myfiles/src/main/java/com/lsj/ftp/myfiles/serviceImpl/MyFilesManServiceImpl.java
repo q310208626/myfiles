@@ -48,23 +48,50 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 	 * @see com.lsj.ftp.myfiles.service.MyFilesManService#resgistFileManager(com.lsj.ftp.myfiles.bean.MyFilesManager)
 	 */
 	@Override
-	public void registFileManager(MyFilesManager myFilesManager) {
+	public Map registFileManager(MyFilesManager myFilesManager) {
+		Map<String, String> resultMap=new HashMap<String, String>(); 
 		try {
+			applicationContext=new ClassPathXmlApplicationContext("classpath:springmvc.xml");
 			ManPrivilege manPrivilege=applicationContext.getBean(ManPrivilege.class);
 			
-			applicationContext=new ClassPathXmlApplicationContext("classpath:springmvc.xml");
-			myFilesManDao.insertMFM(myFilesManager);
+			//临时MyFilesManager
+			MyFilesManager tempFilesManager=null;
+			
+			//查询账户是否已经存在
+			tempFilesManager=myFilesManDao.selectMFMByAccount(myFilesManager.getAccount());
+			
+			//如果临时管理员查询存在
+			if(tempFilesManager!=null){
+				resultMap.put("status", "error");
+				resultMap.put("msg", "用户名已存在");
+				if(logger.isDebugEnabled()){
+					logger.debug("用户名已存在");
+				}
+			}else{
+				//插入管理员到数据库
+				myFilesManDao.insertMFM(myFilesManager);
+				//获取插入的管理员Id作为权限主键Id
+				manPrivilege.setId(myFilesManager.getId());
+				manPrivilegeDao.insertPVL(manPrivilege);
+				resultMap.put("status", "success");
+				resultMap.put("msg", "注册成功");
+				if(logger.isDebugEnabled()){
+					logger.debug("注册成功");
+				}
+			}
 
-			//获取插入的管理员Id作为权限主键Id
-			manPrivilege.setId(myFilesManager.getId());
-			manPrivilegeDao.insertPVL(manPrivilege);
 		} catch (BeansException e) {
 			// TODO Auto-generated catch block
-			System.out.println("javaBean出错！");
+			if(logger.isDebugEnabled()){
+				logger.debug("获取javaBean失败"+ManPrivilege.class.getName());
+			}
 			e.printStackTrace();
 		}catch(Exception e){
-			System.out.println("出错信息:"+e.toString());
+			if(logger.isDebugEnabled()){
+				logger.debug("注册时发生错误");
+			}
 		}
+		return resultMap;
 		
 	}
 

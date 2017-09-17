@@ -32,7 +32,7 @@
 			<!-- 登录/注册tab -->
 			<!-- 登录 -->
 			<div class="tab-pane fade in active" id="login_div">
-				<form class="form-signin" action="${pageContext.request.contextPath}/MFM/login.do" onsubmit="return canLogin()" ng-controller="loginValidate" >
+				<form class="form-signin" action="${pageContext.request.contextPath}/MFM/login.do" onsubmit="return canLogin()" ng-controller="loginValidate" method="post">
 					<h3 class="muted">登录</h3>
 					<input name="account" type="text" placeholder="请输入管理员账户" class="sign_input" ng-model="account"><br>
 					<span class="validate_warn">{{warn_login_account}}</span> 
@@ -43,15 +43,15 @@
 			</div>
 			<!-- 注册 -->
 			<div class="tab-pane fade" id="regist_div">
-				<form class="form-signin" action="" onsubmit="return canRegist()" ng-controller="registValidate">
+				<form class="form-signin" action="${pageContext.request.contextPath}/MFM/regist.do" onsubmit="return canRegist()" ng-controller="registValidate" method="post">
 					<h3 class="muted">注册</h3>
-					<input type="text" placeholder="请输入管理员账户" class="sign_input" ng-model="account">
+					<input type="text" name="account" placeholder="请输入管理员账户" class="sign_input" ng-model="account">
 					<span class="validate_warn">{{warn_regist_account}}</span> 
-					<input type="password" placeholder="请输入密码" class="sign_input" ng-model="password">
+					<input type="password" name="password" placeholder="请输入密码" class="sign_input" ng-model="password">
 					<span class="validate_warn">{{warn_regist_password}}</span>
 					<input type="password" placeholder="请再次确认密码" class="sign_input" ng-model="confirmPassword">
 					<span class="validate_warn">{{warn_regist_confirmpassword}}</span>
-					<input type="button" value="注册" class="sign_input sign_button">
+					<input type="submit" value="注册" class="sign_input sign_button">
 				</form>
 			</div>
 

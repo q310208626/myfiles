@@ -45,7 +45,7 @@ public class MyFilesTest {
 		MyFilesManager myFilesManager=applicationContext.getBean(MyFilesManager.class);
 		myFilesManager.setAccount("linshaojia");
 		myFilesManager.setPassword("lin123");
-		myFilesManServiceImpl.loginFileManager(myFilesManager);
+		myFilesManServiceImpl.registFileManager(myFilesManager);
 		
 	}
 	
