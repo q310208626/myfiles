@@ -16,7 +16,7 @@
 		<div class="masthead">
 			<ul class="nav nav-pills pull-right">
 				<li class="active"><a>主页</a></li>
-				<li><a href="to_manlogin.do">管理员登录</a></li>
+				<li><a href="${pageContext.request.contextPath}/to_manlogin.do">管理员登录</a></li>
 			</ul>
 			<h3 class="muted" >我的文件</h3>
 		</div>

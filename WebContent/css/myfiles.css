@@ -42,3 +42,9 @@ input.sign_button{
 	padding: 40px;
 	background-color: #c1e4ff;
 }
+
+.well{
+	margin-top: 100px;	
+	margin-left:30px;
+	background: #c1e4ff;
+}
