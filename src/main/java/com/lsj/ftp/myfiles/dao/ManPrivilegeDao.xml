@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lsj.ftp.myfiles.dao.ManPrivilegeDao">
+	<resultMap type="ManPrivilege" id="privilegeMap">
+		<id property="id" column="p_id" javaType="int"/>
+		<result property="uploadPVL" column="upload_pvl" javaType="int"/>
+		<result property="updatePVL" column="update_pvl" javaType="int"/>
+		<result property="grantPVL" column="grant_pvl" javaType="int"/>
+		<result property="allFilesPVL" column="all_files_pvl" javaType="int"/>
+		<result property="mainPVL" column="main_pvl" javaType="int"/>
+	</resultMap>
+	<sql id="selectAllManPVLSql">
+		SELECT * from man_privilege
+	</sql>
+	
+	<insert id="insertPVL" parameterType="ManPrivilege">
+		INSERT INTO 
+			man_privilege(id,upload_pvl,update_pvl,grant_pvl,all_files_pvl,main_pvl)
+			VALUES(#{id},#{uploadPVL},#{updatePVL},#{grantPVL},#{allFilesPVL},#{mainPVL})
+	</insert>
+	
+	<select id="">
+		<include refid="selectAllManPVLSql"></include>
+		WHERE id=#{id}
+	</select>
+	
+</mapper>

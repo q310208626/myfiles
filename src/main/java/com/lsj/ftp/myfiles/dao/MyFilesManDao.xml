@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lsj.ftp.myfiles.dao.MyFilesManDao">
+
+ 	<resultMap type="MyFilesManager" id="MyFilesManagerMap">
+		<id property="id" column="m_id" javaType="int"/>
+		<result property="account" column="m_account" javaType="String"/>
+		<result property="password" column="m_password" javaType="String"/>
+		<result property="isActivited" column="is_activied" javaType="int"/>
+		<association property="manPrivilege" javaType="ManPrivilege" resultMap="com.lsj.ftp.myfiles.dao.ManPrivilegeDao.privilegeMap"></association>
+	</resultMap>
+	
+	<sql id="selectAllMFMSql">
+		SELECT m.id as m_id, m.account as m_account,m.password as m_password,m.is_activited as is_activied,
+			p.id as p_id, p.upload_pvl as upload_pvl, p.update_pvl as update_pvl, p.grant_pvl as grant_pvl, p.all_files_pvl as all_files_pvl, p.main_pvl as main_pvl
+			from myfiles_manager m,man_privilege p
+	</sql>
+	
+	<insert id="insertMFM" parameterType="MyFilesManager" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO 
+			myfiles_manager(account,password,is_activited)
+			VALUES(#{account},#{password},0)
+	</insert>
+	
+	<select id="selectMFMById" resultMap="MyFilesManagerMap">
+		<include refid="selectAllMFMSql"></include>
+		WHERE m.id=#{m_id} and m.id=p.id
+	</select>
+	
+	<select id="selectMFMIsActivited" resultMap="MyFilesManagerMap">
+		<include refid="selectAllMFMSql"></include>
+		WHERE m.is_activited=1;
+	</select>
+	
+	<select id="selectMFMByAccount" resultMap="MyFilesManagerMap" parameterType="MyFilesManager">
+		<include refid="selectAllMFMSql"></include>
+		WHERE m.account=#{account}
+	</select>
+	
+	<update id="updateMFM" parameterType="MyFilesManager">
+		UPDATE myfiles_manager
+			SET account=#{account},password=#{password},is_activited=#{isActivited}
+			WHERE id=#{id} 
+	</update>
+</mapper>        
