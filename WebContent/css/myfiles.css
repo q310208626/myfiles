@@ -90,5 +90,9 @@ input.sign_button{
 }
 
 .input-submit-fileupload{
+	float: right;
+}
+
+.button-modal-upload{
 	float: left;
 }

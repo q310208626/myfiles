@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lsj.ftp.myfiles.bean.ManPrivilege;
 import com.lsj.ftp.myfiles.bean.MyFile;
 import com.lsj.ftp.myfiles.bean.MyFilesManager;
 import com.lsj.ftp.myfiles.dao.MyFileDao;
@@ -90,9 +91,43 @@ public class MyFileServiceImpl implements MyFileService {
 	}
 
 	@Override
-	public Map deleteMyFile(int MyFileId) {
+	public Map deleteMyFile(int userId,int MyFileId) {
 		// TODO Auto-generated method stub
-		return null;
+		Map resutMap=new HashMap<String, String>();
+		MyFilesManager myFilesManager=myFileManDao.selectMFMById(userId);
+		MyFile myFile=myFileDao.selectMyFIleById(MyFileId);
+		//如果文件不存在
+		if(myFile==null){
+			resutMap.put("status", "error");
+			resutMap.put("error", "文件不存在");
+			return resutMap;
+		}
+		
+		//管理员不存在，则不能删除文件
+		if(myFilesManager==null){
+			resutMap.put("status", "error");
+			resutMap.put("error", "管理员不存在");
+			return resutMap;
+		}
+		//获取管理员权限
+		ManPrivilege manPrivilege=myFilesManager.getManPrivilege();
+		//如果有主管理员权限或者有修改所有文件权限，则可以删除
+		if(manPrivilege.getMainPVL()==1||manPrivilege.getAllFilesPVL()==1){
+			myFileDao.deleteMyFile(MyFileId);
+			resutMap.put("status", "success");
+			return resutMap;
+		}
+		
+		
+		//如果不是主管理员，并且管理员Id跟文件拥有者Id不一样，不能删除
+		if(myFile.getOwnerId()!=userId){
+			resutMap.put("status", "error");
+			resutMap.put("error", "管理员没权限删除他人文件");
+			return resutMap;
+		}
+		resutMap.put("status", "error");
+		resutMap.put("error", "管理员没权限");
+		return resutMap;
 	}
 
 	@Override

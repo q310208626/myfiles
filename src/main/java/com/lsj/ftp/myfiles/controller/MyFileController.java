@@ -46,6 +46,8 @@ public class MyFileController {
 		String userIdString=(String)session.getAttribute("userId");
 		if (userIdString==null||userIdString.equals("0")) {
 			logger.debug("userId is null");
+			modelAndView.setViewName("file_manager_error");
+			return modelAndView;
 		}
 		int userId=Integer.valueOf(userIdString); 
 		resultMap=myFileService.uploadMyFile(uploadFile, userId);
@@ -59,6 +61,34 @@ public class MyFileController {
 			modelAndView.setViewName("file_manager_error");
 		}
 		return modelAndView;
+	}
+	
+	@RequestMapping(value="/deleteFile.do")
+	public ModelAndView deleteMyFile(int fileId,HttpSession session){
+		ModelAndView modelAndView=new ModelAndView();
+		Map resultMap=null;
+		String userIdString=(String) session.getAttribute("userId");
+		//session中userId不存在，则返回错误页面
+		if(userIdString==null||userIdString.equals("")){
+			modelAndView.setViewName("file_manager_error");
+			modelAndView.addObject("error","用户回话过期");
+			return modelAndView;
+		}
+		else{
+			int userId=Integer.valueOf(userIdString);
+			resultMap=myFileService.deleteMyFile(userId,fileId);
+			//删除结果成功
+			if(resultMap.get("status").equals("success")){
+				modelAndView.setViewName("forward:/myFile/getAllFiles.do?manId="+userId);
+			}
+			//删除结果失败
+			else{
+				modelAndView.setViewName("file_manager_error");
+				modelAndView.addObject("error", resultMap.get("error"));
+			}
+			return modelAndView;
+		}
+		
 	}
 
 }

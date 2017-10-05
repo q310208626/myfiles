@@ -34,8 +34,7 @@
 					<ul class="nav nav-pills pull-right">
 						<li><a href="${pageContext.request.contextPath}/to_index.do">主页</a></li>
 						<li><a
-							href="${pageContext.request.contextPath}/MFM/logout.do">注销</a>
-						</li>
+							href="${pageContext.request.contextPath}/MFM/logout.do">注销</a></li>
 					</ul>
 					<h3 class="muted">管理员页面</h3>
 				</div>
@@ -44,27 +43,51 @@
 				<!-- 分割线 -->
 				<!-- 管理内容 -->
 				<div class="container-narrow">
-				<form action="${pageContext.request.contextPath}/myFile/uploadFile.do" enctype="multipart/form-data" method="post">
-				<a class="a-upload">选择文件
-					<input type="file" name="uploadFile" width="50px" height="50px"/>
-				</a>
-				<input type="submit" value="上传" class="btn btn-success input-submit-fileupload">
-				</form>
-				<iframe id="manager_iframe" src="${pageContext.request.contextPath}/myFile/getAllFiles.do?manId=${sessionScope.userId}" width="100%" height="100%" frameborder="no"></iframe>
+					<!-- form -->
+					<button class="btn btn-success button-modal-upload"
+						data-toggle="modal" data-target="#upload_modal">上传文件</button>
+					<iframe id="manager_iframe"
+						src="${pageContext.request.contextPath}/myFile/getAllFiles.do?manId=${sessionScope.userId}"
+						width="100%" height="100%" frameborder="no"></iframe>
 				</div>
 			</div>
-			
+
 			<!-- upload_modal -->
 			<div class="modal fade" id="upload_modal" tabindex="-1">
 				<div class="modal-dialog">
 					<div class="modal-content">
-						
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">上传文件</h4>
+						</div>
+
+						<form
+							action="${pageContext.request.contextPath}/myFile/uploadFile.do"
+							enctype="multipart/form-data" method="post">
+							<div class="modal-body">
+								<a class="a-upload">选择文件 <input type="file"
+									name="uploadFile" width="50px" height="50px" />
+								</a>
+							</div>
+							
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭</button>
+								<input type="submit" value="上传"
+								class="btn btn-success input-submit-fileupload">
+							</div>
+						</form>
+
 					</div>
 				</div>
 			</div>
+			
+			
 		</div>
 	</div>
-	
+	</div>
+
 </body>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.8.0.min.js"></script>

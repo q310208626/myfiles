@@ -33,7 +33,7 @@
 					<td>${myFile.createDate}</td>
 					<td>${myFile.lastModifiedDate}</td>
 					<td>${myFile.lastModifiedId}</td>
-					<td><a class="btn btn-warning">重传</a><a class="btn btn-danger">删除</a></td>
+					<td><a class="btn btn-warning">重传</a><a class="btn btn-danger" href="${pageContext.request.contextPath}/myFile/deleteFile.do?fileId=${myFile.id}">删除</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>

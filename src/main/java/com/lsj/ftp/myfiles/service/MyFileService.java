@@ -66,11 +66,12 @@ public interface MyFileService {
 	 * @Title: deleteMyFile   
 	 * @Description: TODO 通过Id删除MyFile
 	 * @param MyFileId 文件Id
+	 * @param userId 操作者Id
 	 * @return      
 	 * @return: Map      
 	 * @throws   
 	 */  
-	public Map deleteMyFile(int MyFileId);
+	public Map deleteMyFile(int userId,int MyFileId);
 	
 
 	/**   
