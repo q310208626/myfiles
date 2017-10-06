@@ -19,6 +19,7 @@ import com.lsj.ftp.myfiles.bean.MyFile;
 import com.lsj.ftp.myfiles.service.MyFileService;
 import com.lsj.ftp.myfiles.service.MyFilesManService;
 import com.lsj.ftp.myfiles.serviceImpl.MyFileServiceImpl;
+import com.sun.mail.handlers.multipart_mixed;
 
 @Controller
 @RequestMapping(value="/myFile")
@@ -54,7 +55,7 @@ public class MyFileController {
 //		myFileService.uploadMyFile(uploadFile, ownerId);
 		if(resultMap.get("status").equals("success")){
 //			modelAndView.setViewName("redirect:/myFile/getAllFiles.do?manId="+userId);
-			modelAndView.setViewName("forward:/to_managerMain.do");
+			modelAndView.setViewName("redirect:/to_managerMain.do");
 		}
 		//失败跳转到失败页面
 		else{
@@ -88,7 +89,34 @@ public class MyFileController {
 			}
 			return modelAndView;
 		}
-		
+	}
+	
+	@RequestMapping(value="/updateFile.do")
+	public ModelAndView updateFile(int fileId,MultipartFile updateFile,HttpSession session){
+		ModelAndView modelAndView=new ModelAndView();
+		Map resultMap=null;
+		String userIdString=(String) session.getAttribute("userId");
+		//session中userId不存在，则返回错误页面
+		if(userIdString==null||userIdString.equals("")){
+			modelAndView.setViewName("file_manager_error");
+			modelAndView.addObject("error","用户回话过期");
+			return modelAndView;
+		}else{
+			int userId=Integer.valueOf(userIdString);
+			logger.debug("fileId"+fileId);
+			logger.debug("updateFile"+updateFile);
+			resultMap=myFileService.updateMyFile(userId, fileId, updateFile);
+			//结果成功
+			if(resultMap.get("status").equals("success")){
+				modelAndView.setViewName("redirect:/myFile/getAllFiles.do?manId="+userId);
+			}			
+			//删除结果失败
+			else{
+				modelAndView.setViewName("file_manager_error");
+				modelAndView.addObject("error", resultMap.get("error"));
+			}
+		}	
+		return modelAndView;
 	}
 
 }

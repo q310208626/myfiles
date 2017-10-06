@@ -64,7 +64,7 @@ public class MyFileServiceImpl implements MyFileService {
 		if (myFileId <= 0) {
 			return null;
 		}
-		myFile = myFileDao.selectMyFIleById(myFileId);
+		myFile = myFileDao.selectMyFileById(myFileId);
 		return myFile;
 	}
 
@@ -85,49 +85,99 @@ public class MyFileServiceImpl implements MyFileService {
 	}
 
 	@Override
-	public Map updateMyFile(MyFile myFile) {
+	public Map updateMyFile(int userId, int fileId, MultipartFile updateFile) {
 		// TODO Auto-generated method stub
-		return null;
+		Map resultMap = new HashMap<String, String>();
+		MyFilesManager myFilesManager = myFileManDao.selectMFMById(userId);
+		MyFile myFile = myFileDao.selectMyFileById(fileId);
+		// 如果文件不存在
+		if (myFile == null) {
+			resultMap.put("status", "error");
+			resultMap.put("error", "文件不存在");
+			return resultMap;
+		}
+
+		// 管理员不存在，则不能删除文件
+		if (myFilesManager == null) {
+			resultMap.put("status", "error");
+			resultMap.put("error", "管理员不存在");
+			return resultMap;
+		}
+
+		// 获取管理员权限
+		ManPrivilege manPrivilege = myFilesManager.getManPrivilege();
+		try {
+			// 如果有主管理员权限或者有修改所有文件权限，则可以更新
+			// 没有以上权限，则查看文件是否属于自己，属于则可以删除
+			if (manPrivilege.getMainPVL() == 1
+					|| manPrivilege.getUpdatePVL() == 1
+					||myFile.getOwnerId() == userId) {
+				File file = new File(savePath, myFile.getFileName());
+				// 文件不存在，则创建
+				if (!file.exists()) {
+					file.mkdirs();
+				}
+				updateFile.transferTo(file);
+				resultMap.put("status", "success");
+				return resultMap;
+			}
+			// 没权限，文件不属于自己，不能删除
+			else {
+				resultMap.put("status", "error");
+				resultMap.put("error", "管理员没有权限");
+			}
+		} catch (IllegalStateException | IOException e) {
+			// TODO Auto-generated catch block
+			resultMap.put("status", "error");
+			resultMap.put("error", "文件更新出错");
+			e.printStackTrace();
+		}
+		return resultMap;
 	}
 
 	@Override
-	public Map deleteMyFile(int userId,int MyFileId) {
+	public Map deleteMyFile(int userId, int MyFileId) {
 		// TODO Auto-generated method stub
-		Map resutMap=new HashMap<String, String>();
-		MyFilesManager myFilesManager=myFileManDao.selectMFMById(userId);
-		MyFile myFile=myFileDao.selectMyFIleById(MyFileId);
-		//如果文件不存在
-		if(myFile==null){
-			resutMap.put("status", "error");
-			resutMap.put("error", "文件不存在");
-			return resutMap;
+		Map resultMap = new HashMap<String, String>();
+		MyFilesManager myFilesManager = myFileManDao.selectMFMById(userId);
+		MyFile myFile = myFileDao.selectMyFileById(MyFileId);
+		// 如果文件不存在
+		if (myFile == null) {
+			resultMap.put("status", "error");
+			resultMap.put("error", "文件不存在");
+			return resultMap;
 		}
-		
-		//管理员不存在，则不能删除文件
-		if(myFilesManager==null){
-			resutMap.put("status", "error");
-			resutMap.put("error", "管理员不存在");
-			return resutMap;
+
+		// 管理员不存在，则不能删除文件
+		if (myFilesManager == null) {
+			resultMap.put("status", "error");
+			resultMap.put("error", "管理员不存在");
+			return resultMap;
 		}
-		//获取管理员权限
-		ManPrivilege manPrivilege=myFilesManager.getManPrivilege();
-		//如果有主管理员权限或者有修改所有文件权限，则可以删除
-		if(manPrivilege.getMainPVL()==1||manPrivilege.getAllFilesPVL()==1){
+		// 获取管理员权限
+		ManPrivilege manPrivilege = myFilesManager.getManPrivilege();
+		// 如果有主管理员权限或者有修改所有文件权限，则可以删除
+		//没有权限，如果文件属于自己，也可以删除
+		if (manPrivilege.getMainPVL() == 1
+				|| manPrivilege.getAllFilesPVL() == 1
+				||myFile.getOwnerId() == userId) {
+			File deleteFile=new File(savePath,myFile.getFileName());
+			
+			//如果文件存在，则删除本地文件
+			if(deleteFile.exists()){
+				deleteFile.delete();
+			}
+			
+			//删除数据库记录
 			myFileDao.deleteMyFile(MyFileId);
-			resutMap.put("status", "success");
-			return resutMap;
+			resultMap.put("status", "success");
+			return resultMap;
+		}else {
+			resultMap.put("status", "error");
+			resultMap.put("error", "管理员没权限");
 		}
-		
-		
-		//如果不是主管理员，并且管理员Id跟文件拥有者Id不一样，不能删除
-		if(myFile.getOwnerId()!=userId){
-			resutMap.put("status", "error");
-			resutMap.put("error", "管理员没权限删除他人文件");
-			return resutMap;
-		}
-		resutMap.put("status", "error");
-		resutMap.put("error", "管理员没权限");
-		return resutMap;
+
+		return resultMap;
 	}
 
 	@Override
@@ -146,7 +196,7 @@ public class MyFileServiceImpl implements MyFileService {
 		myFile.setSavePath(savePath);
 		String fileNmae = uploadFile.getOriginalFilename() + date;
 		myFile.setFileName(fileNmae);
-		
+
 		try {
 			File saveFile = new File(savePath, myFile.getFileName());
 			// 存储路径不存在则创建文件

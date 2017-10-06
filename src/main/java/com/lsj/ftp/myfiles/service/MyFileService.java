@@ -53,14 +53,18 @@ public interface MyFileService {
 	 * @throws   
 	 */  
 	public List<MyFile> getMyFileByOwnerId(int ownerId);
+
 	/**   
 	 * @Title: updateMyFile   
-	 * @Description: TODO 更新MyFile
+	 * @Description: TODO
+	 * @param fileId 文件Id
+	 * @param updateFile 更新文件
+	 * @param userId 操作者Id
 	 * @return      
 	 * @return: Map      
 	 * @throws   
 	 */  
-	public Map updateMyFile(MyFile myFile);
+	public Map updateMyFile(int userId,int fileId,MultipartFile updateFile);
 	
 	/**   
 	 * @Title: deleteMyFile   

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>管理员页面</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -27,7 +27,7 @@
 			</div>
 		</div>
 		<!-- 管理员页面内容 -->
-		<div class="span9">
+		<div class="span10">
 			<div class="container-narrow">
 				<!-- 管理员页面内容头部 -->
 				<div class="masthead">
@@ -82,7 +82,6 @@
 					</div>
 				</div>
 			</div>
-			
 			
 		</div>
 	</div>

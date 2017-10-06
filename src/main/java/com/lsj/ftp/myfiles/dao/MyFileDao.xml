@@ -18,9 +18,9 @@
 		<include refid="selectAllMyFileSql"></include>
 	</select>
 	
-	<select id="selectMyFIleById"  parameterType="int" resultType="MyFIle">
+	<select id="selectMyFileById"  parameterType="int" resultType="MyFIle">
 		<include refid="selectAllMyFileSql"></include>
-		WHERE id=#{id}
+		WHERE id=#{fileId}
 	</select>
 	
 	<select id="selectMyFilesByOwner"  parameterType="int" resultMap="myFileMap">
@@ -42,7 +42,7 @@
 	
 	<delete id="deleteMyFile" parameterType="int">
 		DELETE FROM myfile
-		WHERE id=#{id}
+		WHERE id=#{fileId}
 	</delete>
 	
 </mapper>

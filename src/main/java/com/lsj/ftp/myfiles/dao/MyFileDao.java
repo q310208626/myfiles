@@ -25,7 +25,7 @@ public interface MyFileDao {
 	public void insertMyFile(MyFile myFile);
 	public void updateMyFile(MyFile myFile);
 	public void deleteMyFile(int fileId);
-	public MyFile selectMyFIleById(int fileId);
+	public MyFile selectMyFileById(int fileId);
 	public List<MyFile> selectMyFilesByOwner(int ownerId);
 	public List<MyFile> selectAllMyFiles();
 }
