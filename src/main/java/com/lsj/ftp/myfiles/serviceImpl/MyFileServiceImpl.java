@@ -53,9 +53,20 @@ public class MyFileServiceImpl implements MyFileService {
 		else {
 			myFiles = myFileDao.selectMyFilesByOwner(id);
 		}
-
 		return myFiles;
 	}
+	
+	
+
+	@Override
+	public List<MyFile> getCustomerFilesTable() {
+		// TODO Auto-generated method stub
+		List<MyFile> myFiles = null;
+		myFiles=myFileDao.selectAllMyFiles();
+		return myFiles;
+	}
+
+
 
 	@Override
 	public MyFile getMyFileByFileId(int myFileId) {
@@ -218,5 +229,23 @@ public class MyFileServiceImpl implements MyFileService {
 		resultMap.put("code", "000");
 		return resultMap;
 	}
+
+
+
+	@Override
+	public File getDownloadFile(int myFileId) {
+		// TODO Auto-generated method stub
+		MyFile myFile=myFileDao.selectMyFileById(myFileId);
+		//如果文件不存在，返回null
+		if(myFile==null){
+			return null;
+		}
+		
+		File downloadFile=new File(savePath,myFile.getFileName());
+		return downloadFile;
+		
+	}
+	
+	
 
 }

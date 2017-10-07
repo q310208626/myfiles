@@ -1,16 +1,29 @@
 package com.lsj.ftp.myfiles.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
 import javax.naming.spi.DirStateFactory.Result;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,6 +51,45 @@ public class MyFileController {
 		modelAndView.addObject("MyFileList", myFileList);
 		modelAndView.setViewName("manager_file_table");
 		return modelAndView;
+	}
+	
+	@RequestMapping(value="/getCustomerFile.do")
+	public ModelAndView getCustomerFile(){
+		ModelAndView modelAndView=new ModelAndView();
+		List<MyFile> myFileList=myFileService.getCustomerFilesTable();
+		modelAndView.addObject("MyFileList", myFileList);
+		modelAndView.setViewName("customer_file_table");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/downloadFile.do")
+	public ResponseEntity<byte[]> downloadFile(int fileId,HttpServletRequest request){
+		File downloadFile=null;
+		FileInputStream fileInputStream=null;
+		OutputStream outputStream=null;
+		downloadFile=myFileService.getDownloadFile(fileId);
+		HttpHeaders headers=new HttpHeaders();
+		if(downloadFile==null){
+			logger.debug("文件不存在");
+		}else {
+			String fullPath=downloadFile.getPath();
+			String savePath=fullPath.substring(0, fullPath.lastIndexOf('/'));
+			String fileName=downloadFile.getName();
+			logger.debug("=============="+savePath);
+			logger.debug("=============="+fileName);
+			headers.setContentDispositionFormData("attachment",fileName);
+			//设置为常见的下载格式
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		}
+		try {
+			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(downloadFile),    
+			        headers, HttpStatus.CREATED);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			logger.debug("IO出错");
+			e.printStackTrace();
+		} 
+		return null;
 	}
 	
 	@RequestMapping(value="/uploadFile.do")

@@ -1,5 +1,6 @@
 package com.lsj.ftp.myfiles.service;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -26,13 +27,22 @@ public interface MyFileService {
 	
 	/**   
 	 * @Title: getMyFilesTable   
-	 * @Description: TODO 获取文件列表
+	 * @Description: TODO 获取管理员文件列表
 	 * @param id 管理员Id
 	 * @return      
 	 * @return: List<MyFile>      
 	 * @throws   
 	 */  
 	public List<MyFile> getMyFilesTable(int id);
+	
+	/**   
+	 * @Title: getCustomerFilesTable   
+	 * @Description: TODO 获取访客文件列表
+	 * @return      
+	 * @return: List<MyFile>      
+	 * @throws   
+	 */  
+	public List<MyFile> getCustomerFilesTable();
 	
 	/**   
 	 * @Title: getMyFileByFileId   
@@ -88,5 +98,16 @@ public interface MyFileService {
 	 * @throws   
 	 */  
 	public Map uploadMyFile(MultipartFile uploadFile,int ownerId);
+	
+	/**   
+	 * @Title: getDownloadFile   
+	 * @Description: TODO 获取要下载的文件
+	 * @param myFileId
+	 * @return      
+	 * @return: File      
+	 * @throws   
+	 */  
+	public File getDownloadFile(int myFileId);
+	
 	
 }

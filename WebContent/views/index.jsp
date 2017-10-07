@@ -21,8 +21,9 @@
 			<h3 class="muted" >我的文件</h3>
 		</div>
 		<hr><!-- 分割线 -->
-		<div class="container">
-			
+		<div>
+			<iframe src="${pageContext.request.contextPath}/myFile/getCustomerFile.do" width="100%" height="100%" frameborder="no">
+			</iframe>
 		</div>
 	</div>
 </body>
