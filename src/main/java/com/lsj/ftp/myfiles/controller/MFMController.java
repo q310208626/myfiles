@@ -1,5 +1,6 @@
 package com.lsj.ftp.myfiles.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -116,6 +117,31 @@ public class MFMController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value="/getAllMFM.do")
+	public ModelAndView getAllMFM(HttpSession session){
+		ModelAndView modelAndView=new ModelAndView();
+		List<MyFilesManager> myFilesManagers=null;
+		myFilesManagers=myFilesManService.getAllFileManager();
+		modelAndView.setViewName("manager_mfm_table");
+		modelAndView.addObject("myMFMList", myFilesManagers);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/activityMFM.do")
+	public ModelAndView activityMFM(HttpSession session,int doneId){
+		ModelAndView modelAndView=new ModelAndView();
+		String userIdString=(String) session.getAttribute("userId");
+		if(userIdString==null||userIdString.equals("0")){
+			modelAndView.setViewName("");
+			modelAndView.addObject("error", "操作员未登录");
+		}else{
+			//操作员Id
+			int userId=Integer.valueOf(userIdString);
+			myFilesManService.activeFileManager(userId, doneId);
+			
+		}
+		return modelAndView;
+	}
 	
 
 }

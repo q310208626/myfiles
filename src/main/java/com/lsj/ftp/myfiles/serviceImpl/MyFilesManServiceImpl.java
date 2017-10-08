@@ -99,8 +99,9 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 	 * @see com.lsj.ftp.myfiles.service.MyFilesManService#activeFileManager(int, int)
 	 */
 	@Override
-	public void activeFileManager(int doId, int doneId) {
+	public Map activeFileManager(int doId, int doneId) {
 		// TODO Auto-generated method stub
+		Map resultMap=new HashMap<String,String>();
 		MyFilesManager doFilesManager=myFilesManDao.selectMFMById(doId);
 		MyFilesManager doneFilesManager=myFilesManDao.selectMFMById(doneId);
 		
@@ -108,8 +109,9 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 			if(logger.isDebugEnabled()){
 				logger.debug("操作管理员不存在");
 			}
-			
-			return;
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在");
+			return resultMap;
 		}
 		
 		
@@ -117,7 +119,9 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 			if(logger.isDebugEnabled()){
 				logger.debug("被激活的管理员不存在");
 			}
-			return;
+			resultMap.put("status", "error");
+			resultMap.put("error", "被激活的管理员不存在");
+			return resultMap;
 		}
 		
 		//检查操作管理员是否有授权权限
@@ -125,7 +129,9 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 			if(logger.isDebugEnabled()){
 				logger.debug("操作管理员不存在授权权限，无法激活用户!");
 			}
-			return;
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在授权权限，无法激活用户!");
+			return resultMap;
 		}
 		
 		doneFilesManager.setIsActivited(1);
@@ -133,7 +139,55 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 		if(logger.isDebugEnabled()){
 			logger.debug("管理员激活成功！");
 		}
+		resultMap.put("status", "success");
+		return resultMap;
+	}
+	
+	
+
+	@Override
+	public Map freezeFileManager(int doId, int doneId) {
+		// TODO Auto-generated method stub
+		Map resultMap=new HashMap<String,String>();
+		MyFilesManager doFilesManager=myFilesManDao.selectMFMById(doId);
+		MyFilesManager doneFilesManager=myFilesManDao.selectMFMById(doneId);
 		
+		if(doFilesManager==null){
+			if(logger.isDebugEnabled()){
+				logger.debug("操作管理员不存在");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在");
+			return resultMap;
+		}
+		
+		
+		if(doneFilesManager==null){
+			if(logger.isDebugEnabled()){
+				logger.debug("被冻结的管理员不存在");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "被冻结的管理员不存在");
+			return resultMap;
+		}
+		
+		//检查操作管理员是否有授权权限
+		if(doFilesManager.getManPrivilege().getMainPVL()==0&&doFilesManager.getManPrivilege().getGrantPVL()==0){
+			if(logger.isDebugEnabled()){
+				logger.debug("操作管理员不存在授权权限，无法冻结用户!");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在授权权限，无法冻结用户!");
+			return resultMap;
+		}
+		
+		doneFilesManager.setIsActivited(0);
+		myFilesManDao.updateMFM(doneFilesManager);
+		if(logger.isDebugEnabled()){
+			logger.debug("管理员冻结成功！");
+		}
+		resultMap.put("status", "success");
+		return resultMap;
 	}
 
 	/* (non-Javadoc)
@@ -233,5 +287,13 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 			return resultMap;
 		}
 	}
-	
+
+	@Override
+	public List<MyFilesManager> getAllFileManager() {
+		// TODO Auto-generated method stub
+		List<MyFilesManager> myFilesManagers=null;
+		myFilesManagers=myFilesManDao.selectAllMFM();
+		return myFilesManagers;
+	}
+
 }

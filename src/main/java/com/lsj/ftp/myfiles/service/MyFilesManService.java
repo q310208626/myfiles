@@ -45,10 +45,20 @@ public interface MyFilesManService {
 	 * @Description: TODO
 	 * @param doId	操作者Id(根据Id判断是否有权限修改)
 	 * @param doneId 被激活者Id
-	 * @return: void      
+	 * @return: Map      
 	 * @throws   
 	 */  
-	public void activeFileManager(int doId,int doneId);
+	public Map activeFileManager(int doId,int doneId);
+	
+	/**   
+	 * @Title: freezeFileManager   
+	 * @Description: TODO 冻结用户
+	 * @param doId
+	 * @param doneId      
+	 * @return: Map      
+	 * @throws   
+	 */  
+	public Map freezeFileManager(int doId,int doneId);
 	
 	/**   
 	 * @Title: updateFileManager   
@@ -57,7 +67,7 @@ public interface MyFilesManService {
 	 * @param myFilesManager 
 	 * @return: void      
 	 * @throws   
-	 */  
+	 */
 	public void updateFileManager(int doId,MyFilesManager myFilesManager);
 	
 	/**   
@@ -68,4 +78,13 @@ public interface MyFilesManService {
 	 * @throws   
 	 */  
 	public List<MyFilesManager> selectFileManagerIsActivited();
+	
+	/**   
+	 * @Title: getAllFileManager   
+	 * @Description: TODO 获取文件管理员列表
+	 * @return      
+	 * @return: List<MyFilesManager>      
+	 * @throws   
+	 */  
+	public List<MyFilesManager> getAllFileManager();
 }

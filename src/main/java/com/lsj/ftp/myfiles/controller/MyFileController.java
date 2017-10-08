@@ -107,7 +107,7 @@ public class MyFileController {
 //		myFileService.uploadMyFile(uploadFile, ownerId);
 		if(resultMap.get("status").equals("success")){
 //			modelAndView.setViewName("redirect:/myFile/getAllFiles.do?manId="+userId);
-			modelAndView.setViewName("redirect:/to_managerMain.do");
+			modelAndView.setViewName("redirect:/myFile/getAllFiles.do?manId="+userId);
 		}
 		//失败跳转到失败页面
 		else{
