@@ -15,6 +15,8 @@
 	href="${pageContext.request.contextPath}/css/myfiles.css">
 </head>
 <body>
+	<button class="btn btn-success button-modal-upload" 
+		data-toggle="modal" data-target="#upload_modal">上传文件</button>
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -43,6 +45,36 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	
+				<!-- upload_modal -->
+			<div class="modal fade" id="upload_modal" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">上传文件</h4>
+						</div>
+
+						<form
+							action="${pageContext.request.contextPath}/myFile/uploadFile.do"
+							enctype="multipart/form-data" method="post">
+							<div class="modal-body">
+								<a class="a-upload">选择文件 <input type="file"
+									name="uploadFile" width="50px" height="50px" />
+								</a>
+							</div>
+							
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭</button>
+								<input type="submit" value="上传"
+								class="btn btn-success input-submit-fileupload">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 	
 	<!-- update-modal -->
 	<div class="modal fade" id="update_modal" tabindex="-1">

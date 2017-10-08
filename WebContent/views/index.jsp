@@ -22,7 +22,7 @@
 		</div>
 		<hr><!-- 分割线 -->
 		<div>
-			<iframe src="${pageContext.request.contextPath}/myFile/getCustomerFile.do" width="100%" height="100%" frameborder="no">
+			<iframe src="${pageContext.request.contextPath}/myFile/getCustomerFile.do" width="100%" height="900px" frameborder="no">
 			</iframe>
 		</div>
 	</div>
