@@ -37,6 +37,11 @@
 		WHERE m.account=#{account}
 	</select>
 	
+	<select id="selectAllMFM" resultMap="MyFilesManagerMap">
+		<include refid="selectAllMFMSql"></include>
+		WHERE m.id=p.id
+	</select>
+	
 	<update id="updateMFM" parameterType="MyFilesManager">
 		UPDATE myfiles_manager
 			SET account=#{account},password=#{password},is_activited=#{isActivited}
