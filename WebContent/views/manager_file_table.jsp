@@ -46,7 +46,7 @@
 		</tbody>
 	</table>
 	
-				<!-- upload_modal -->
+			<!-- upload_modal -->
 			<div class="modal fade" id="upload_modal" tabindex="-1">
 				<div class="modal-dialog">
 					<div class="modal-content">
