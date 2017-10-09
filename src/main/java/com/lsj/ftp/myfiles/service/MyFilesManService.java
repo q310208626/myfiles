@@ -3,6 +3,7 @@ package com.lsj.ftp.myfiles.service;
 import java.util.List;
 import java.util.Map;
 
+import com.lsj.ftp.myfiles.bean.ManPrivilege;
 import com.lsj.ftp.myfiles.bean.MyFilesManager;
 
 /**   
@@ -87,4 +88,16 @@ public interface MyFilesManService {
 	 * @throws   
 	 */  
 	public List<MyFilesManager> getAllFileManager();
+	
+ 
+	/**   
+	 * @Title: updateMFMPrivilege   
+	 * @Description: TODO 更新权限
+	 * @param doId 操作员Id
+	 * @param manPrivilege 权限
+	 * @return      
+	 * @return: Map      
+	 * @throws   
+	 */  
+	public Map updateMFMPrivilege(int doId,ManPrivilege manPrivilege);
 }

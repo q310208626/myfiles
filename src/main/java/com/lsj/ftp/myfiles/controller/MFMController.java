@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lsj.ftp.myfiles.bean.ManPrivilege;
 import com.lsj.ftp.myfiles.bean.MyFilesManager;
 import com.lsj.ftp.myfiles.service.MyFilesManService;
 import com.lsj.ftp.myfiles.serviceImpl.MyFilesManServiceImpl;
@@ -45,7 +46,8 @@ public class MFMController {
 	 * @throws
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/login.do")
-	public ModelAndView MFMLogin(MyFilesManager myFilesManager,HttpSession httpSession) {
+	public ModelAndView MFMLogin(MyFilesManager myFilesManager,
+			HttpSession httpSession) {
 		ModelAndView modelAndView = new ModelAndView();
 		Map resultMap = null;
 		logger.debug("----------------loginFileManager" + myFilesManager);
@@ -75,9 +77,9 @@ public class MFMController {
 		}
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="/logout.do")
-	public ModelAndView MFMLogout(HttpSession httpSession){
+
+	@RequestMapping(value = "/logout.do")
+	public ModelAndView MFMLogout(HttpSession httpSession) {
 		ModelAndView modelAndView = new ModelAndView();
 		httpSession.setAttribute("userId", 0);
 		modelAndView.setViewName("index");
@@ -107,41 +109,87 @@ public class MFMController {
 				modelAndView.setViewName("login_regist_error");
 				errorMSG = (String) resultMap.get("msg");
 				modelAndView.addObject("errorMessage", errorMSG);
-			}else if(resultMap.get("status").equals("success")){
-				errorMSG="请等待管理员激活";
+			} else if (resultMap.get("status").equals("success")) {
+				errorMSG = "请等待管理员激活";
 				modelAndView.setViewName("login_regist_error");
-				modelAndView.addObject("errorMessage",errorMSG);
+				modelAndView.addObject("errorMessage", errorMSG);
 			}
 		}
 
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="/getAllMFM.do")
-	public ModelAndView getAllMFM(HttpSession session){
-		ModelAndView modelAndView=new ModelAndView();
-		List<MyFilesManager> myFilesManagers=null;
-		myFilesManagers=myFilesManService.getAllFileManager();
+
+	@RequestMapping(value = "/getAllMFM.do")
+	public ModelAndView getAllMFM(HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView();
+		List<MyFilesManager> myFilesManagers = null;
+		myFilesManagers = myFilesManService.getAllFileManager();
 		modelAndView.setViewName("manager_mfm_table");
 		modelAndView.addObject("myMFMList", myFilesManagers);
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="/activityMFM.do")
-	public ModelAndView activityMFM(HttpSession session,int doneId){
-		ModelAndView modelAndView=new ModelAndView();
-		String userIdString=(String) session.getAttribute("userId");
-		if(userIdString==null||userIdString.equals("0")){
-			modelAndView.setViewName("");
+
+	@RequestMapping(value = "/activityMFM.do")
+	public ModelAndView activityMFM(HttpSession session, int doneId) {
+		ModelAndView modelAndView = new ModelAndView();
+		String userIdString = (String) session.getAttribute("userId");
+		Map resultMap = null;
+		if (userIdString == null || userIdString.equals("0")) {
+			modelAndView.setViewName("mfm_manager_error");
 			modelAndView.addObject("error", "操作员未登录");
-		}else{
-			//操作员Id
-			int userId=Integer.valueOf(userIdString);
-			myFilesManService.activeFileManager(userId, doneId);
-			
+		} else {
+			// 操作员Id
+			int userId = Integer.valueOf(userIdString);
+			resultMap = myFilesManService.activeFileManager(userId, doneId);
+			if (resultMap.get("status").equals("error")) {
+				modelAndView.addObject("error", resultMap.get("error"));
+				modelAndView.setViewName("mfm_manager_error");
+			} else {
+				modelAndView.setViewName("redirect:/MFM/getAllMFM.do");
+			}
+
 		}
 		return modelAndView;
 	}
-	
+
+	@RequestMapping(value = "/freezeMFM.do")
+	public ModelAndView freezeMFM(HttpSession session, int doneId) {
+		ModelAndView modelAndView = new ModelAndView();
+		String userIdString = (String) session.getAttribute("userId");
+		Map resultMap = null;
+		if (userIdString == null || userIdString.equals("0")) {
+			modelAndView.setViewName("mfm_manager_error");
+			modelAndView.addObject("error", "操作员未登录");
+		} else {
+			// 操作员Id
+			int userId = Integer.valueOf(userIdString);
+			resultMap = myFilesManService.freezeFileManager(userId, doneId);
+			if (resultMap.get("status").equals("error")) {
+				modelAndView.addObject("error", resultMap.get("error"));
+				modelAndView.setViewName("mfm_manager_error");
+			} else {
+				modelAndView.setViewName("redirect:/MFM/getAllMFM.do");
+			}
+
+		}
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/updatePrivilege.do")
+	public ModelAndView updateMFMPrivilege(ManPrivilege manPrivilege,HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView();
+		Map resultMap = null;
+		String userIdString = (String) session.getAttribute("userId");
+		if (userIdString == null || userIdString.equals("0")) {
+			modelAndView.setViewName("mfm_manager_error");
+			modelAndView.addObject("error", "操作员未登录");
+		} else {
+			// 操作员Id
+			int doId = Integer.valueOf(userIdString);
+			resultMap = myFilesManService.updateMFMPrivilege(doId, manPrivilege);
+			modelAndView.setViewName("redirect:/MFM/getAllMFM.do");
+		}
+		return modelAndView;
+	}
 
 }

@@ -296,4 +296,43 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 		return myFilesManagers;
 	}
 
+	@Override
+	public Map updateMFMPrivilege(int doId, ManPrivilege manPrivilege) {
+		// TODO Auto-generated method stub
+		Map resultMap=new HashMap<String, String>();
+		MyFilesManager doFilesManager=myFilesManDao.selectMFMById(doId);
+		MyFilesManager doneFilesManager=myFilesManDao.selectMFMById(manPrivilege.getId());
+		if(doFilesManager==null){
+			if(logger.isDebugEnabled()){
+				logger.debug("操作管理员不存在");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在");
+			return resultMap;
+		}
+		
+		if(doFilesManager.getManPrivilege().getMainPVL()!=1
+				&&doFilesManager.getManPrivilege().getGrantPVL()!=1){
+			if(logger.isDebugEnabled()){
+				logger.debug("操作管理员不存在授权权限");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在授权权限");
+			return resultMap;
+		}
+		
+		if(doneFilesManager==null){
+			if(logger.isDebugEnabled()){
+				logger.debug("被操作管理员不存在");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在");
+			return resultMap;
+		}
+		
+		manPrivilegeDao.updatePVL(manPrivilege);
+		resultMap.put("status", "success");
+		return resultMap;
+	}
+	
 }
