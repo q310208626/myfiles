@@ -81,7 +81,7 @@
 					</c:choose>   	 	
 					</td>
 					<td>
-						<a id="${status.index+1}" class="btn btn-warning" onclick="updatePrivilege(this)" >权限修改</a>
+						<a id="${status.index+1}" class="btn btn-warning" onclick="updatePrivilegeModal(this)" >权限修改</a>
 						<c:choose>
 							<c:when test="${myMFM.isActivited==0}">
 								<a class="btn btn-success" href="${pageContext.request.contextPath}/MFM/activityMFM.do?doneId=${myMFM.id}">激活</a>
@@ -109,8 +109,8 @@
 
 						<form action="${pageContext.request.contextPath}/MFM/updatePrivilege.do" method="post">
 							<div class="modal-body">
-								<span><input id="mfm_id" name="id" type="text" border="none" value="ID" width="40px"></span>
-								<span>主管理</span><input id="checkbox_mainPVL" name="mainPVL" type="checkbox">
+								<span>ID:</span><input id="mfm_id" name="id" type="text"  border="none"  value="mfmId"  size="6" readonly><br>
+								<span>主管理</span><input id="checkbox_mainPVL" name="mainPVL" type="checkbox" >
 								<span>上传</span><input id="checkbox_uploadPVL" name="uploadPVL" type="checkbox">
 								<span>重传</span><input id="checkbox_updatePVL" name="updatePVL" type="checkbox">
 								<span>授权</span><input id="checkbox_grantPVL" name="grantPVL" type="checkbox">
@@ -120,8 +120,8 @@
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default"
 									data-dismiss="modal">关闭</button>
-								<input type="submit" value="修改"
-								class="btn btn-success input-submit-fileupload">
+								<input type="button" value="修改"
+								class="btn btn-success input-submit-fileupload" onclick="updateMFMPrivilege()">
 							</div>
 						</form>
 					</div>

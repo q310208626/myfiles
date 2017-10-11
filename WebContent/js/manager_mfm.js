@@ -1,7 +1,7 @@
 /**
  * 人员管理js
  */
-function updatePrivilege(obj){
+function updatePrivilegeModal(obj){
 	var index=$(obj).attr("id");
 	var updatePriModal=$('#mfm_upadte_modal');
 	var mfm_table=document.getElementById('mfm_table');
@@ -13,22 +13,76 @@ function updatePrivilege(obj){
 	var grantPVL=mfm_table.rows[index].getElementsByTagName("input")[3].value;
 	var allFilePVL=mfm_table.rows[index].getElementsByTagName("input")[4].value;
 	
+	//设置modal初始值
+	$('#mfm_id').attr('value',id);
+	
 	if(mainPVL==1){
 		$('#checkbox_mainPVL').attr('checked','checked');
+	}else{
+		$('#checkbox_mainPVL').removeAttr('checked');
 	}
+	
 	if(uploadPVL==1){
 		$('#checkbox_uploadPVL').attr('checked','checked');
+	}else{
+		$('#checkbox_uploadPVL').removeAttr('checked');
 	}
+	
 	if(updatePVL==1){
 		$('#checkbox_updatePVL').attr('checked','checked');
+	}else{
+		$('#checkbox_updatePVL').removeAttr('checked');
 	}
+	
 	if(grantPVL==1){
 		$('#checkbox_grantPVL').attr('checked','checked');
+	}else{
+		$('#checkbox_grantPVL').removeAttr('checked');
 	}
+	
 	if(allFilePVL==1){
 		$('#checkbox_allFilePVL').attr('checked','checked');
+	}else{
+		$('#checkbox_allFilePVL').removeAttr('checked');
 	}
 	
 	
 	updatePriModal.modal('show');
+}
+
+function updateMFMPrivilege(){
+	var contextPath=window.document.location.pathname;
+	var id=0;
+	var mainPVL=0;
+	var uploadPVL=0;
+	var updatePVL=0;
+	var grantPVL=0;
+	var allFilePVL=0;
+	
+	id=$('#mfm_id').attr('value');
+	if($('#checkbox_mainPVL').attr('checked')=='checked'){
+		mainPVL=1;
+	}
+	if($('#checkbox_uploadPVL').attr('checked')=='checked'){
+		uploadPVL=1;
+	}
+	if($('#checkbox_updatePVL').attr('checked')=='checked'){
+		updatePVL=1;
+	}
+	if($('#checkbox_grantPVL').attr('checked')=='checked'){
+		grantPVL=1;
+	}
+	if($('#checkbox_allFilePVL').attr('checked')=='checked'){
+		allFilePVL=1;
+	}
+	
+	$.ajax({
+		url:"/myfiles/MFM/updatePrivilege.do",
+		type:"post",
+		data:{"id":id,"mainPVL":mainPVL,"uploadPVL":uploadPVL,"updatePVL":updatePVL,"grantPVL":grantPVL,"allFilePVL":allFilePVL},
+		success:function(data){
+			alter("更新成功");
+		}
+	});
+	
 }

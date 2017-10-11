@@ -175,11 +175,11 @@ public class MFMController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/updatePrivilege.do")
+	@RequestMapping(value = "/updatePrivilege.do",method=RequestMethod.POST)
 	public ModelAndView updateMFMPrivilege(ManPrivilege manPrivilege,HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		Map resultMap = null;
-		String userIdString = (String) session.getAttribute("userId");
+/*		String userIdString = (String) session.getAttribute("userId");
 		if (userIdString == null || userIdString.equals("0")) {
 			modelAndView.setViewName("mfm_manager_error");
 			modelAndView.addObject("error", "操作员未登录");
@@ -188,7 +188,8 @@ public class MFMController {
 			int doId = Integer.valueOf(userIdString);
 			resultMap = myFilesManService.updateMFMPrivilege(doId, manPrivilege);
 			modelAndView.setViewName("redirect:/MFM/getAllMFM.do");
-		}
+		}*/
+		System.out.println(manPrivilege.getId());
 		return modelAndView;
 	}
 
