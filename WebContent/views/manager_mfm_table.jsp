@@ -109,7 +109,7 @@
 
 						<form action="${pageContext.request.contextPath}/MFM/updatePrivilege.do" method="post">
 							<div class="modal-body">
-								<span><input id="mfm_id" name="id" type="text" border="none" value="ID" width="20px"></span>
+								<span><input id="mfm_id" name="id" type="text" border="none" value="ID" width="40px"></span>
 								<span>主管理</span><input id="checkbox_mainPVL" name="mainPVL" type="checkbox">
 								<span>上传</span><input id="checkbox_uploadPVL" name="uploadPVL" type="checkbox">
 								<span>重传</span><input id="checkbox_updatePVL" name="updatePVL" type="checkbox">
