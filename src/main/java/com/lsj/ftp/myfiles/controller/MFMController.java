@@ -179,17 +179,33 @@ public class MFMController {
 	public ModelAndView updateMFMPrivilege(ManPrivilege manPrivilege,HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		Map resultMap = null;
-/*		String userIdString = (String) session.getAttribute("userId");
+		String userIdString = (String) session.getAttribute("userId");
 		if (userIdString == null || userIdString.equals("0")) {
 			modelAndView.setViewName("mfm_manager_error");
 			modelAndView.addObject("error", "操作员未登录");
+			if (logger.isDebugEnabled()) {
+				logger.debug("操作员未登录");
+			}
 		} else {
 			// 操作员Id
 			int doId = Integer.valueOf(userIdString);
 			resultMap = myFilesManService.updateMFMPrivilege(doId, manPrivilege);
-			modelAndView.setViewName("redirect:/MFM/getAllMFM.do");
-		}*/
-		System.out.println(manPrivilege.getId());
+			
+			//根据结果集返回视图
+			if (resultMap.get("status").equals("success")) {
+				modelAndView.setViewName("redirect:/MFM/getAllMFM.do");
+				if (logger.isDebugEnabled()) {
+					logger.debug("权限更新成功");
+				}
+			}else{
+				modelAndView.setViewName("mfm_manager_error");
+				modelAndView.addObject("error",resultMap.get("error"));
+				if (logger.isDebugEnabled()) {
+					logger.debug("权限更新失败，跳转到失败显示界面");
+				}
+			}
+			
+		}
 		return modelAndView;
 	}
 

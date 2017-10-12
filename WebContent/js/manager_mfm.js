@@ -62,27 +62,47 @@ function updateMFMPrivilege(){
 	id=$('#mfm_id').attr('value');
 	if($('#checkbox_mainPVL').attr('checked')=='checked'){
 		mainPVL=1;
-	}
-	if($('#checkbox_uploadPVL').attr('checked')=='checked'){
-		uploadPVL=1;
-	}
-	if($('#checkbox_updatePVL').attr('checked')=='checked'){
-		updatePVL=1;
-	}
-	if($('#checkbox_grantPVL').attr('checked')=='checked'){
-		grantPVL=1;
-	}
-	if($('#checkbox_allFilePVL').attr('checked')=='checked'){
-		allFilePVL=1;
+		$('#checkbox_mainPVL').attr('value','1');
+	}else{
+		$('#checkbox_mainPVL').attr('value','0');
 	}
 	
-	$.ajax({
-		url:"/myfiles/MFM/updatePrivilege.do",
-		type:"post",
-		data:{"id":id,"mainPVL":mainPVL,"uploadPVL":uploadPVL,"updatePVL":updatePVL,"grantPVL":grantPVL,"allFilePVL":allFilePVL},
-		success:function(data){
-			alter("更新成功");
-		}
-	});
+	if($('#checkbox_uploadPVL').attr('checked')=='checked'){
+		uploadPVL=1;
+		$('#checkbox_uploadPVL').attr('value','1');
+	}else{
+		$('#checkbox_mainPVL').attr('value','0');
+	}
+	
+	if($('#checkbox_updatePVL').attr('checked')=='checked'){
+		updatePVL=1;
+		$('#checkbox_updatePVL').attr('value','1');
+	}else{
+		$('#checkbox_mainPVL').attr('value','0');
+	}
+	
+	if($('#checkbox_grantPVL').attr('checked')=='checked'){
+		grantPVL=1;
+		$('#checkbox_grantPVL').attr('value','1');
+	}else{
+		$('#checkbox_mainPVL').attr('value','0');
+	}
+	
+	if($('#checkbox_allFilePVL').attr('checked')=='checked'){
+		allFilePVL=1;
+		$('#checkbox_allFilePVL').attr('value','1');
+	}else{
+		$('#checkbox_mainPVL').attr('value','0');
+	}
+	
+//	$.ajax({
+//		url:'/myfiles/MFM/updatePrivilege.do',
+//		type:'POST',
+//		asyn:false,
+//		data:$('#mfm_update_form').serialize(),
+//		success:(function(){
+//			window.location.reload();
+//		})
+//	});
 	
 }

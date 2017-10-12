@@ -107,7 +107,7 @@
 							<h4 class="modal-title" id="myModalLabel">权限修改</h4>
 						</div>
 
-						<form action="${pageContext.request.contextPath}/MFM/updatePrivilege.do" method="post">
+						<form id="mfm_update_form" action="${pageContext.request.contextPath}/MFM/updatePrivilege.do" method="post" >
 							<div class="modal-body">
 								<span>ID:</span><input id="mfm_id" name="id" type="text"  border="none"  value="mfmId"  size="6" readonly><br>
 								<span>主管理</span><input id="checkbox_mainPVL" name="mainPVL" type="checkbox" >
@@ -120,7 +120,7 @@
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default"
 									data-dismiss="modal">关闭</button>
-								<input type="button" value="修改"
+								<input type="submit" value="修改"
 								class="btn btn-success input-submit-fileupload" onclick="updateMFMPrivilege()">
 							</div>
 						</form>
