@@ -75,7 +75,7 @@ public class MyFileServiceImpl implements MyFileService {
 		if (myFileId <= 0) {
 			return null;
 		}
-		myFile = myFileDao.selectMyFileById(myFileId);
+		myFile = myFileDao.selectMyFIleById(myFileId);
 		return myFile;
 	}
 
@@ -100,7 +100,7 @@ public class MyFileServiceImpl implements MyFileService {
 		// TODO Auto-generated method stub
 		Map resultMap = new HashMap<String, String>();
 		MyFilesManager myFilesManager = myFileManDao.selectMFMById(userId);
-		MyFile myFile = myFileDao.selectMyFileById(fileId);
+		MyFile myFile = myFileDao.selectMyFIleById(fileId);
 		// 如果文件不存在
 		if (myFile == null) {
 			resultMap.put("status", "error");
@@ -151,7 +151,7 @@ public class MyFileServiceImpl implements MyFileService {
 		// TODO Auto-generated method stub
 		Map resultMap = new HashMap<String, String>();
 		MyFilesManager myFilesManager = myFileManDao.selectMFMById(userId);
-		MyFile myFile = myFileDao.selectMyFileById(MyFileId);
+		MyFile myFile = myFileDao.selectMyFIleById(MyFileId);
 		// 如果文件不存在
 		if (myFile == null) {
 			resultMap.put("status", "error");
@@ -235,7 +235,7 @@ public class MyFileServiceImpl implements MyFileService {
 	@Override
 	public File getDownloadFile(int myFileId) {
 		// TODO Auto-generated method stub
-		MyFile myFile=myFileDao.selectMyFileById(myFileId);
+		MyFile myFile=myFileDao.selectMyFIleById(myFileId);
 		//如果文件不存在，返回null
 		if(myFile==null){
 			return null;
