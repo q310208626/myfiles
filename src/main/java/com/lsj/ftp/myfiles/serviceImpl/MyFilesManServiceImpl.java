@@ -99,6 +99,7 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 	 * @see com.lsj.ftp.myfiles.service.MyFilesManService#activeFileManager(int, int)
 	 */
 	@Override
+<<<<<<< HEAD
 	public void activeFileManager(int doId, int doneId) {
 		// TODO Auto-generated method stub
 		MyFilesManager doFilesManager=myFilesManDao.selectMFMById(doId);
@@ -231,6 +232,242 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 			resultMap.put("msg", "账户还未激活");
 			return resultMap;
 		}
+=======
+	public Map activeFileManager(int doId, int doneId) {
+		// TODO Auto-generated method stub
+		Map resultMap=new HashMap<String,String>();
+		MyFilesManager doFilesManager=myFilesManDao.selectMFMById(doId);
+		MyFilesManager doneFilesManager=myFilesManDao.selectMFMById(doneId);
+		
+		if(doFilesManager==null){
+			if(logger.isDebugEnabled()){
+				logger.debug("操作管理员不存在");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在");
+			return resultMap;
+		}
+		
+		
+		if(doneFilesManager==null){
+			if(logger.isDebugEnabled()){
+				logger.debug("被激活的管理员不存在");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "被激活的管理员不存在");
+			return resultMap;
+		}
+		
+		//检查操作管理员是否有授权权限
+		if(doFilesManager.getManPrivilege().getMainPVL()==0&&doFilesManager.getManPrivilege().getGrantPVL()==0){
+			if(logger.isDebugEnabled()){
+				logger.debug("操作管理员不存在授权权限，无法激活用户!");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在授权权限，无法激活用户!");
+			return resultMap;
+		}
+		
+		doneFilesManager.setIsActivited(1);
+		myFilesManDao.updateMFM(doneFilesManager);
+		if(logger.isDebugEnabled()){
+			logger.debug("管理员激活成功！");
+		}
+		resultMap.put("status", "success");
+		return resultMap;
+	}
+	
+	
+
+	@Override
+	public Map freezeFileManager(int doId, int doneId) {
+		// TODO Auto-generated method stub
+		Map resultMap=new HashMap<String,String>();
+		MyFilesManager doFilesManager=myFilesManDao.selectMFMById(doId);
+		MyFilesManager doneFilesManager=myFilesManDao.selectMFMById(doneId);
+		
+		if(doFilesManager==null){
+			if(logger.isDebugEnabled()){
+				logger.debug("操作管理员不存在");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在");
+			return resultMap;
+		}
+		
+		
+		if(doneFilesManager==null){
+			if(logger.isDebugEnabled()){
+				logger.debug("被冻结的管理员不存在");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "被冻结的管理员不存在");
+			return resultMap;
+		}
+		
+		//检查操作管理员是否有授权权限
+		if(doFilesManager.getManPrivilege().getMainPVL()==0&&doFilesManager.getManPrivilege().getGrantPVL()==0){
+			if(logger.isDebugEnabled()){
+				logger.debug("操作管理员不存在授权权限，无法冻结用户!");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在授权权限，无法冻结用户!");
+			return resultMap;
+		}
+		
+		doneFilesManager.setIsActivited(0);
+		myFilesManDao.updateMFM(doneFilesManager);
+		if(logger.isDebugEnabled()){
+			logger.debug("管理员冻结成功！");
+		}
+		resultMap.put("status", "success");
+		return resultMap;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.lsj.ftp.myfiles.service.MyFilesManService#updateFileManager(int, com.lsj.ftp.myfiles.bean.MyFilesManager)
+	 */
+	@Override
+	public void updateFileManager(int doId, MyFilesManager myFilesManager) {
+		// TODO Auto-generated method stub
+		MyFilesManager doFilesManager=myFilesManDao.selectMFMById(doId);
+		
+		if(doFilesManager==null){
+			if(logger.isDebugEnabled()){
+				logger.debug("操作管理员不存在");
+			}
+			
+			return;
+		}
+		
+		if(doFilesManager.getManPrivilege().getMainPVL()!=1
+				&&doFilesManager.getManPrivilege().getUpdatePVL()!=1){
+			if(logger.isDebugEnabled()){
+				logger.debug("操作管理员不存在修改权限");
+			}
+			
+			return;
+		}
+		
+		try {
+			myFilesManDao.updateMFM(myFilesManager);
+			if(logger.isDebugEnabled()){
+				logger.debug("管理员信息修改成功");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			if(logger.isDebugEnabled()){
+				logger.debug("管理员信息修改失败");
+			}
+			e.printStackTrace();
+			
+		}
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.lsj.ftp.myfiles.service.MyFilesManService#selectFileManagerIsActivited()
+	 */
+	@Override
+	public List<MyFilesManager> selectFileManagerIsActivited() {
+		// TODO Auto-generated method stub
+		List<MyFilesManager> activitedMFM;
+		activitedMFM=myFilesManDao.selectMFMIsActivited();
+		return activitedMFM;
+	}
+
+	@Override
+	public Map loginFileManager(MyFilesManager myFilesManager) {
+		// TODO Auto-generated method stub
+		 Map<String, String> resultMap=new HashMap<String, String>();
+		//根据账户名查询数据库
+		MyFilesManager tempMyFilesManager=myFilesManDao.selectMFMByAccount(myFilesManager.getAccount());
+		
+		//判断账户是否存在
+		if(tempMyFilesManager==null){
+			if(logger.isDebugEnabled()){
+				logger.debug("账户不存在");
+			}
+			resultMap.put("status","error");
+			resultMap.put("msg", "账户不存在");
+			return resultMap;
+		}
+		
+		//判断密码是否正确
+		if(!tempMyFilesManager.getPassword().equals(myFilesManager.getPassword())){
+			if(logger.isDebugEnabled()){
+				logger.debug("密码不正确");
+			}
+			resultMap.put("status","error");
+			resultMap.put("msg", "密码不正确");
+			return resultMap;
+		}
+		
+		//判断管理员是否被激活
+		if(tempMyFilesManager.getIsActivited()==1){
+			if(logger.isDebugEnabled()){
+				logger.debug("登录成功");
+			}
+			resultMap.put("status","success");
+			resultMap.put("msg", "登录成功");
+			resultMap.put("userId",tempMyFilesManager.getId()+"");
+			return resultMap;
+		}else {
+			if(logger.isDebugEnabled()){
+				logger.debug("管理员还没被激活");
+			}
+			resultMap.put("status","error");
+			resultMap.put("msg", "账户还未激活");
+			return resultMap;
+		}
+	}
+
+	@Override
+	public List<MyFilesManager> getAllFileManager() {
+		// TODO Auto-generated method stub
+		List<MyFilesManager> myFilesManagers=null;
+		myFilesManagers=myFilesManDao.selectAllMFM();
+		return myFilesManagers;
+	}
+
+	@Override
+	public Map updateMFMPrivilege(int doId, ManPrivilege manPrivilege) {
+		// TODO Auto-generated method stub
+		Map resultMap=new HashMap<String, String>();
+		MyFilesManager doFilesManager=myFilesManDao.selectMFMById(doId);
+		MyFilesManager doneFilesManager=myFilesManDao.selectMFMById(manPrivilege.getId());
+		if(doFilesManager==null){
+			if(logger.isDebugEnabled()){
+				logger.debug("操作管理员不存在");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在");
+			return resultMap;
+		}
+		
+		if(doFilesManager.getManPrivilege().getMainPVL()!=1
+				&&doFilesManager.getManPrivilege().getGrantPVL()!=1){
+			if(logger.isDebugEnabled()){
+				logger.debug("操作管理员不存在授权权限");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在授权权限");
+			return resultMap;
+		}
+		
+		if(doneFilesManager==null){
+			if(logger.isDebugEnabled()){
+				logger.debug("被操作管理员不存在");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在");
+			return resultMap;
+		}
+		
+		manPrivilegeDao.updatePVL(manPrivilege);
+		resultMap.put("status", "success");
+		return resultMap;
+>>>>>>> refs/heads/modalFix
 	}
 	
 }

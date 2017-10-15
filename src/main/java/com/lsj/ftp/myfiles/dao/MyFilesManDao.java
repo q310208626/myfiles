@@ -34,4 +34,7 @@ public interface MyFilesManDao {
 	public MyFilesManager selectMFMByAccount(String account);
 
 	public List<MyFilesManager> selectMFMIsActivited();
+
+	public List<MyFilesManager> selectAllMFM();
+
 }

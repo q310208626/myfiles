@@ -27,5 +27,11 @@
 	<select id="selectAllPVL" resultMap="privilegeMap">
 		<include refid="selectAllManPVLSql"></include>
 	</select>
-	
+
+	<update id="updatePVL" parameterType="ManPrivilege">
+		UPDATE man_privilege SET
+		upload_pvl=#{uploadPVL},update_pvl=#{updatePVL},grant_pvl=#{grantPVL},all_files_pvl=#{allFilesPVL},main_pvl=#{mainPVL}
+		WHERE id=#{id} 
+	</update>
+
 </mapper>

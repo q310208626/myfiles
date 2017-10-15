@@ -10,4 +10,38 @@
 		<result property="lastModifiedDate" column="last_modified_date"  javaType="Date"/>
 		<result property="lastModifiedId" column="last_modified_id"  javaType="int"/>
 	</resultMap>
+	
+	<sql id="selectAllMyFileSql">
+		SELECT * FROM myfile
+	</sql>
+	<select id="selectAllMyFiles" resultMap="myFileMap">
+		<include refid="selectAllMyFileSql"></include>
+	</select>
+	
+	<select id="selectMyFileById"  parameterType="int" resultType="MyFIle">
+		<include refid="selectAllMyFileSql"></include>
+		WHERE id=#{fileId}
+	</select>
+	
+	<select id="selectMyFilesByOwner"  parameterType="int" resultMap="myFileMap">
+		<include refid="selectAllMyFileSql"></include>
+		WHERE owner_id=#{ownerId}
+	</select>
+	
+	<insert id="insertMyFile"  parameterType="MyFile"  useGeneratedKeys="true"  keyProperty="id">
+		INSERT INTO myfile 
+		(file_name,save_path,owner_id,create_date,last_modified_date,last_modified_id)
+		VALUES (#{fileName},#{savePath},#{ownerId},#{createDate},#{lastModifiedDate},#{lastModifiedId})
+	</insert>
+	
+	<update id="updateMyFile" parameterType="MyFile">
+		UPDATE MyFile SET
+		file_name=#{fileName},save_path=#{savePath},owner_id=#{ownerId},create_date=#{createDate},last_modified_date=#{lastModifiedDate},last_modified_id=#{lastModifiedId}
+		WHERE id=#{id}
+	</update>
+	
+	<delete id="deleteMyFile" parameterType="int">
+		DELETE FROM myfile
+		WHERE id=#{fileId}
+	</delete>
 </mapper>

@@ -1,6 +1,7 @@
 @CHARSET "UTF-8";
 .container-narrow{
 	margin: 0 auto;
+<<<<<<< HEAD
 	width: 700px;
 	height: 600px;
 	/* background: #f5f5f5; */
@@ -47,4 +48,100 @@ input.sign_button{
 	margin-top: 100px;	
 	margin-left:30px;
 	background: #c1e4ff;
+=======
+	width: 900px;
+	height: 600px;
+	/* background: #f5f5f5; */
+	text-align: center;	
+}
+
+.form-signin{
+	width:300px;
+	margin: 50px auto;
+	display:block;
+	text-align: center;
+	padding: 30px;
+	background-color: #c1e4ff;
+}
+
+input.sign_input	{
+	width: 220px;
+	margin:4px auto;
+}
+input.sign_button{
+	height: 30px;
+	background-color: #08c;
+	text-align: center;
+	margin: 2px auto;
+}
+
+.validate_warn{
+	color: red;
+	width:260px;
+	display:inline-block;
+	font-size: 12px;
+}
+
+.error_container{
+	text-align: center;
+	width:300px;
+	height:100px;
+	margin:30px;
+	padding: 40px;
+	background-color: #c1e4ff;
+}
+
+.well{
+	margin-top: 100px;	
+	margin-left:30px;
+	background: #c1e4ff;
+}
+
+.iframe-noborder{
+	border: 0px;	
+}
+
+.a-upload {
+    padding: 4px 10px;
+    height: 20px;
+    line-height: 20px;
+    position: relative;
+    cursor: pointer;
+    color: #888;
+    background:  #c1e4ff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    float: left;
+    margin-left: 20px;
+    
+}
+
+.a-upload:hover {
+    color: #444;
+    background: #eee;
+    border-color: #ccc;
+    text-decoration: none
+}
+
+.a-upload  input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+
+.input-submit-fileupload{
+	float: right;
+}
+
+.button-modal-upload{
+	float: left;
+>>>>>>> refs/heads/modalFix
 }
