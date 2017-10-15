@@ -97,8 +97,8 @@
 			</c:forEach>
 		</tbody>
 	</table>
-				
-			<div class="modal fade" id="mfm_upadte_modal" tabindex="-1">
+									<!-- mfm_update_modal -->	
+				<div class="modal fade" id="mfm_upadte_modal" tabindex="-1">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -126,12 +126,13 @@
 						</form>
 					</div>
 				</div>
-			</div>
+			</div>		
+
 </body>
 <script type="text/javascript"
-	src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/manager_mfm.js"></script>
 </html>

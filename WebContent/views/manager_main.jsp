@@ -48,6 +48,7 @@
 						src="${pageContext.request.contextPath}/myFile/getAllFiles.do?manId=${sessionScope.userId}"
 						width="100%" height="100%" frameborder="no"></iframe>
 				</div>
+				
 			</div>
 			
 		</div>
@@ -56,7 +57,7 @@
 
 </body>
 <script type="text/javascript"
-	src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 </html>
