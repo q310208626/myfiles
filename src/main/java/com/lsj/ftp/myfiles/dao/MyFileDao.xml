@@ -33,6 +33,10 @@
 		LIMIT #{arg0},#{arg1}
 	</select>
 	
+	<select id="selectMyFilesCount" parameterType="int" resultType="int">
+		SELECT COUNT(id) FROM myfile
+	</select>
+	
 	<insert id="insertMyFile"  parameterType="MyFile"  useGeneratedKeys="true"  keyProperty="id">
 		INSERT INTO myfile 
 		(file_name,save_path,owner_id,create_date,last_modified_date,last_modified_id)

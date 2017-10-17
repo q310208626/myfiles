@@ -55,7 +55,7 @@ public class MyFilesTest {
 	public void test(){
 		MyFilesManager myFilesManager=applicationContext.getBean(MyFilesManager.class);
 		List<MyFile> myFileList=myFileDao.selectAllMyByPage(0, 10);
-		System.out.println(myFileList.size());
+		System.out.println(myFileDao.selectMyFilesCount());
 	}
 	
 	@After

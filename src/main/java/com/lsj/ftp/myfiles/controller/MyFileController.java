@@ -42,6 +42,14 @@ public class MyFileController {
 	@Qualifier("myFileServiceImpl")
 	private MyFileService myFileService;
 	
+	/**   
+	 * @Title: getMyFile   
+	 * @Description: TODO 获取管理员对应的文件   
+	 * @param manId 管理员ID
+	 * @return      
+	 * @return: ModelAndView      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/getAllFiles.do")
 	public ModelAndView getMyFile(int manId){
 		logger.debug("manId:"+manId);
@@ -52,16 +60,35 @@ public class MyFileController {
 		return modelAndView;
 	}
 	
+	/**   
+	 * @Title: getCustomerFileByPage   
+	 * @Description: TODO 后去访客列表文件，分页
+	 * @param page 页数
+	 * @param pageCount 每页的文件数
+	 * @return      
+	 * @return: ModelAndView      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/getCustomerFileByPage.do")
 	public ModelAndView getCustomerFileByPage(int page,int pageCount){
 		ModelAndView modelAndView=new ModelAndView();
+		int fileCount=0;
 		int startIndex=(page-1)*pageCount;
 		List<MyFile> myFileList=myFileService.getCustomerFilesTableByPage(startIndex, pageCount);
+		fileCount=myFileService.getMyFilesCount();
 		modelAndView.addObject("MyFileList", myFileList);
+		modelAndView.addObject("fileCount", fileCount);
 		modelAndView.setViewName("manager_file_table");
 		return modelAndView;
 	}
 	
+	/**   
+	 * @Title: getCustomerFile   
+	 * @Description: TODO 获取访客列表全部文件   
+	 * @return      
+	 * @return: ModelAndView      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/getCustomerFile.do")
 	public ModelAndView getCustomerFile(){
 		ModelAndView modelAndView=new ModelAndView();
@@ -71,6 +98,15 @@ public class MyFileController {
 		return modelAndView;
 	}
 	
+	/**   
+	 * @Title: downloadFile   
+	 * @Description: TODO 下载文件  
+	 * @param fileId 要下载的文件ID
+	 * @param request 
+	 * @return      
+	 * @return: ResponseEntity<byte[]>      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/downloadFile.do")
 	public ResponseEntity<byte[]> downloadFile(int fileId,HttpServletRequest request){
 		File downloadFile=null;
@@ -101,6 +137,15 @@ public class MyFileController {
 		return null;
 	}
 	
+	/**   
+	 * @Title: uploadFile   
+	 * @Description: TODO 上传文件
+	 * @param uploadFile 要上传的文件
+	 * @param session
+	 * @return      
+	 * @return: ModelAndView      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/uploadFile.do")
 	public ModelAndView uploadFile(MultipartFile uploadFile,HttpSession session){
 		ModelAndView modelAndView=new ModelAndView();
@@ -125,6 +170,15 @@ public class MyFileController {
 		return modelAndView;
 	}
 	
+	/**   
+	 * @Title: deleteMyFile   
+	 * @Description: TODO 删除文件
+	 * @param fileId 要删除的文件的ID
+	 * @param session
+	 * @return      
+	 * @return: ModelAndView      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/deleteFile.do")
 	public ModelAndView deleteMyFile(int fileId,HttpSession session){
 		ModelAndView modelAndView=new ModelAndView();
@@ -152,6 +206,16 @@ public class MyFileController {
 		}
 	}
 	
+	/**   
+	 * @Title: updateFile   
+	 * @Description: TODO 重传文件
+	 * @param fileId 需要重传的文件Id
+	 * @param updateFile 重传的文件
+	 * @param session
+	 * @return      
+	 * @return: ModelAndView      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/updateFile.do")
 	public ModelAndView updateFile(int fileId,MultipartFile updateFile,HttpSession session){
 		ModelAndView modelAndView=new ModelAndView();

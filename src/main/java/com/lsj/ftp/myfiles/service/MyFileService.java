@@ -57,6 +57,15 @@ public interface MyFileService {
 	public List<MyFile> getCustomerFilesTableByPage(int startIndex,int pageCount);
 	
 	/**   
+	 * @Title: getMyFilesCount   
+	 * @Description: TODO 获取文件数量   
+	 * @return      
+	 * @return: int      
+	 * @throws   
+	 */  
+	public int getMyFilesCount();
+	
+	/**   
 	 * @Title: getMyFileByFileId   
 	 * @Description: TODO 通过文件Id获取文件
 	 * @param myFileId

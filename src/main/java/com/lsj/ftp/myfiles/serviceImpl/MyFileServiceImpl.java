@@ -75,6 +75,15 @@ public class MyFileServiceImpl implements MyFileService {
 		myFiles=myFileDao.selectAllMyByPage(startIndex, pageCount);
 		return myFiles;
 	}
+	
+
+	@Override
+	public int getMyFilesCount() {
+		// TODO Auto-generated method stub
+		int count=0;
+		count=myFileDao.selectMyFilesCount();
+		return  count;
+	}
 
 
 
