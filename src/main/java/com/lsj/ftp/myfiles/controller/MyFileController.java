@@ -46,8 +46,17 @@ public class MyFileController {
 	public ModelAndView getMyFile(int manId){
 		logger.debug("manId:"+manId);
 		ModelAndView modelAndView=new ModelAndView();
-		
 		List<MyFile> myFileList=myFileService.getMyFilesTable(manId);
+		modelAndView.addObject("MyFileList", myFileList);
+		modelAndView.setViewName("manager_file_table");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/getCustomerFileByPage.do")
+	public ModelAndView getCustomerFileByPage(int page,int pageCount){
+		ModelAndView modelAndView=new ModelAndView();
+		int startIndex=(page-1)*pageCount;
+		List<MyFile> myFileList=myFileService.getCustomerFilesTableByPage(startIndex, pageCount);
 		modelAndView.addObject("MyFileList", myFileList);
 		modelAndView.setViewName("manager_file_table");
 		return modelAndView;

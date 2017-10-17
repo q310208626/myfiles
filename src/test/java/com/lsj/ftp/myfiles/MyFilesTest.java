@@ -41,6 +41,8 @@ public class MyFilesTest {
 	@Autowired
 	@Qualifier("myFileServiceImpl")
 	private MyFileService myFileService;
+	@Autowired
+	private MyFileDao myFileDao;
 	private ApplicationContext applicationContext;
 	
 	
@@ -52,12 +54,8 @@ public class MyFilesTest {
 	@Test
 	public void test(){
 		MyFilesManager myFilesManager=applicationContext.getBean(MyFilesManager.class);
-		List<MyFilesManager> myFilesManagers=myFilesManServiceImpl.getAllFileManager();
-		for (MyFilesManager myFilesManager2 : myFilesManagers) {
-			System.out.println(myFilesManager2.getAccount()+":"+myFilesManager2.getManPrivilege().getMainPVL());
-
-		}
-		
+		List<MyFile> myFileList=myFileDao.selectAllMyByPage(0, 10);
+		System.out.println(myFileList.size());
 	}
 	
 	@After

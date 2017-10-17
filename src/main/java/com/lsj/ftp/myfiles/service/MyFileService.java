@@ -44,6 +44,18 @@ public interface MyFileService {
 	 */  
 	public List<MyFile> getCustomerFilesTable();
 	
+
+	/**   
+	 * @Title: getCustomerFilesTableByPage   
+	 * @Description: TODO 通过页数获取方可文件列表
+	 * @param startIndex 起始下表
+	 * @param pageCount 每页多少文件
+	 * @return      
+	 * @return: List<MyFile>      
+	 * @throws   
+	 */  
+	public List<MyFile> getCustomerFilesTableByPage(int startIndex,int pageCount);
+	
 	/**   
 	 * @Title: getMyFileByFileId   
 	 * @Description: TODO 通过文件Id获取文件

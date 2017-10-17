@@ -28,6 +28,11 @@
 		WHERE owner_id=#{ownerId}
 	</select>
 	
+	<select id="selectAllMyByPage" parameterType="int"  resultMap="myFileMap">
+		<include refid="selectAllMyFileSql"></include>
+		LIMIT #{arg0},#{arg1}
+	</select>
+	
 	<insert id="insertMyFile"  parameterType="MyFile"  useGeneratedKeys="true"  keyProperty="id">
 		INSERT INTO myfile 
 		(file_name,save_path,owner_id,create_date,last_modified_date,last_modified_id)

@@ -28,4 +28,5 @@ public interface MyFileDao {
 	public MyFile selectMyFIleById(int fileId);
 	public List<MyFile> selectMyFilesByOwner(int ownerId);
 	public List<MyFile> selectAllMyFiles();
+	public List<MyFile> selectAllMyByPage(int startIndex,int count);
 }
