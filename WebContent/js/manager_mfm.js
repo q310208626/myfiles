@@ -54,7 +54,7 @@ function updatePrivilegeModal(obj) {
 	});*/
 	updatePriModal.modal({
 		  backdrop:false
-		})
+		});
 	updatePriModal.modal('show');
 
 }

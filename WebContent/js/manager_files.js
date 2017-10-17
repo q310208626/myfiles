@@ -14,6 +14,9 @@
 function updateFile(obj){
 	var id=$(obj).attr("id");
 	var modal=$('#update_modal');
+	modal.modal({
+		  backdrop:false
+		});
 	modal.modal('show');
 	$('#update-form').attr('action','/myfiles/myFile/updateFile.do?fileId='+id);
 	 

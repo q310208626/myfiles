@@ -4,59 +4,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<<<<<<< HEAD
-<title>Insert title here</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap-responsive.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/myfiles.css">
-</head>
-<body>
-
-	<!-- 管理员页面contain -->
-	<div class="row-fluid">
-		<!-- 侧边栏 -->
-		<div class="span2">
-			<div class="well sidebar-nav">
-				<ul class="nav nav-list">
-					<li class="nav-header">管理选项</li>
-					<li class="active"><a>文件管理</a></li>
-					<li><a>管理员管理</a></li>
-				</ul>
-			</div>
-		</div>
-		<!-- 管理员页面内容 -->
-		<div class="span7">
-			<div class="container-narrow">
-				<!-- 管理员页面内容头部 -->
-				<div class="masthead">
-					<ul class="nav nav-pills pull-right">
-						<li><a href="${pageContext.request.contextPath}/to_index.do">主页</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/MFM/logout.do">${myFilesManager.account},注销</a>
-						</li>
-					</ul>
-					<h3 class="muted">管理员页面</h3>
-				</div>
-
-				<hr>
-				<!-- 分割线 -->
-				
-				<div class="container">
-					
-				</div>
-			</div>
-		</div>
-	</div>
-
-</body>
-<script type="text/javascript"
-	src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-=======
 <title>管理员页面</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
@@ -74,8 +21,8 @@
 			<div class="well sidebar-nav">
 				<ul class="nav nav-list">
 					<li class="nav-header">管理选项</li>
-					<li class="active"><a href="${pageContext.request.contextPath}/myFile/getAllFiles.do?manId=${sessionScope.userId}" target="manager_iframe_name">文件管理</a></li>
-					<li><a href="${pageContext.request.contextPath}/MFM/getAllMFM.do" target="manager_iframe_name">管理员管理</a></li>
+					<li class="active nav-li"><a href="${pageContext.request.contextPath}/myFile/getAllFiles.do?manId=${sessionScope.userId}" target="manager_iframe_name">文件管理</a></li>
+					<li class="nav-li"><a href="${pageContext.request.contextPath}/MFM/getAllMFM.do" target="manager_iframe_name">管理员管理</a></li>
 				</ul>
 			</div>
 		</div>
@@ -113,5 +60,5 @@
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
->>>>>>> refs/heads/modalFix
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/manager_main.js"></script>
 </html>

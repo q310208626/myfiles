@@ -1,54 +1,6 @@
 @CHARSET "UTF-8";
 .container-narrow{
 	margin: 0 auto;
-<<<<<<< HEAD
-	width: 700px;
-	height: 600px;
-	/* background: #f5f5f5; */
-	text-align: center;	
-}
-
-.form-signin{
-	width:300px;
-	margin: 50px auto;
-	display:block;
-	text-align: center;
-	padding: 30px;
-	background-color: #c1e4ff;
-}
-
-input.sign_input	{
-	width: 220px;
-	margin:4px auto;
-}
-input.sign_button{
-	height: 30px;
-	background-color: #08c;
-	text-align: center;
-	margin: 2px auto;
-}
-
-.validate_warn{
-	color: red;
-	width:260px;
-	display:inline-block;
-	font-size: 12px;
-}
-
-.error_container{
-	text-align: center;
-	width:300px;
-	height:100px;
-	margin:30px;
-	padding: 40px;
-	background-color: #c1e4ff;
-}
-
-.well{
-	margin-top: 100px;	
-	margin-left:30px;
-	background: #c1e4ff;
-=======
 	width: 900px;
 	height: 600px;
 	/* background: #f5f5f5; */
