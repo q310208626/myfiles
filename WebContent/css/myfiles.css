@@ -95,5 +95,12 @@ input.sign_button{
 
 .button-modal-upload{
 	float: left;
->>>>>>> refs/heads/modalFix
 }
+
+
+/* .pagination li a:hover{
+	text-decoration: none;
+	cursor: pointer;
+	display: inline-block;
+	height: 30px;
+} */

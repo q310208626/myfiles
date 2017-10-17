@@ -78,7 +78,8 @@ public class MyFileController {
 		fileCount=myFileService.getMyFilesCount();
 		modelAndView.addObject("MyFileList", myFileList);
 		modelAndView.addObject("fileCount", fileCount);
-		modelAndView.setViewName("manager_file_table");
+		modelAndView.addObject("currentPage", page);
+		modelAndView.setViewName("customer_file_table");
 		return modelAndView;
 	}
 	
