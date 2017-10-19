@@ -22,6 +22,7 @@ import com.lsj.ftp.myfiles.bean.MyFilesManager;
 import com.lsj.ftp.myfiles.dao.MyFileDao;
 import com.lsj.ftp.myfiles.dao.MyFilesManDao;
 import com.lsj.ftp.myfiles.service.MyFileService;
+import com.lsj.ftp.myfiles.service.MyFilesManService;
 import com.mysql.fabric.xmlrpc.base.Data;
 
 @Service
@@ -31,7 +32,11 @@ public class MyFileServiceImpl implements MyFileService {
 	private MyFileDao myFileDao;
 	@Autowired
 	private MyFilesManDao myFileManDao;
-	private static String savePath = "/home/shaojia/myFiles/upload";
+//	linux存储路径
+//	private static String savePath = "/home/shaojia/myFiles/upload";
+//windows存储路径
+	private static String savePath = "D:/myFiles/upload";
+	private static Logger logger=Logger.getLogger(MyFileService.class);
 
 	@Override
 	public List<MyFile> getMyFilesTable(int id) {
@@ -124,6 +129,9 @@ public class MyFileServiceImpl implements MyFileService {
 		if (myFile == null) {
 			resultMap.put("status", "error");
 			resultMap.put("error", "文件不存在");
+			if (logger.isDebugEnabled()) {
+				logger.debug("文件不存在");
+			}
 			return resultMap;
 		}
 
@@ -131,6 +139,9 @@ public class MyFileServiceImpl implements MyFileService {
 		if (myFilesManager == null) {
 			resultMap.put("status", "error");
 			resultMap.put("error", "管理员不存在");
+			if (logger.isDebugEnabled()) {
+				logger.debug("管理员不存在");
+			}
 			return resultMap;
 		}
 
@@ -144,22 +155,35 @@ public class MyFileServiceImpl implements MyFileService {
 					||myFile.getOwnerId() == userId) {
 				File file = new File(savePath, myFile.getFileName());
 				// 文件不存在，则创建
-				if (!file.exists()) {
+				if (!file.getParentFile().exists()) {
 					file.mkdirs();
 				}
+				//更改修改者Id,修改时间
+				myFile.setLastModifiedId(userId);
+				myFile.setLastModifiedDate(new Date());
+				myFileDao.updateMyFile(myFile);
 				updateFile.transferTo(file);
 				resultMap.put("status", "success");
+				if (logger.isDebugEnabled()) {
+					logger.debug("文件重传成功");
+				}
 				return resultMap;
 			}
-			// 没权限，文件不属于自己，不能删除
+			// 没权限，文件不属于自己，不能重传
 			else {
 				resultMap.put("status", "error");
 				resultMap.put("error", "管理员没有权限");
+				if (logger.isDebugEnabled()) {
+					logger.debug("管理员没有权限");
+				}
 			}
 		} catch (IllegalStateException | IOException e) {
 			// TODO Auto-generated catch block
 			resultMap.put("status", "error");
 			resultMap.put("error", "文件更新出错");
+			if (logger.isDebugEnabled()) {
+				logger.debug("文件更新出错");
+			}
 			e.printStackTrace();
 		}
 		return resultMap;
@@ -214,23 +238,51 @@ public class MyFileServiceImpl implements MyFileService {
 	public Map uploadMyFile(MultipartFile uploadFile, int ownerId) {
 		// TODO Auto-generated method stub
 		Map resultMap = new HashMap<String, String>();
+		MyFilesManager myFilesManager=myFileManDao.selectMFMById(ownerId);
+		
+		//管理员检查
+		if(myFilesManager==null){
+			resultMap.put("status", "error");
+			resultMap.put("error", "管理员不存在");
+			resultMap.put("code", "100");
+			if (logger.isDebugEnabled()) {
+				logger.debug("管理员不存在");
+			}
+			return resultMap;
+		}
+		
+		//权限检查，不是主管理员并且不具备上传权限
+		if(myFilesManager.getManPrivilege().getMainPVL()!=1&&myFilesManager.getManPrivilege().getUpdatePVL()!=1){
+			resultMap.put("status", "error");
+			resultMap.put("error", "管理员没有权限上传文件");
+			resultMap.put("code", "100");
+			if (logger.isDebugEnabled()) {
+				logger.debug("管理员没有权限上传文件");
+			}
+			return resultMap;
+		}
+		
+//		文件存储
 		MyFile myFile = new MyFile();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd HH:mm:ss");
+				"yyyyMMddHHmmss");
 		Date date = new Date();
-
-		myFile.setCreateDate(date);
+		String formatDateString=simpleDateFormat.format(date);
+		myFile.setCreateDate(formatDateString);
 		myFile.setLastModifiedDate(date);
 		myFile.setOwnerId(ownerId);
 		myFile.setLastModifiedId(ownerId);
 		myFile.setSavePath(savePath);
-		String fileNmae = uploadFile.getOriginalFilename() + date;
+		String originFileNameString=uploadFile.getOriginalFilename();
+		String fileNamePrefix=originFileNameString.substring(0,originFileNameString.lastIndexOf('.'));
+		String fileNameSuffix=originFileNameString.substring(originFileNameString.lastIndexOf('.'),originFileNameString.length());
+		String fileNmae = fileNamePrefix+ formatDateString+fileNameSuffix;
 		myFile.setFileName(fileNmae);
 
 		try {
 			File saveFile = new File(savePath, myFile.getFileName());
 			// 存储路径不存在则创建文件
-			if (!saveFile.exists()) {
+			if (!saveFile.getParentFile().exists()) {
 				saveFile.mkdirs();
 			}
 			uploadFile.transferTo(saveFile);
@@ -240,12 +292,18 @@ public class MyFileServiceImpl implements MyFileService {
 			resultMap.put("status", "error");
 			resultMap.put("error", "文件读写出错");
 			resultMap.put("code", "100");
+			if (logger.isDebugEnabled()) {
+				logger.debug("文件读写出错");
+			}
 			return resultMap;
 		}
 		myFileDao.insertMyFile(myFile);
 		resultMap.put("status", "success");
 		resultMap.put("success", "文件存储成功");
 		resultMap.put("code", "000");
+		if (logger.isDebugEnabled()) {
+			logger.debug("文件上传成功");
+		}
 		return resultMap;
 	}
 

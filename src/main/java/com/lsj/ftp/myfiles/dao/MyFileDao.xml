@@ -6,7 +6,7 @@
 		<result property="fileName" column="file_name"  javaType="String"/>
 		<result property="savePath" column="save_path"  javaType="String"/>
 		<result property="ownerId" column="owner_id"  javaType="int"/>
-		<result property="createDate" column="create_date"  javaType="Date"/>
+		<result property="createDate" column="create_date"  javaType="String"/>
 		<result property="lastModifiedDate" column="last_modified_date"  javaType="Date"/>
 		<result property="lastModifiedId" column="last_modified_id"  javaType="int"/>
 	</resultMap>
@@ -18,7 +18,7 @@
 		<include refid="selectAllMyFileSql"></include>
 	</select>
 	
-	<select id="selectMyFileById"  parameterType="int" resultType="MyFIle">
+	<select id="selectMyFIleById"  parameterType="int" resultType="MyFIle">
 		<include refid="selectAllMyFileSql"></include>
 		WHERE id=#{fileId}
 	</select>
