@@ -79,6 +79,7 @@ public class MyFileController {
 		modelAndView.addObject("MyFileList", myFileList);
 		modelAndView.addObject("fileCount", fileCount);
 		modelAndView.addObject("currentPage", page);
+		modelAndView.addObject("totalPage", (fileCount/11)+1);
 		modelAndView.setViewName("customer_file_table");
 		return modelAndView;
 	}

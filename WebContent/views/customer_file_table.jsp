@@ -42,7 +42,9 @@
 		</tbody>
 	</table>
 	</div>
-	<ul id="bp-element" class="pagination"></ul>
+	<nav style="text-align: center">
+		<ul id="bp-element" class="pagination"></ul>
+	</nav>
 </body>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.js"></script>
@@ -64,7 +66,7 @@ function pageinit(){
         bootstrapMajorVersion:3, //对应的bootstrap版本
         currentPage:"${currentPage}", //当前页数，这里是用的EL表达式，获取从后台传过来的值
         numberOfPages:10, //每页页数
-        totalPages:"${fileCount}", //总页数，这里是用的EL表达式，获取从后台传过来的值
+        totalPages:"${totalPage}", //总页数，这里是用的EL表达式，获取从后台传过来的值
         shouldShowPage:true,//是否显示该按钮
         itemTexts: function (type, page, current) {//设置显示的样式，默认是箭头
             switch (type) {
