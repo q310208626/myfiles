@@ -180,7 +180,7 @@ public class MyFileController {
 //		myFileService.uploadMyFile(uploadFile, ownerId);
 		if(resultMap.get("status").equals("success")){
 //			modelAndView.setViewName("redirect:/myFile/getAllFiles.do?manId="+userId);
-			modelAndView.setViewName("redirect:/myFile/getAllFiles.do?manId="+userId);
+			modelAndView.setViewName("redirect:/myFile/getAllFilesByPage.do?manId="+userId+"&page=1&pageCount=10");
 		}
 		//失败跳转到失败页面
 		else{
@@ -214,7 +214,7 @@ public class MyFileController {
 			resultMap=myFileService.deleteMyFile(userId,fileId);
 			//删除结果成功
 			if(resultMap.get("status").equals("success")){
-				modelAndView.setViewName("forward:/myFile/getAllFiles.do?manId="+userId);
+				modelAndView.setViewName("redirect:/myFile/getAllFilesByPage.do?manId="+userId+"&page=1&pageCount=10");
 			}
 			//删除结果失败
 			else{
@@ -252,7 +252,7 @@ public class MyFileController {
 			resultMap=myFileService.updateMyFile(userId, fileId, updateFile);
 			//结果成功
 			if(resultMap.get("status").equals("success")){
-				modelAndView.setViewName("redirect:/myFile/getAllFiles.do?manId="+userId);
+				modelAndView.setViewName("redirect:/myFile/getAllFilesByPage.do?manId="+userId+"&page=1&pageCount=10");
 			}			
 			//删除结果失败
 			else{

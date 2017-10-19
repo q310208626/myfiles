@@ -14,7 +14,7 @@
 	href="${pageContext.request.contextPath}/css/myfiles.css">
 </head>
 <body>
-	<div style="height: 500px" >
+	<div style="height: 600px" >
 		<table class="table table-striped">
 		<thead>
 			<tr>
