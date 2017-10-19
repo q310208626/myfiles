@@ -28,6 +28,12 @@
 		WHERE owner_id=#{ownerId}
 	</select>
 	
+	<select id="selectMyFileByOwnerAndByPage" parameterType="int" resultMap="myFileMap">
+		<include refid="selectAllMyFileSql"></include>
+		WHERE owner_id=#{arg0} 
+		LIMIT #{arg1},#{arg2}
+	</select>
+	
 	<select id="selectAllMyByPage" parameterType="int"  resultMap="myFileMap">
 		<include refid="selectAllMyFileSql"></include>
 		LIMIT #{arg0},#{arg1}

@@ -60,6 +60,22 @@ public class MyFileController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value="/getAllFilesByPage.do")
+	public ModelAndView getMyFileByPage(int manId,int page,int pageCount){
+		ModelAndView modelAndView=new ModelAndView();
+		int fileCount=0;
+		int startIndex=(page-1)*pageCount;
+		fileCount=myFileService.getMyFilesCount();
+		List<MyFile> myFileList=myFileService.getMyFilesTableByPage(manId, startIndex, pageCount);
+		modelAndView.addObject("MyFileList", myFileList);
+		modelAndView.addObject("MyFileList", myFileList);
+		modelAndView.addObject("fileCount", fileCount);
+		modelAndView.addObject("currentPage", page);
+		modelAndView.addObject("totalPage", (fileCount/11)+1);
+		modelAndView.setViewName("manager_file_table");
+		return modelAndView;
+	}
+	
 	/**   
 	 * @Title: getCustomerFileByPage   
 	 * @Description: TODO 后去访客列表文件，分页
@@ -123,14 +139,13 @@ public class MyFileController {
 			logger.debug(fullPath);
 			String savePath=fullPath.substring(0, fullPath.lastIndexOf(File.separator));
 			String fileName=downloadFile.getName();
-			logger.debug("=============="+savePath);
-			logger.debug("=============="+fileName);
 //			设置响应文件
 			headers.setContentDispositionFormData("attachment",fileName);
-//			设置为常见的下载格式
+//			设置为字节流
 			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		}
 		try {
+//			请求成功并且服务器创建了新的资源
 			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(downloadFile),    
 			        headers, HttpStatus.CREATED);
 		} catch (IOException e) {

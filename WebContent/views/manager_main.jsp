@@ -21,7 +21,7 @@
 			<div class="well sidebar-nav">
 				<ul class="nav nav-list">
 					<li class="nav-header">管理选项</li>
-					<li class="active nav-li"><a href="${pageContext.request.contextPath}/myFile/getAllFiles.do?manId=${sessionScope.userId}" target="manager_iframe_name">文件管理</a></li>
+					<li class="active nav-li"><a href="${pageContext.request.contextPath}/myFile/getAllFilesByPage.do?manId=${sessionScope.userId}&page=1&pageCount=10"" target="manager_iframe_name">文件管理</a></li>
 					<li class="nav-li"><a href="${pageContext.request.contextPath}/MFM/getAllMFM.do" target="manager_iframe_name">管理员管理</a></li>
 				</ul>
 			</div>
@@ -45,8 +45,8 @@
 				<!-- 管理内容 -->
 				<div class="container-narrow">
 					<iframe id="manager_iframe" name="manager_iframe_name"
-						src="${pageContext.request.contextPath}/myFile/getAllFiles.do?manId=${sessionScope.userId}"
-						width="100%" height="100%" frameborder="no"></iframe>
+						src="${pageContext.request.contextPath}/myFile/getAllFilesByPage.do?manId=${sessionScope.userId}&page=1&pageCount=10"
+						width="100%" height="700px" frameborder="no"></iframe>
 				</div>
 				
 			</div>
@@ -60,5 +60,6 @@
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/manager_main.js"></script>
+<script type="text/javascript" 
+	src="${pageContext.request.contextPath}/js/manager_main.js"></script>
 </html>

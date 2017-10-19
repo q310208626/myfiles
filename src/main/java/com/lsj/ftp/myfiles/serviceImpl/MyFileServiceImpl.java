@@ -64,6 +64,30 @@ public class MyFileServiceImpl implements MyFileService {
 	
 
 	@Override
+	public List<MyFile> getMyFilesTableByPage(int id, int startIndex, int count) {
+		// TODO Auto-generated method stub
+		List<MyFile> myFiles = null;
+		MyFilesManager myFilesManager = null;
+		myFilesManager = myFileManDao.selectMFMById(id);
+		// 管理员不存在
+		if (myFilesManager == null) {
+			return null;
+		}
+		// 如果管理员为主管理员或者拥有操作全部文件权限
+		else if (myFilesManager.getManPrivilege().getMainPVL() == 1
+				|| myFilesManager.getManPrivilege().getAllFilesPVL() == 1) {
+			myFiles = myFileDao.selectAllMyByPage(startIndex, count);
+		}
+		// 没有权限则只获取自己的文件
+		else {
+			myFiles = myFileDao.selectMyFileByOwnerAndByPage(id, startIndex, count);
+		}
+		return myFiles;
+	}
+
+
+
+	@Override
 	public List<MyFile> getCustomerFilesTable() {
 		// TODO Auto-generated method stub
 		List<MyFile> myFiles = null;

@@ -36,6 +36,18 @@ public interface MyFileService {
 	public List<MyFile> getMyFilesTable(int id);
 	
 	/**   
+	 * @Title: getMyFilesTableByPage   
+	 * @Description: TODO 获取管理员文件列表(分页)
+	 * @param id
+	 * @param startIndex
+	 * @param count
+	 * @return      
+	 * @return: List<MyFile>      
+	 * @throws   
+	 */  
+	public List<MyFile> getMyFilesTableByPage(int id,int startIndex,int count);
+	
+	/**   
 	 * @Title: getCustomerFilesTable   
 	 * @Description: TODO 获取访客文件列表
 	 * @return      

@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.apache.log4j.lf5.util.Resource;
 import org.junit.After;
 import org.junit.Before;
@@ -53,7 +54,7 @@ public class MyFilesTest {
 	@Autowired
 	private MyFileDao myFileDao;
 	private ApplicationContext applicationContext;
-	
+	private static Logger logger=Logger.getLogger(MyFilesTest.class);
 	
 	@Before
 	public void before(){
@@ -65,20 +66,9 @@ public class MyFilesTest {
 		MyFilesManager myFilesManager=applicationContext.getBean(MyFilesManager.class);
 		
 		MyFile myFile=applicationContext.getBean(MyFile.class);
-		File file=new File("D:"+File.separator+"ceshi.txt");
 		FileInputStream fin;
-		try {
-			fin = new FileInputStream(file);
-		MultipartFile updateFile;
-			updateFile = new MockMultipartFile("ceshi.txt",file.getName(), "text/plain", fin);
-			myFileService.updateMyFile(5, 5,updateFile );
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		List<MyFile> myFIleList=myFileDao.selectMyFileByOwnerAndByPage(7,0,10);
+		logger.debug(myFIleList.size());
 	}
 	
 	@After
