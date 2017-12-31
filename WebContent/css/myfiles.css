@@ -55,7 +55,7 @@ input.sign_button{
 
 .a-upload {
     padding: 4px 10px;
-    height: 20px;
+    /*height: 20px;*/
     line-height: 20px;
     position: relative;
     cursor: pointer;
@@ -67,7 +67,7 @@ input.sign_button{
     display: inline-block;
     *display: inline;
     *zoom: 1;
-    float: left;
+    /*float: left;*/
     margin-left: 20px;
     
 }

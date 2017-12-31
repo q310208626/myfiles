@@ -71,6 +71,7 @@ public class MFMController {
 				String successMSG = (String) resultMap.get("msg");
 				modelAndView.setViewName("manager_main");
 				modelAndView.addObject(myFilesManager);
+				httpSession.setAttribute("myFilesManager", myFilesManager);
 				httpSession.setAttribute("userId", resultMap.get("userId"));
 			}
 		}
@@ -81,6 +82,7 @@ public class MFMController {
 	public ModelAndView MFMLogout(HttpSession httpSession) {
 		ModelAndView modelAndView = new ModelAndView();
 		httpSession.setAttribute("userId", 0);
+		httpSession.setAttribute("myFilesManager", null);
 		modelAndView.setViewName("index");
 		return modelAndView;
 	}
