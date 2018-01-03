@@ -14,6 +14,16 @@
 	href="${pageContext.request.contextPath}/css/myfiles.css">
 </head>
 <body>
+	<div class="row">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="请输入文件名">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary">搜索</button>
+                </span>
+            </div>
+        </div>
+    </div>
 		<table class="table table-striped">
 		<thead>
 			<tr>
