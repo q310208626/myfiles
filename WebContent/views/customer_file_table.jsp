@@ -14,6 +14,7 @@
 	href="${pageContext.request.contextPath}/css/myfiles.css">
 </head>
 <body>
+
  	<div class="row">
         <div class="col-md-6">
             <div class="input-group">
