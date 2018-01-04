@@ -15,8 +15,9 @@
 	href="${pageContext.request.contextPath}/css/myfiles.css">
 </head>
 <body>
-	<button class="btn btn-success button-modal-upload" 
-		data-toggle="modal" data-target="#upload_modal">上传文件</button>
+	<button class="btn btn-success button-modal-upload"  onclick="uploadFile()">上传文件</button>
+	<!-- <button class="btn btn-success button-modal-upload" 
+		data-toggle="modal" data-target="#upload_modal" onclick="uploadFile()">上传文件</button> -->
 	<table class="table table-striped">
 		<thead>
 			<tr>

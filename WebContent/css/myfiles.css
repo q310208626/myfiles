@@ -95,5 +95,14 @@ input.sign_button{
 
 .button-modal-upload{
 	float: left;
->>>>>>> refs/heads/modalFix
+}
+
+
+
+input.form-control{
+	margin-bottom: 0px;
+}
+
+div.row{
+	margin-left: 5px;
 }

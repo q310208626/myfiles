@@ -21,3 +21,12 @@ function updateFile(obj){
 	$('#update-form').attr('action','/myfiles/myFile/updateFile.do?fileId='+id);
 	 
 }
+
+function uploadFile(){
+	var uploadModal=$('#upload_modal');
+	uploadModal.modal({
+		  backdrop:false
+		});
+	uploadModal.modal('show');
+}
+
