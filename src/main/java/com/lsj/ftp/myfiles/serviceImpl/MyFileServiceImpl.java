@@ -245,6 +245,16 @@ public class MyFileServiceImpl implements MyFileService {
 		return downloadFile;
 		
 	}
+
+
+
+	@Override
+	public List<MyFile> searchFiles(String fileName) {
+		// TODO Auto-generated method stub
+		List<MyFile> searchFiles=null;
+		searchFiles=myFileDao.selectMyFilesByName(fileName);
+		return searchFiles;
+	}
 	
 	
 

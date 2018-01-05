@@ -42,7 +42,7 @@ function searchFile(){
 			alert("成功");
 		},
 		error:function(){
-			alert("失敗");
+			alert("失败");
 		}
 	});
 }

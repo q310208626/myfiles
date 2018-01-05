@@ -109,5 +109,16 @@ public interface MyFileService {
 	 */  
 	public File getDownloadFile(int myFileId);
 	
+
+	/**   
+	 * @Title: searchFiles   
+	 * @Description: TODO(通过名字搜索文件)   
+	 * @param fileName 文件名
+	 * @return      
+	 * @return: List<MyFile>      
+	 * @throws   
+	 */  
+	public List<MyFile> searchFiles(String fileName);
+		
 	
 }

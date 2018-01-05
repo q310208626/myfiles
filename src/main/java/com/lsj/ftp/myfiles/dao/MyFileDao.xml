@@ -28,6 +28,11 @@
 		WHERE owner_id=#{ownerId}
 	</select>
 	
+	<select id="selectMyFilesByName" parameterType="String" resultMap="myFileMap">
+		<include refid="selectAllMyFileSql"></include>
+		WHERE file_name like '%#{fileName}%'
+	</select>
+	
 	<insert id="insertMyFile"  parameterType="MyFile"  useGeneratedKeys="true"  keyProperty="id">
 		INSERT INTO myfile 
 		(file_name,save_path,owner_id,create_date,last_modified_date,last_modified_id)
