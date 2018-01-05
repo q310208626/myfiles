@@ -123,7 +123,7 @@ public class MyFileServiceImpl implements MyFileService {
 			if (manPrivilege.getMainPVL() == 1
 					|| manPrivilege.getUpdatePVL() == 1
 					||myFile.getOwnerId() == userId) {
-				File file = new File(savePath, myFile.getFileName());
+				File file = new File(savePath, myFile.getSaveName());
 				// 文件不存在，则创建
 				if (!file.exists()) {
 					file.mkdirs();
@@ -172,7 +172,7 @@ public class MyFileServiceImpl implements MyFileService {
 		if (manPrivilege.getMainPVL() == 1
 				|| manPrivilege.getAllFilesPVL() == 1
 				||myFile.getOwnerId() == userId) {
-			File deleteFile=new File(savePath,myFile.getFileName());
+			File deleteFile=new File(savePath,myFile.getSaveName());
 			
 			//如果文件存在，则删除本地文件
 			if(deleteFile.exists()){
@@ -205,11 +205,13 @@ public class MyFileServiceImpl implements MyFileService {
 		myFile.setOwnerId(ownerId);
 		myFile.setLastModifiedId(ownerId);
 		myFile.setSavePath(savePath);
-		String fileNmae = uploadFile.getOriginalFilename() + date;
+		String fileNmae = uploadFile.getOriginalFilename();
+		String saveName= uploadFile.getOriginalFilename()+ date;
+		myFile.setSaveName(saveName);
 		myFile.setFileName(fileNmae);
 
 		try {
-			File saveFile = new File(savePath, myFile.getFileName());
+			File saveFile = new File(savePath, myFile.getSaveName());
 			// 存储路径不存在则创建文件
 			if (!saveFile.exists()) {
 				saveFile.mkdirs();
@@ -241,7 +243,7 @@ public class MyFileServiceImpl implements MyFileService {
 			return null;
 		}
 		
-		File downloadFile=new File(savePath,myFile.getFileName());
+		File downloadFile=new File(savePath,myFile.getSaveName());
 		return downloadFile;
 		
 	}

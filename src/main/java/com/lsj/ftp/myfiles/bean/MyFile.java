@@ -33,6 +33,12 @@ public class MyFile {
 	private String fileName;
 	
 	/**   
+	 * @Fields saveName : TODO 
+	 * 服务器存储文件名字 
+	 */ 
+	private String saveName;
+	
+	/**   
 	 * @Fields savePath : TODO 
 	 * 保存路径 
 	 */ 
@@ -76,6 +82,16 @@ public class MyFile {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	
+	
+
+	public String getSaveName() {
+		return saveName;
+	}
+
+	public void setSaveName(String saveName) {
+		this.saveName = saveName;
 	}
 
 	public String getSavePath() {

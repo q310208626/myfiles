@@ -4,6 +4,7 @@
 	<resultMap type="MyFile" id="myFileMap">
 		<id property="id" column="id"/>
 		<result property="fileName" column="file_name"  javaType="String"/>
+		<result property="saveName" column="save_name" javaType="String"/>
 		<result property="savePath" column="save_path"  javaType="String"/>
 		<result property="ownerId" column="owner_id"  javaType="int"/>
 		<result property="createDate" column="create_date"  javaType="Date"/>
@@ -35,13 +36,13 @@
 	
 	<insert id="insertMyFile"  parameterType="MyFile"  useGeneratedKeys="true"  keyProperty="id">
 		INSERT INTO myfile 
-		(file_name,save_path,owner_id,create_date,last_modified_date,last_modified_id)
-		VALUES (#{fileName},#{savePath},#{ownerId},#{createDate},#{lastModifiedDate},#{lastModifiedId})
+		(file_name,save_name,save_path,owner_id,create_date,last_modified_date,last_modified_id)
+		VALUES (#{fileName},#{saveName},#{savePath},#{ownerId},#{createDate},#{lastModifiedDate},#{lastModifiedId})
 	</insert>
 	
 	<update id="updateMyFile" parameterType="MyFile">
 		UPDATE MyFile SET
-		file_name=#{fileName},save_path=#{savePath},owner_id=#{ownerId},create_date=#{createDate},last_modified_date=#{lastModifiedDate},last_modified_id=#{lastModifiedId}
+		file_name=#{fileName},save_name=#{saveName},save_path=#{savePath},owner_id=#{ownerId},create_date=#{createDate},last_modified_date=#{lastModifiedDate},last_modified_id=#{lastModifiedId}
 		WHERE id=#{id}
 	</update>
 	
