@@ -170,5 +170,11 @@ public class MyFileController {
 		}	
 		return modelAndView;
 	}
+	
+	@RequestMapping(value="/searchFile.do")
+	public void searchFile(String fileName){
+		System.out.println(fileName);
+		return;
+	}
 
 }
