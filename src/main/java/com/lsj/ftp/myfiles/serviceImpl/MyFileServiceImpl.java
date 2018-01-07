@@ -2,6 +2,7 @@ package com.lsj.ftp.myfiles.serviceImpl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
@@ -217,7 +218,15 @@ public class MyFileServiceImpl implements MyFileService {
 				saveFile.mkdirs();
 			}
 			uploadFile.transferTo(saveFile);
-		} catch (IllegalStateException | IOException e) {
+		}catch (FileNotFoundException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			resultMap.put("status", "error");
+			resultMap.put("error", "存储路径有问题");
+			resultMap.put("code", "100");
+			return resultMap;
+		} 
+		catch (IllegalStateException |IOException  e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			resultMap.put("status", "error");
