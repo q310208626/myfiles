@@ -111,6 +111,10 @@ public class MyFileController {
 		}
 		//失败跳转到失败页面
 		else{
+			String errorMSG=(String) resultMap.get("error");
+			if(errorMSG!=null) {
+				modelAndView.addObject("error", errorMSG);
+			}
 			modelAndView.setViewName("file_manager_error");
 		}
 		return modelAndView;
