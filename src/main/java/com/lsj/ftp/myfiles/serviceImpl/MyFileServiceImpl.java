@@ -32,7 +32,8 @@ public class MyFileServiceImpl implements MyFileService {
 	private MyFileDao myFileDao;
 	@Autowired
 	private MyFilesManDao myFileManDao;
-	private static String savePath = "/home/shaojia/myFiles/upload";
+	//private static String savePath = "/home/shaojia/myFiles/upload";
+	private static String savePath ="D:/myfiles/save";
 
 	@Override
 	public List<MyFile> getMyFilesTable(int id) {
