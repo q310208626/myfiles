@@ -52,11 +52,6 @@ public class MyFilesTest {
 	@Test
 	public void test(){
 		MyFilesManager myFilesManager=applicationContext.getBean(MyFilesManager.class);
-		List<MyFilesManager> myFilesManagers=myFilesManServiceImpl.getAllFileManager();
-		for (MyFilesManager myFilesManager2 : myFilesManagers) {
-			System.out.println(myFilesManager2.getAccount()+":"+myFilesManager2.getManPrivilege().getMainPVL());
-
-		}
 		
 	}
 	

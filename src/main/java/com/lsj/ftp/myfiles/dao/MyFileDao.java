@@ -21,11 +21,12 @@ import com.lsj.ftp.myfiles.bean.MyFile;
 */
 @Repository
 public interface MyFileDao {
-	//这些还用我写注释？不存在的
+	//
 	public void insertMyFile(MyFile myFile);
 	public void updateMyFile(MyFile myFile);
 	public void deleteMyFile(int fileId);
 	public MyFile selectMyFIleById(int fileId);
 	public List<MyFile> selectMyFilesByOwner(int ownerId);
 	public List<MyFile> selectAllMyFiles();
+	public List<MyFile> selectMyFilesByName(String fileName);
 }

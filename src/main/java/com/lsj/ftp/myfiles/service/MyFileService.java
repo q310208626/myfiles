@@ -21,6 +21,23 @@ import com.lsj.ftp.myfiles.bean.MyFile;
 * @version    
 *    
 */
+/**
+ * @author rentutu
+ *
+ */
+/**   
+*    
+* 项目名称：myfiles-master   
+* 类名称：MyFileService   
+* 类描述：   
+* 创建人：rentutu   
+* 创建时间：2018年1月5日 下午3:21:06   
+* 修改人：rentutu   
+* 修改时间：2018年1月5日 下午3:21:06   
+* 修改备注：   
+* @version    
+*    
+*/
 public interface MyFileService {
 
 
@@ -109,5 +126,15 @@ public interface MyFileService {
 	 */  
 	public File getDownloadFile(int myFileId);
 	
-	
+
+	/**   
+	 * @Title: searchFiles   
+	 * @Description: TODO(通过名字搜索文件)   
+	 * @param fileName 文件名
+	 * @return      
+	 * @return: List<MyFile>      
+	 * @throws   
+	 */  
+	public List<MyFile> searchFiles(String fileName);
+		
 }
