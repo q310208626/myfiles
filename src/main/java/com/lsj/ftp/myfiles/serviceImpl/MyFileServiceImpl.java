@@ -33,7 +33,7 @@ public class MyFileServiceImpl implements MyFileService {
 	@Autowired
 	private MyFilesManDao myFileManDao;
 	//private static String savePath = "/home/shaojia/myFiles/upload";
-	private static String savePath ="D:/myfiles/save";
+	private static String savePath ="E:\\myfiles\\save";
 
 	@Override
 	public List<MyFile> getMyFilesTable(int id) {
@@ -131,6 +131,9 @@ public class MyFileServiceImpl implements MyFileService {
 					file.mkdirs();
 				}
 				updateFile.transferTo(file);
+				myFile.setLastModifiedDate(new Date());
+				myFile.setLastModifiedId(myFilesManager.getId());
+				myFileDao.updateMyFile(myFile);
 				resultMap.put("status", "success");
 				return resultMap;
 			}
@@ -199,7 +202,7 @@ public class MyFileServiceImpl implements MyFileService {
 		Map resultMap = new HashMap<String, String>();
 		MyFile myFile = new MyFile();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd HH:mm:ss");
+				"yyyy-MM-dd_HHmmss");
 		Date date = new Date();
 
 		myFile.setCreateDate(date);
@@ -208,7 +211,7 @@ public class MyFileServiceImpl implements MyFileService {
 		myFile.setLastModifiedId(ownerId);
 		myFile.setSavePath(savePath);
 		String fileNmae = uploadFile.getOriginalFilename();
-		String saveName= uploadFile.getOriginalFilename()+ date;
+		String saveName= uploadFile.getOriginalFilename()+ simpleDateFormat.format(date);
 		myFile.setSaveName(saveName);
 		myFile.setFileName(fileNmae);
 

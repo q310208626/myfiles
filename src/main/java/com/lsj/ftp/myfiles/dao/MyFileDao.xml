@@ -19,7 +19,7 @@
 		<include refid="selectAllMyFileSql"></include>
 	</select>
 	
-	<select id="selectMyFileById"  parameterType="int" resultType="MyFIle">
+	<select id="selectMyFIleById"  parameterType="int" resultType="MyFIle">
 		<include refid="selectAllMyFileSql"></include>
 		WHERE id=#{fileId}
 	</select>

@@ -99,6 +99,7 @@ public class MyFileController {
 		String userIdString=(String)session.getAttribute("userId");
 		if (userIdString==null||userIdString.equals("0")) {
 			logger.debug("userId is null");
+			modelAndView.addObject("error", "管理员未登录，请重新登录");
 			modelAndView.setViewName("file_manager_error");
 			return modelAndView;
 		}
