@@ -83,7 +83,7 @@ DROP TABLE IF EXISTS `myfile`;
 CREATE TABLE `myfile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `file_name` varchar(30) DEFAULT NULL,
-  `save_name` varchar(30) DEFAULT NULL,
+  `save_name` varchar(60) DEFAULT NULL,
   `save_path` varchar(30) DEFAULT NULL,
   `owner_id` int(11) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
