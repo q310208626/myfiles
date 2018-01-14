@@ -52,7 +52,8 @@ public class MyFilesTest {
 	@Test
 	public void test(){
 		MyFilesManager myFilesManager=applicationContext.getBean(MyFilesManager.class);
-		
+		List<MyFile> myFiles=myFileService.searchFiles("as");
+		System.out.println("-------------"+myFiles.size());
 	}
 	
 	@After
