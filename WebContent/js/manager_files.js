@@ -33,16 +33,25 @@ function uploadFile(){
 function searchFile(){
 	var searchFileInput=$('#search_input');
 	var fileName=searchFileInput.val();
+	if(fileName==''||fileName==null){
+		return ;
+	}
 	var projectName=getRootPath();
+	var files_tbody=$('#file_tbody');
 	$.ajax({
 		url:projectName+"/myFile/searchFile.do",
 		type:"post",
 		data:{"fileName":fileName},
-		success:function(){
-			alert("成功");
+		dataType:"json",
+		success:function(data){
+			var myFileList=eval(data);
+			$.each(myFileList,function(index,item){
+				var fileRow=$('<tr></tr>');
+				alert(item.fileName);
+			});
 		},
-		error:function(){
-			alert("失败");
+		error:function(data){
+			alert("失败"+data);
 		}
 	});
 }
@@ -54,6 +63,7 @@ function getRootPath(){
 	
 	//当前页面路径
 	var pathName=window.document.location.pathname;
+	
 	//当前页面路径起始位置
 	var pathNamePos=curTotalPath.indexOf(pathName);
 	
@@ -61,6 +71,6 @@ function getRootPath(){
 	var hostPath=curTotalPath.substring(0,pathNamePos);
 	
 	//工程名
-	var projectName=pathName.substr(0,pathName.substr(1).indexOf('/')+1);
+	var projectName=pathName.substr(0,pathName.substr(1).indexOf('/')+1);     
 	return hostPath+projectName;
 }
