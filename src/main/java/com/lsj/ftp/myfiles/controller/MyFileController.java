@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -176,10 +180,12 @@ public class MyFileController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/searchFile.do")
-	public void searchFile(String fileName){
-		System.out.println(fileName);
-		return;
+	@RequestMapping(value="/searchFile.do",method=RequestMethod.POST)
+	@ResponseBody
+	public List<MyFile> searchFile(String fileName){
+		List<MyFile> myFileList=myFileService.searchFiles(fileName);
+		System.out.println("_____________"+fileName);
+		return myFileList;
 	}
 
 }
