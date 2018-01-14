@@ -18,10 +18,12 @@
  	<div class="row">
         <div class="col-md-6">
             <div class="input-group">
+            	<form onsubmit="searchFile()">
                 <input type="text" id="search_input" class="form-control" placeholder="请输入文件名">
                 <span class="input-group-btn">
-                    <button class="btn btn-primary" onclick="searchFile()" >搜索</button>
+                    <input type="submit" class="btn btn-primary" value="搜索"></input>
                 </span>
+                </form>
             </div>
         </div>
     </div>
@@ -36,7 +38,7 @@
 				<th>操作</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="file_tbody">
 			<c:forEach var="myFile" items="${MyFileList}">
 				<tr>
 					<td>${myFile.fileName}</td>
