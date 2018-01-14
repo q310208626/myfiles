@@ -31,7 +31,7 @@
 	
 	<select id="selectMyFilesByName" parameterType="String" resultMap="myFileMap">
 		<include refid="selectAllMyFileSql"></include>
-		WHERE file_name like '%#{fileName}%'
+		WHERE file_name like concat(concat('%',#{fileName}),'%')
 	</select>
 	
 	<insert id="insertMyFile"  parameterType="MyFile"  useGeneratedKeys="true"  keyProperty="id">
