@@ -18,15 +18,16 @@
  	<div class="row">
         <div class="col-md-6">
             <div class="input-group">
-            	<form onsubmit="searchFile()">
+            	<form action="" target="frameFile">
                 <input type="text" id="search_input" class="form-control" placeholder="请输入文件名">
                 <span class="input-group-btn">
-                    <input type="submit" class="btn btn-primary" value="搜索"></input>
+                    <input type="submit" class="btn btn-primary" value="搜索" onclick="searchFile()"></input>
                 </span>
                 </form>
             </div>
         </div>
     </div>
+    <iframe name="frameFile" style="display:none;"></iframe>
 		<table class="table table-striped">
 		<thead>
 			<tr>
@@ -55,7 +56,7 @@
 	</table>
 </body>
 <script type="text/javascript"
-	src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+	src="http://code.jquery.com/jquery-1.8.3.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <script type="text/javascript"

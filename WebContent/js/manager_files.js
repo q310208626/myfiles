@@ -42,16 +42,21 @@ function searchFile(){
 		url:projectName+"/myFile/searchFile.do",
 		type:"post",
 		data:{"fileName":fileName},
+		async:true,
 		dataType:"json",
 		success:function(data){
+			files_tbody.html("");
 			var myFileList=eval(data);
 			$.each(myFileList,function(index,item){
 				var fileRow=$('<tr></tr>');
-				alert(item.fileName);
+				var fileName=item.fileName;
+				alert(fileName);
+				//files_tbody.append(fileRow);
 			});
 		},
 		error:function(data){
-			alert("失败"+data);
+			var myFileList=eval(data);
+			alert("失败"+myFileList);
 		}
 	});
 }
