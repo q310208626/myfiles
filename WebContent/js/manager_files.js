@@ -50,8 +50,39 @@ function searchFile(){
 			$.each(myFileList,function(index,item){
 				var fileRow=$('<tr></tr>');
 				var fileName=item.fileName;
-				alert(fileName);
-				//files_tbody.append(fileRow);
+				var createDate=item.createDate;
+				var ownerId=item.ownerId;
+				var lastModifiedDate=item.lastModifiedDate;
+				var lastModifiedId=item.lastModifiedId;
+				var operate=$('<a></a>');
+				operate.attr("id",item.id);
+				operate.attr("class","btn btn-success");
+				operate.attr("href",getRootPath()+"/myFile/downloadFile.do?fileId="+item.id);
+				operate.html("下载");
+
+				
+				var nameTd=$('<td></td>');
+				var createDateTd=$('<td></td>');
+				var ownerIdTd=$('<td></td>');
+				var lastModifiedDateTd=$('<td></td>');
+				var lastModifiedIdTd=$('<td></td>');
+				var operateTd=$('<td></td>');
+				
+				nameTd.append(fileName);
+				ownerIdTd.append(ownerId);
+				createDateTd.append(createDate);
+				lastModifiedDateTd.append(lastModifiedDate);
+				lastModifiedIdTd.append(lastModifiedId);
+				operateTd.append(operate);
+				
+				fileRow.append(nameTd);
+				fileRow.append(createDateTd);
+				fileRow.append(ownerIdTd);
+				fileRow.append(lastModifiedDateTd);
+				fileRow.append(lastModifiedIdTd);
+				fileRow.append(operateTd)
+				
+				files_tbody.append(fileRow);
 			});
 		},
 		error:function(data){
