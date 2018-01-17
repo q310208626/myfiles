@@ -15,7 +15,23 @@
 	href="${pageContext.request.contextPath}/css/myfiles.css">
 </head>
 <body>
-	<button class="btn btn-success button-modal-upload"  onclick="uploadFile()">上传文件</button>
+	<div class="row">
+        <div class="col-md-6" >
+            <div class="input-group" style="display:inline-block;">
+            	<form action="" target="frameFile">
+            	<div style="display:inline-block;position:relative;" >
+            		<input type="text" id="search_input" class="form-control" placeholder="请输入文件名">
+            		<a id="clearInput" onclick="clearInput()">X</a>
+            	</div>
+                <span class="input-group-btn">
+                    <input type="submit" class="btn btn-primary" value="搜索" onclick="searchFile()"></input>
+                </span>
+                </form>
+            </div>
+            <button class="btn btn-success button-modal-upload"  onclick="uploadFile()" style="float:right;">上传文件</button>
+        </div>
+    </div>
+    <iframe name="frameFile" style="display:none;"></iframe>
 	<!-- <button class="btn btn-success button-modal-upload" 
 		data-toggle="modal" data-target="#upload_modal" onclick="uploadFile()">上传文件</button> -->
 	<table class="table table-striped">
@@ -29,7 +45,7 @@
 				<th>操作</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="file_tbody">
 			<c:forEach var="myFile" items="${MyFileList}">
 				<tr>
 					<td>${myFile.fileName}</td>

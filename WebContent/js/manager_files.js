@@ -40,7 +40,7 @@ function searchFile(){
 	var projectName=getRootPath();
 	var files_tbody=$('#file_tbody');
 	$.ajax({
-		url:projectName+"/myFile/searchFile.do",
+		url:projectName+"/myFile/mfm_searchFile.do",
 		type:"post",
 		data:{"fileName":fileName},
 		async:true,
@@ -115,7 +115,7 @@ function getRootPath(){
 
 //清除输入框，刷新页面
 function clearInput(){
-	var searchInput=$('#search_input');
+	var searchInput=$('#clearInput');
 	searchInput.html("");
 	location.reload();
 }

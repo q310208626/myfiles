@@ -16,7 +16,7 @@
 		<div class="container-narrow">
 		<div class="error_container">
 			<p>${error}</p> 
-			<a href="${pageContext.request.contextPath}/myFile/getAllFiles.do?manId=${sessionScope.userId}" class="btn btn-primary" >返回</a>
+			<a href="${pageContext.request.contextPath}/myFile/getAllFiles.do" class="btn btn-primary" >返回</a>
 		</div>
 	</div>
 </body>

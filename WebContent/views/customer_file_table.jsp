@@ -63,5 +63,5 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/manager_files.js"></script>
+	src="${pageContext.request.contextPath}/js/customer_files.js"></script>
 </html>

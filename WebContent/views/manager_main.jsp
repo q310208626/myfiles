@@ -45,7 +45,7 @@
 				<!-- 管理内容 -->
 				<div class="container-narrow">
 					<iframe id="manager_iframe" name="manager_iframe_name"
-						src="${pageContext.request.contextPath}/myFile/getAllFiles.do?manId=${sessionScope.userId}"
+						src="${pageContext.request.contextPath}/myFile/getAllFiles.do"
 						width="100%" height="100%" frameborder="no"></iframe>
 				</div>
 				
