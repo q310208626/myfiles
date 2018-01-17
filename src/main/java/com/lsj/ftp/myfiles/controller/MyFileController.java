@@ -6,9 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.naming.spi.DirStateFactory.Result;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -47,14 +50,20 @@ public class MyFileController {
 	private MyFileService myFileService;
 	
 	@RequestMapping(value="/getAllFiles.do")
-	public ModelAndView getMyFile(int manId){
-		logger.debug("manId:"+manId);
+	public ModelAndView getMyFile(HttpSession session){
 		ModelAndView modelAndView=new ModelAndView();
-		
-		List<MyFile> myFileList=myFileService.getMyFilesTable(manId);
-		modelAndView.addObject("MyFileList", myFileList);
-		modelAndView.setViewName("manager_file_table");
-		return modelAndView;
+		try{
+			int manId=Integer.parseInt(session.getAttribute("userId").toString());
+			logger.debug("========userID:"+manId);
+			List<MyFile> myFileList=myFileService.getMyFilesTable(manId);
+			modelAndView.addObject("MyFileList", myFileList);
+			modelAndView.setViewName("manager_file_table");
+			return modelAndView;
+		}catch(NullPointerException e){
+			modelAndView.addObject("error", "管理员未登录，请重新登录");
+			modelAndView.setViewName("file_manager_error");
+			return modelAndView;
+		}
 	}
 	
 	@RequestMapping(value="/getCustomerFile.do")
@@ -186,6 +195,23 @@ public class MyFileController {
 		List<MyFile> myFileList=myFileService.searchFiles(fileName);
 		System.out.println("_____________"+fileName);
 		return myFileList;
+	}
+	
+	@RequestMapping(value="mfm_searchFile.do",method=RequestMethod.POST)
+	@ResponseBody
+	public List<MyFile> mfmSearchFile(String fileName,HttpSession session){
+		List<MyFile> myFileList=null;
+		logger.debug("========fileName:"+fileName);
+		try{
+			int manId=Integer.parseInt(session.getAttribute("userId").toString());
+			myFileList=myFileService.getMyFilesTable(manId);
+			myFileList=myFileList.stream().filter(f->f.getFileName().indexOf(fileName)>=0).collect(Collectors.toList());
+			logger.debug("=========filesSize"+myFileList.size());
+			return myFileList;
+		}catch(NullPointerException e){
+			return myFileList;
+			
+		}
 	}
 
 }
