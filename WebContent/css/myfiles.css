@@ -104,3 +104,28 @@ input.form-control{
 div.row{
 	margin-left: 5px;
 }
+
+#clearInput{
+	position:absolute;
+	right:0px;
+	top:50%;
+	padding:3px;
+	transform: translate(0,-50%);
+	background-color: #F8F8F8;
+	color:#000;
+	filter:alpha(Opacity=80);
+	-moz-opacity:0.5;
+	opacity: 0.5;  
+}
+
+#clearInput:hover{
+	text-decoration: none;
+	cursor:pointer;
+	background-color:#F0F0F0;
+	filter:alpha(Opacity=80);
+	-moz-opacity:0.5;
+	opacity: 0.5;  
+}
+
+
+

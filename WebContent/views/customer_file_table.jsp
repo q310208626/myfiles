@@ -19,7 +19,10 @@
         <div class="col-md-6">
             <div class="input-group">
             	<form action="" target="frameFile">
-                <input type="text" id="search_input" class="form-control" placeholder="请输入文件名">
+            	<div style="display:inline-block;position:relative;text-align:center;" >
+            		<input type="text" id="search_input" class="form-control" placeholder="请输入文件名">
+            		<a id="clearInput" onclick="clearInput()">X</a>
+            	</div>
                 <span class="input-group-btn">
                     <input type="submit" class="btn btn-primary" value="搜索" onclick="searchFile()"></input>
                 </span>

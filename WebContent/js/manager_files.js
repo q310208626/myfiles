@@ -30,6 +30,7 @@ function uploadFile(){
 	uploadModal.modal('show');
 }
 
+//搜索框方法
 function searchFile(){
 	var searchFileInput=$('#search_input');
 	var fileName=searchFileInput.val();
@@ -92,6 +93,7 @@ function searchFile(){
 	});
 }
 
+//获取工程路径
 function getRootPath(){
 	
 	//当前页面
@@ -109,4 +111,11 @@ function getRootPath(){
 	//工程名
 	var projectName=pathName.substr(0,pathName.substr(1).indexOf('/')+1);     
 	return hostPath+projectName;
+}
+
+//清除输入框，刷新页面
+function clearInput(){
+	var searchInput=$('#search_input');
+	searchInput.html("");
+	location.reload();
 }
