@@ -77,10 +77,10 @@ public class MyFileController {
 			logger.debug("文件不存在");
 		}else {
 			String fullPath=downloadFile.getPath();
-			String savePath=fullPath.substring(0, fullPath.lastIndexOf('/'));
+			logger.debug("=============="+fullPath);
+			String savePath=fullPath.substring(0, fullPath.lastIndexOf(File.separator));
 			String fileName=downloadFile.getName();
 			logger.debug("=============="+savePath);
-			logger.debug("=============="+fileName);
 			headers.setContentDispositionFormData("attachment",fileName);
 			//设置为常见的下载格式
 			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
