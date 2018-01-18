@@ -127,5 +127,9 @@ div.row{
 	opacity: 0.5;  
 }
 
+.modal.fade{
+	top:-50%;
+}
+
 
 
