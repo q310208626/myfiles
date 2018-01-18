@@ -97,6 +97,7 @@ input.sign_button{
 	float: left;
 }
 
+
 input.form-control{
 	margin-bottom: 0px;
 }
@@ -115,7 +116,8 @@ div.row{
 	color:#000;
 	filter:alpha(Opacity=80);
 	-moz-opacity:0.5;
-	opacity: 0.5;  
+	opacity: 0.5;
+	z-index: 3;  
 }
 
 #clearInput:hover{
@@ -124,12 +126,11 @@ div.row{
 	background-color:#F0F0F0;
 	filter:alpha(Opacity=80);
 	-moz-opacity:0.5;
-	opacity: 0.5;  
+	opacity: 0.5;
+	z-index: 3;  
 }
 
 .modal.fade{
 	top:-50%;
 }
-
-
 

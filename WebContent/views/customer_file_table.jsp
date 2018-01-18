@@ -7,23 +7,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>游客文件列表</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+	href="${pageContext.request.contextPath}/css/bootstrap.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/bootstrap-responsive.min.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/myfiles.css">
 </head>
 <body>
-
  	<div class="row">
         <div class="col-md-6">
-            <div class="input-group">
-            	<form action="" target="frameFile">
+            <div class="input-group" style="display:block;">
+            	<form action="" target="frameFile" />
             	<div style="display:inline-block;position:relative;text-align:center;" >
             		<input type="text" id="search_input" class="form-control" placeholder="请输入文件名">
             		<a id="clearInput" onclick="clearInput()">X</a>
             	</div>
-                <span class="input-group-btn">
+                <span class="input-group-btn" style="display:inline-block;">
                     <input type="submit" class="btn btn-primary" value="搜索" onclick="searchFile()"></input>
                 </span>
                 </form>
@@ -31,7 +30,8 @@
         </div>
     </div>
     <iframe name="frameFile" style="display:none;"></iframe>
-		<table class="table table-striped">
+	<div style="height:600px">
+		<table class="table table-striped" >
 		<thead>
 			<tr>
 				<th>文件名</th>
@@ -43,7 +43,7 @@
 			</tr>
 		</thead>
 		<tbody id="file_tbody">
-			<c:forEach var="myFile" items="${MyFileList}">
+<%-- 			<c:forEach var="myFile" items="${MyFileList}">
 				<tr>
 					<td>${myFile.fileName}</td>
 					<td>${myFile.ownerId}</td>
@@ -54,14 +54,25 @@
 						<a id="${myFile.id}" class="btn btn-success" href="${pageContext.request.contextPath}/myFile/downloadFile.do?fileId=${myFile.id}" >下载</a>
 					</td>
 				</tr>
-			</c:forEach>
+			</c:forEach> --%>
 		</tbody>
 	</table>
+	</div>
+	<nav style="text-align: center">
+		<ul id="bp-element" class="pagination"></ul>
+	</nav>
 </body>
 <script type="text/javascript"
-	src="http://code.jquery.com/jquery-1.8.3.js"></script>
+	src="https://code.jquery.com/jquery-3.0.0.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/bootstrap-paginator.js"></script>	
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/customer_files.js"></script>
+<script type="text/javascript">
+	window.onload = function() { 
+		getFiles(1,10,null);
+	}
+</script>
 </html>

@@ -27,6 +27,9 @@ public interface MyFileDao {
 	public void deleteMyFile(int fileId);
 	public MyFile selectMyFIleById(int fileId);
 	public List<MyFile> selectMyFilesByOwner(int ownerId);
+	public List<MyFile> selectMyFileByOwnerAndByPage(int ownerId,int startIndex,int count);
 	public List<MyFile> selectAllMyFiles();
 	public List<MyFile> selectMyFilesByName(String fileName);
+	public List<MyFile> selectAllMyByPage(int startIndex,int count);
+	public int selectMyFilesCount();
 }

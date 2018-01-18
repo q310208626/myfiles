@@ -23,17 +23,20 @@ import com.lsj.ftp.myfiles.bean.MyFilesManager;
 import com.lsj.ftp.myfiles.dao.MyFileDao;
 import com.lsj.ftp.myfiles.dao.MyFilesManDao;
 import com.lsj.ftp.myfiles.service.MyFileService;
+import com.lsj.ftp.myfiles.service.MyFilesManService;
 import com.mysql.fabric.xmlrpc.base.Data;
 
 @Service
 public class MyFileServiceImpl implements MyFileService {
 
+	private static Logger logger=Logger.getLogger(MyFileServiceImpl.class);
 	@Autowired
 	private MyFileDao myFileDao;
 	@Autowired
 	private MyFilesManDao myFileManDao;
 	//private static String savePath = "/home/shaojia/myFiles/upload";
 	private static String savePath ="E:\\myfiles\\save";
+
 
 	@Override
 	public List<MyFile> getMyFilesTable(int id) {
@@ -61,11 +64,54 @@ public class MyFileServiceImpl implements MyFileService {
 	
 
 	@Override
+	public List<MyFile> getMyFilesTableByPage(int id, int startIndex, int count) {
+		// TODO Auto-generated method stub
+		List<MyFile> myFiles = null;
+		MyFilesManager myFilesManager = null;
+		myFilesManager = myFileManDao.selectMFMById(id);
+		// 管理员不存在
+		if (myFilesManager == null) {
+			return null;
+		}
+		// 如果管理员为主管理员或者拥有操作全部文件权限
+		else if (myFilesManager.getManPrivilege().getMainPVL() == 1
+				|| myFilesManager.getManPrivilege().getAllFilesPVL() == 1) {
+			myFiles = myFileDao.selectAllMyByPage(startIndex, count);
+		}
+		// 没有权限则只获取自己的文件
+		else {
+			myFiles = myFileDao.selectMyFileByOwnerAndByPage(id, startIndex, count);
+		}
+		return myFiles;
+	}
+
+
+
+	@Override
 	public List<MyFile> getCustomerFilesTable() {
 		// TODO Auto-generated method stub
 		List<MyFile> myFiles = null;
 		myFiles=myFileDao.selectAllMyFiles();
 		return myFiles;
+	}
+	
+
+	@Override
+	public List<MyFile> getCustomerFilesTableByPage(int startIndex,
+			int pageCount) {
+		// TODO Auto-generated method stub
+		List<MyFile> myFiles = null;
+		myFiles=myFileDao.selectAllMyByPage(startIndex, pageCount);
+		return myFiles;
+	}
+	
+
+	@Override
+	public int getMyFilesCount() {
+		// TODO Auto-generated method stub
+		int count=0;
+		count=myFileDao.selectMyFilesCount();
+		return  count;
 	}
 
 
@@ -107,6 +153,9 @@ public class MyFileServiceImpl implements MyFileService {
 		if (myFile == null) {
 			resultMap.put("status", "error");
 			resultMap.put("error", "文件不存在");
+			if (logger.isDebugEnabled()) {
+				logger.debug("文件不存在");
+			}
 			return resultMap;
 		}
 
@@ -114,6 +163,9 @@ public class MyFileServiceImpl implements MyFileService {
 		if (myFilesManager == null) {
 			resultMap.put("status", "error");
 			resultMap.put("error", "管理员不存在");
+			if (logger.isDebugEnabled()) {
+				logger.debug("管理员不存在");
+			}
 			return resultMap;
 		}
 
@@ -127,25 +179,38 @@ public class MyFileServiceImpl implements MyFileService {
 					||myFile.getOwnerId() == userId) {
 				File file = new File(savePath, myFile.getSaveName());
 				// 文件不存在，则创建
-				if (!file.exists()) {
+				if (!file.getParentFile().exists()) {
 					file.mkdirs();
 				}
+				//更改修改者Id,修改时间
+				myFile.setLastModifiedId(userId);
+				myFile.setLastModifiedDate(new Date());
+				myFileDao.updateMyFile(myFile);
 				updateFile.transferTo(file);
 				myFile.setLastModifiedDate(new Date());
 				myFile.setLastModifiedId(myFilesManager.getId());
 				myFileDao.updateMyFile(myFile);
 				resultMap.put("status", "success");
+				if (logger.isDebugEnabled()) {
+					logger.debug("文件重传成功");
+				}
 				return resultMap;
 			}
-			// 没权限，文件不属于自己，不能删除
+			// 没权限，文件不属于自己，不能重传
 			else {
 				resultMap.put("status", "error");
 				resultMap.put("error", "管理员没有权限");
+				if (logger.isDebugEnabled()) {
+					logger.debug("管理员没有权限");
+				}
 			}
 		} catch (IllegalStateException | IOException e) {
 			// TODO Auto-generated catch block
 			resultMap.put("status", "error");
 			resultMap.put("error", "文件更新出错");
+			if (logger.isDebugEnabled()) {
+				logger.debug("文件更新出错");
+			}
 			e.printStackTrace();
 		}
 		return resultMap;
@@ -200,12 +265,37 @@ public class MyFileServiceImpl implements MyFileService {
 	public Map uploadMyFile(MultipartFile uploadFile, int ownerId) {
 		// TODO Auto-generated method stub
 		Map resultMap = new HashMap<String, String>();
+		MyFilesManager myFilesManager=myFileManDao.selectMFMById(ownerId);
+		
+		//管理员检查
+		if(myFilesManager==null){
+			resultMap.put("status", "error");
+			resultMap.put("error", "管理员不存在");
+			resultMap.put("code", "100");
+			if (logger.isDebugEnabled()) {
+				logger.debug("管理员不存在");
+			}
+			return resultMap;
+		}
+		
+		//权限检查，不是主管理员并且不具备上传权限
+		if(myFilesManager.getManPrivilege().getMainPVL()!=1&&myFilesManager.getManPrivilege().getUpdatePVL()!=1){
+			resultMap.put("status", "error");
+			resultMap.put("error", "管理员没有权限上传文件");
+			resultMap.put("code", "100");
+			if (logger.isDebugEnabled()) {
+				logger.debug("管理员没有权限上传文件");
+			}
+			return resultMap;
+		}
+		
+//		文件存储
 		MyFile myFile = new MyFile();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd_HHmmss");
-		Date date = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
 
-		myFile.setCreateDate(date);
+		Date date = new Date();
+		String formatDateString=simpleDateFormat.format(date);
+		myFile.setCreateDate(formatDateString);
 		myFile.setLastModifiedDate(date);
 		myFile.setOwnerId(ownerId);
 		myFile.setLastModifiedId(ownerId);
@@ -218,7 +308,7 @@ public class MyFileServiceImpl implements MyFileService {
 		try {
 			File saveFile = new File(savePath, myFile.getSaveName());
 			// 存储路径不存在则创建文件
-			if (!saveFile.exists()) {
+			if (!saveFile.getParentFile().exists()) {
 				saveFile.mkdirs();
 			}
 			uploadFile.transferTo(saveFile);
@@ -236,12 +326,18 @@ public class MyFileServiceImpl implements MyFileService {
 			resultMap.put("status", "error");
 			resultMap.put("error", "文件读写出错");
 			resultMap.put("code", "100");
+			if (logger.isDebugEnabled()) {
+				logger.debug("文件读写出错");
+			}
 			return resultMap;
 		}
 		myFileDao.insertMyFile(myFile);
 		resultMap.put("status", "success");
 		resultMap.put("success", "文件存储成功");
 		resultMap.put("code", "000");
+		if (logger.isDebugEnabled()) {
+			logger.debug("文件上传成功");
+		}
 		return resultMap;
 	}
 

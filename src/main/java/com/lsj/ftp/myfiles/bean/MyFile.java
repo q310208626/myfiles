@@ -54,7 +54,7 @@ public class MyFile {
 	 * @Fields createDate : TODO 
 	 * 创建时间 
 	 */ 
-	private Date createDate;
+	private String createDate;
 	
 	/**   
 	 * @Fields lastModifiedDate : TODO 
@@ -110,11 +110,11 @@ public class MyFile {
 		this.ownerId = ownerId;
 	}
 
-	public Date getCreateDate() {
+	public String getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
 

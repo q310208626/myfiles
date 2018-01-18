@@ -7,7 +7,7 @@
 		<result property="saveName" column="save_name" javaType="String"/>
 		<result property="savePath" column="save_path"  javaType="String"/>
 		<result property="ownerId" column="owner_id"  javaType="int"/>
-		<result property="createDate" column="create_date"  javaType="Date"/>
+		<result property="createDate" column="create_date"  javaType="String"/>
 		<result property="lastModifiedDate" column="last_modified_date"  javaType="Date"/>
 		<result property="lastModifiedId" column="last_modified_id"  javaType="int"/>
 	</resultMap>
@@ -29,9 +29,25 @@
 		WHERE owner_id=#{ownerId}
 	</select>
 	
+
 	<select id="selectMyFilesByName" parameterType="String" resultMap="myFileMap">
 		<include refid="selectAllMyFileSql"></include>
 		WHERE file_name like concat(concat('%',#{fileName}),'%')
+	</select>
+
+	<select id="selectMyFileByOwnerAndByPage" parameterType="int" resultMap="myFileMap">
+		<include refid="selectAllMyFileSql"></include>
+		WHERE owner_id=#{arg0} 
+		LIMIT #{arg1},#{arg2}
+	</select>
+	
+	<select id="selectAllMyByPage" parameterType="int"  resultMap="myFileMap">
+		<include refid="selectAllMyFileSql"></include>
+		LIMIT #{arg0},#{arg1}
+	</select>
+	
+	<select id="selectMyFilesCount" parameterType="int" resultType="int">
+		SELECT COUNT(id) FROM myfile
 	</select>
 	
 	<insert id="insertMyFile"  parameterType="MyFile"  useGeneratedKeys="true"  keyProperty="id">

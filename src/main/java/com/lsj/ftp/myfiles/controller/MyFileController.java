@@ -49,6 +49,14 @@ public class MyFileController {
 	@Qualifier("myFileServiceImpl")
 	private MyFileService myFileService;
 	
+	/**   
+	 * @Title: getMyFile   
+	 * @Description: TODO 获取管理员对应的文件   
+	 * @param manId 管理员ID
+	 * @return      
+	 * @return: ModelAndView      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/getAllFiles.do")
 	public ModelAndView getMyFile(HttpSession session){
 		ModelAndView modelAndView=new ModelAndView();
@@ -64,8 +72,72 @@ public class MyFileController {
 			modelAndView.setViewName("file_manager_error");
 			return modelAndView;
 		}
+
 	}
 	
+	@RequestMapping(value="/getAllFilesByPage.do")
+	public ModelAndView getMyFileByPage(int page,int pageCount,HttpSession session){
+		ModelAndView modelAndView=new ModelAndView();
+		try{
+			int manId=Integer.parseInt(session.getAttribute("userId").toString());
+			logger.debug("========userID:"+manId);
+			int fileCount=0;
+			int startIndex=(page-1)*pageCount;
+			fileCount=myFileService.getMyFilesCount();
+			List<MyFile> myFileList=myFileService.getMyFilesTableByPage(manId, startIndex, pageCount);
+			modelAndView.addObject("MyFileList", myFileList);
+			modelAndView.addObject("MyFileList", myFileList);
+			modelAndView.addObject("fileCount", fileCount);
+			modelAndView.addObject("currentPage", page);
+			modelAndView.addObject("totalPage", (fileCount/11)+1);
+			modelAndView.setViewName("manager_file_table");
+			return modelAndView;
+		}catch(NullPointerException e){
+			modelAndView.addObject("error", "管理员未登录，请重新登录");
+			modelAndView.setViewName("file_manager_error");
+			return modelAndView;
+		}
+		
+		
+
+	}
+	
+	/**   
+	 * @Title: getCustomerFileByPage   
+	 * @Description: TODO 后去访客列表文件，分页
+	 * @param page 页数
+	 * @param pageCount 每页的文件数
+	 * @return      
+	 * @return: ModelAndView      
+	 * @throws   
+	 */  
+	@RequestMapping(value="/getCustomerFileByPage.do")
+	@ResponseBody
+	public Map getCustomerFileByPage(int page,int pageCount,String fileName){
+		Map HashMap=new HashMap();
+		int fileCount=0;
+		int startIndex=(page-1)*pageCount;
+		List<MyFile> myFileList=null;
+		if(fileName==null||fileName.equals("")){
+			myFileList=myFileService.getCustomerFilesTableByPage(startIndex, pageCount);
+			fileCount=myFileService.getMyFilesCount();
+		}else {
+			
+		}	
+		HashMap.put("fileLists", myFileList);
+		HashMap.put("fileCount", fileCount);
+		HashMap.put("currentPage", page);
+		HashMap.put("totalPage", (fileCount/11)+1);
+		return HashMap;
+	}
+	
+	/**   
+	 * @Title: getCustomerFile   
+	 * @Description: TODO 获取访客列表全部文件   
+	 * @return      
+	 * @return: ModelAndView      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/getCustomerFile.do")
 	public ModelAndView getCustomerFile(){
 		ModelAndView modelAndView=new ModelAndView();
@@ -75,6 +147,15 @@ public class MyFileController {
 		return modelAndView;
 	}
 	
+	/**   
+	 * @Title: downloadFile   
+	 * @Description: TODO 下载文件  
+	 * @param fileId 要下载的文件ID
+	 * @param request 
+	 * @return      
+	 * @return: ResponseEntity<byte[]>      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/downloadFile.do")
 	public ResponseEntity<byte[]> downloadFile(int fileId,HttpServletRequest request){
 		File downloadFile=null;
@@ -90,11 +171,14 @@ public class MyFileController {
 			String savePath=fullPath.substring(0, fullPath.lastIndexOf(File.separator));
 			String fileName=downloadFile.getName();
 			logger.debug("=============="+savePath);
+//			设置响应文件
+
 			headers.setContentDispositionFormData("attachment",fileName);
-			//设置为常见的下载格式
+//			设置为字节流
 			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		}
 		try {
+//			请求成功并且服务器创建了新的资源
 			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(downloadFile),    
 			        headers, HttpStatus.CREATED);
 		} catch (IOException e) {
@@ -105,6 +189,15 @@ public class MyFileController {
 		return null;
 	}
 	
+	/**   
+	 * @Title: uploadFile   
+	 * @Description: TODO 上传文件
+	 * @param uploadFile 要上传的文件
+	 * @param session
+	 * @return      
+	 * @return: ModelAndView      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/uploadFile.do")
 	public ModelAndView uploadFile(MultipartFile uploadFile,HttpSession session){
 		ModelAndView modelAndView=new ModelAndView();
@@ -121,7 +214,7 @@ public class MyFileController {
 //		myFileService.uploadMyFile(uploadFile, ownerId);
 		if(resultMap.get("status").equals("success")){
 //			modelAndView.setViewName("redirect:/myFile/getAllFiles.do?manId="+userId);
-			modelAndView.setViewName("redirect:/myFile/getAllFiles.do?manId="+userId);
+			modelAndView.setViewName("redirect:/myFile/getAllFilesByPage.do?manId="+userId+"&page=1&pageCount=10");
 		}
 		//失败跳转到失败页面
 		else{
@@ -134,6 +227,15 @@ public class MyFileController {
 		return modelAndView;
 	}
 	
+	/**   
+	 * @Title: deleteMyFile   
+	 * @Description: TODO 删除文件
+	 * @param fileId 要删除的文件的ID
+	 * @param session
+	 * @return      
+	 * @return: ModelAndView      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/deleteFile.do")
 	public ModelAndView deleteMyFile(int fileId,HttpSession session){
 		ModelAndView modelAndView=new ModelAndView();
@@ -150,7 +252,7 @@ public class MyFileController {
 			resultMap=myFileService.deleteMyFile(userId,fileId);
 			//删除结果成功
 			if(resultMap.get("status").equals("success")){
-				modelAndView.setViewName("forward:/myFile/getAllFiles.do?manId="+userId);
+				modelAndView.setViewName("redirect:/myFile/getAllFilesByPage.do?manId="+userId+"&page=1&pageCount=10");
 			}
 			//删除结果失败
 			else{
@@ -161,6 +263,16 @@ public class MyFileController {
 		}
 	}
 	
+	/**   
+	 * @Title: updateFile   
+	 * @Description: TODO 重传文件
+	 * @param fileId 需要重传的文件Id
+	 * @param updateFile 重传的文件
+	 * @param session
+	 * @return      
+	 * @return: ModelAndView      
+	 * @throws   
+	 */  
 	@RequestMapping(value="/updateFile.do")
 	public ModelAndView updateFile(int fileId,MultipartFile updateFile,HttpSession session){
 		ModelAndView modelAndView=new ModelAndView();
@@ -178,7 +290,7 @@ public class MyFileController {
 			resultMap=myFileService.updateMyFile(userId, fileId, updateFile);
 			//结果成功
 			if(resultMap.get("status").equals("success")){
-				modelAndView.setViewName("redirect:/myFile/getAllFiles.do?manId="+userId);
+				modelAndView.setViewName("redirect:/myFile/getAllFilesByPage.do?manId="+userId+"&page=1&pageCount=10");
 			}			
 			//删除结果失败
 			else{

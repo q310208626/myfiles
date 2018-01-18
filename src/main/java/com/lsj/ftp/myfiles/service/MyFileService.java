@@ -53,6 +53,18 @@ public interface MyFileService {
 	public List<MyFile> getMyFilesTable(int id);
 	
 	/**   
+	 * @Title: getMyFilesTableByPage   
+	 * @Description: TODO 获取管理员文件列表(分页)
+	 * @param id
+	 * @param startIndex
+	 * @param count
+	 * @return      
+	 * @return: List<MyFile>      
+	 * @throws   
+	 */  
+	public List<MyFile> getMyFilesTableByPage(int id,int startIndex,int count);
+	
+	/**   
 	 * @Title: getCustomerFilesTable   
 	 * @Description: TODO 获取访客文件列表
 	 * @return      
@@ -60,6 +72,27 @@ public interface MyFileService {
 	 * @throws   
 	 */  
 	public List<MyFile> getCustomerFilesTable();
+	
+
+	/**   
+	 * @Title: getCustomerFilesTableByPage   
+	 * @Description: TODO 通过页数获取方可文件列表
+	 * @param startIndex 起始下表
+	 * @param pageCount 每页多少文件
+	 * @return      
+	 * @return: List<MyFile>      
+	 * @throws   
+	 */  
+	public List<MyFile> getCustomerFilesTableByPage(int startIndex,int pageCount);
+	
+	/**   
+	 * @Title: getMyFilesCount   
+	 * @Description: TODO 获取文件数量   
+	 * @return      
+	 * @return: int      
+	 * @throws   
+	 */  
+	public int getMyFilesCount();
 	
 	/**   
 	 * @Title: getMyFileByFileId   
