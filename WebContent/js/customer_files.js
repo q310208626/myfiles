@@ -3,14 +3,15 @@
  * 访客列表js
  */
 //搜索框方法
-function getFiles(page,pageCount,fileName){
+function getFiles(page,pageCount){
 
 	var projectName=getRootPath();
 	var files_tbody=$('#file_tbody');
+	var searchFileName=$('#search_input').val();
 	$.ajax({
 		url:projectName+"/myFile/getCustomerFileByPage.do",
 		type:"post",
-		data:{"fileName":fileName,"page":page,"pageCount":10},
+		data:{"fileName":searchFileName,"page":page,"pageCount":10},
 		async:true,
 		dataType:"json",
 		success:function(data){
@@ -56,7 +57,7 @@ function getFiles(page,pageCount,fileName){
 			});
 			
 			//pageSelect重新生成
-			pageinit(data.currentPage,data.totalPage,fileName);
+			pageinit(data.currentPage,data.totalPage,searchFileName);
 		},
 		error:function(data){
 			var myFileList=eval(data);
@@ -119,7 +120,7 @@ function pageinit(currentPage,totalPage,fileName){
         },
         //点击事件
         onPageClicked: function (event, originalEvent, type, page) {
-            location.href = getRootPath()+"/myFile/getCustomerFileByPage.do?page="+page+"&pageCount=10&fileName="+fileName;
+            getFiles(page,10);
         }
     };
     element.bootstrapPaginator(options);

@@ -118,12 +118,10 @@ public class MyFileController {
 		int fileCount=0;
 		int startIndex=(page-1)*pageCount;
 		List<MyFile> myFileList=null;
-		if(fileName==null||fileName.equals("")){
-			myFileList=myFileService.getCustomerFilesTableByPage(startIndex, pageCount);
-			fileCount=myFileService.getMyFilesCount();
-		}else {
-			
-		}	
+		logger.debug("fileName========"+fileName);
+		myFileList=myFileService.getCustomerFilesTableByPage(startIndex, pageCount,fileName);
+		fileCount=myFileService.getMyFilesCount();
+	
 		HashMap.put("fileLists", myFileList);
 		HashMap.put("fileCount", fileCount);
 		HashMap.put("currentPage", page);

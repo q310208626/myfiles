@@ -2,6 +2,7 @@ package com.lsj.ftp.myfiles.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.lsj.ftp.myfiles.bean.MyFile;
@@ -31,5 +32,6 @@ public interface MyFileDao {
 	public List<MyFile> selectAllMyFiles();
 	public List<MyFile> selectMyFilesByName(String fileName);
 	public List<MyFile> selectAllMyByPage(int startIndex,int count);
+	public List<MyFile> selectAllMyByPageAndFileName(int startIndex,int count,String fileName);
 	public int selectMyFilesCount();
 }

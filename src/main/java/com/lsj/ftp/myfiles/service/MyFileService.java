@@ -83,7 +83,7 @@ public interface MyFileService {
 	 * @return: List<MyFile>      
 	 * @throws   
 	 */  
-	public List<MyFile> getCustomerFilesTableByPage(int startIndex,int pageCount);
+	public List<MyFile> getCustomerFilesTableByPage(int startIndex,int pageCount,String fileName);
 	
 	/**   
 	 * @Title: getMyFilesCount   

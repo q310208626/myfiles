@@ -41,8 +41,14 @@
 		LIMIT #{arg1},#{arg2}
 	</select>
 	
-	<select id="selectAllMyByPage" parameterType="int"  resultMap="myFileMap">
+	<select id="selectAllMyByPage" resultMap="myFileMap">
 		<include refid="selectAllMyFileSql"></include>
+		LIMIT #{arg0},#{arg1}
+	</select>
+	
+	<select id="selectAllMyByPageAndFileName" resultMap="myFileMap">
+		<include refid="selectAllMyFileSql"></include>
+		WHERE file_name like concat(concat("%",#{arg2}),"%")
 		LIMIT #{arg0},#{arg1}
 	</select>
 	

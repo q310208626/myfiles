@@ -98,10 +98,14 @@ public class MyFileServiceImpl implements MyFileService {
 
 	@Override
 	public List<MyFile> getCustomerFilesTableByPage(int startIndex,
-			int pageCount) {
+			int pageCount,String fileName) {
 		// TODO Auto-generated method stub
 		List<MyFile> myFiles = null;
-		myFiles=myFileDao.selectAllMyByPage(startIndex, pageCount);
+		if(fileName==null||fileName.equals("")) {
+			myFiles=myFileDao.selectAllMyByPage(startIndex, pageCount);
+		}else {
+			myFiles=myFileDao.selectAllMyByPageAndFileName(startIndex, pageCount,fileName);
+		}
 		return myFiles;
 	}
 	

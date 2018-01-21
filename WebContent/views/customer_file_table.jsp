@@ -17,13 +17,14 @@
  	<div class="row">
         <div class="col-md-6">
             <div class="input-group" style="display:block;">
-            	<form action="" target="frameFile" />
+            	 <form action="" target="frameFile" />
             	<div style="display:inline-block;position:relative;text-align:center;" >
             		<input type="text" id="search_input" class="form-control" placeholder="请输入文件名">
             		<a id="clearInput" onclick="clearInput()">X</a>
             	</div>
                 <span class="input-group-btn" style="display:inline-block;">
-                    <input type="submit" class="btn btn-primary" value="搜索" onclick="searchFile()"></input>
+                    <input type="submit" class="btn btn-primary" value="搜索" onclick="getFiles(1,10)"></input>
+                    <!-- <button class="btn btn-primary" value="搜索" onclick="getFiles(1,10)">搜索</button> -->
                 </span>
                 </form>
             </div>
@@ -72,7 +73,7 @@
 	src="${pageContext.request.contextPath}/js/customer_files.js"></script>
 <script type="text/javascript">
 	window.onload = function() { 
-		getFiles(1,10,null);
+		getFiles(1,10);
 	}
 </script>
 </html>
