@@ -295,7 +295,8 @@ public class MyFileServiceImpl implements MyFileService {
 		
 //		文件存储
 		MyFile myFile = new MyFile();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat fileSuffixDateFormat=new SimpleDateFormat("yyyy-MM-dd_HHmmss");
 
 		Date date = new Date();
 		String formatDateString=simpleDateFormat.format(date);
@@ -305,7 +306,7 @@ public class MyFileServiceImpl implements MyFileService {
 		myFile.setLastModifiedId(ownerId);
 		myFile.setSavePath(savePath);
 		String fileNmae = uploadFile.getOriginalFilename();
-		String saveName= uploadFile.getOriginalFilename()+ simpleDateFormat.format(date);
+		String saveName= uploadFile.getOriginalFilename()+ fileSuffixDateFormat.format(date);
 		myFile.setSaveName(saveName);
 		myFile.setFileName(fileNmae);
 
