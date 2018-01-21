@@ -309,6 +309,14 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 		Map resultMap=new HashMap<String, String>();
 		MyFilesManager doFilesManager=myFilesManDao.selectMFMById(doId);
 		MyFilesManager doneFilesManager=myFilesManDao.selectMFMById(manPrivilege.getId());
+		ManPrivilege updateManPrivilege=doneFilesManager.getManPrivilege();
+		
+		if(doneFilesManager.getManPrivilege().getMainPVL()==1) {
+			resultMap.put("status", "error");
+			resultMap.put("error", "主管理员不允许被修改权限");
+			return resultMap;
+		}else {
+			
 		if(doFilesManager==null){
 			if(logger.isDebugEnabled()){
 				logger.debug("操作管理员不存在");
@@ -336,6 +344,18 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 			resultMap.put("error", "操作管理员不存在");
 			return resultMap;
 		}
+		
+		//无法修改自己的授权权限
+		if(doneFilesManager.getId()==doFilesManager.getId()&&updateManPrivilege.getGrantPVL()==0) {if(logger.isDebugEnabled()){
+			logger.debug("无法修改自己的授权权限");
+		}
+		resultMap.put("status", "error");
+		resultMap.put("error", "无法修改自己的授权权限");
+		return resultMap;
+		}
+		
+		}
+		
 		
 		manPrivilegeDao.updatePVL(manPrivilege);
 		resultMap.put("status", "success");
