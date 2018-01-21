@@ -65,10 +65,10 @@ public interface MyFilesManService {
 	 * @Description: TODO修改一个文件管员信息，包括权限的修改
 	 * @param doId	操作者Id(根据Id判断是否有权限修改)
 	 * @param myFilesManager 
-	 * @return: void      
+	 * @return: Map      
 	 * @throws   
 	 */
-	public void updateFileManager(int doId,MyFilesManager myFilesManager);
+	public Map updateFileManager(int doId,MyFilesManager myFilesManager);
 	
 	/**   
 	 * @Title: selectFileManagerIsActivited   

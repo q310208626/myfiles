@@ -194,16 +194,17 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 	 * @see com.lsj.ftp.myfiles.service.MyFilesManService#updateFileManager(int, com.lsj.ftp.myfiles.bean.MyFilesManager)
 	 */
 	@Override
-	public void updateFileManager(int doId, MyFilesManager myFilesManager) {
+	public Map updateFileManager(int doId, MyFilesManager myFilesManager) {
 		// TODO Auto-generated method stub
 		MyFilesManager doFilesManager=myFilesManDao.selectMFMById(doId);
-		
+		Map resultMap=new HashMap<String,String>();
 		if(doFilesManager==null){
 			if(logger.isDebugEnabled()){
 				logger.debug("操作管理员不存在");
 			}
-			
-			return;
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在");
+			return resultMap; 
 		}
 		
 		if(doFilesManager.getManPrivilege().getMainPVL()!=1
@@ -211,8 +212,9 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 			if(logger.isDebugEnabled()){
 				logger.debug("操作管理员不存在修改权限");
 			}
-			
-			return;
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在");
+			return resultMap;
 		}
 		
 		try {
@@ -220,13 +222,18 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 			if(logger.isDebugEnabled()){
 				logger.debug("管理员信息修改成功");
 			}
+			resultMap.put("status", "success");
+			resultMap.put("success", "管理员信息修改成功");
+			return resultMap;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			if(logger.isDebugEnabled()){
 				logger.debug("管理员信息修改失败");
 			}
 			e.printStackTrace();
-			
+			resultMap.put("status", "error");
+			resultMap.put("error", "发生内部错误");
+			return resultMap;
 		}
 		
 	}

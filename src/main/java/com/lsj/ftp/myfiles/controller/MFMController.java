@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.lsj.ftp.myfiles.bean.ManPrivilege;
 import com.lsj.ftp.myfiles.bean.MyFilesManager;
+import com.lsj.ftp.myfiles.dao.MyFilesManDao;
 import com.lsj.ftp.myfiles.service.MyFilesManService;
 import com.lsj.ftp.myfiles.serviceImpl.MyFilesManServiceImpl;
 
@@ -180,6 +181,7 @@ public class MFMController {
 	public ModelAndView updateMFMPrivilege(ManPrivilege manPrivilege,HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		Map resultMap = null;
+		ManPrivilege mPrivilege=null;
 		String userIdString = (String) session.getAttribute("userId");
 		if (userIdString == null || userIdString.equals("0")) {
 			modelAndView.setViewName("mfm_manager_error");
