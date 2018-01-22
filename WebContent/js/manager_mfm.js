@@ -14,7 +14,7 @@ function updatePrivilegeModal(obj) {
 	var updatePVL = mfm_table.rows[index].getElementsByTagName("input")[2].value;
 	var grantPVL = mfm_table.rows[index].getElementsByTagName("input")[3].value;
 	var allFilePVL = mfm_table.rows[index].getElementsByTagName("input")[4].value;
-
+	
 	// 设置modal初始值
 	$('#mfm_id').attr('value', id);
 
@@ -71,49 +71,51 @@ function updateMFMPrivilege() {
 	var allFilePVL = 0;
 
 	id = $('#mfm_id').attr('value');
-	if ($('#checkbox_mainPVL').attr('checked') == 'checked') {
+	if ($('#checkbox_mainPVL').prop('checked') == true) {
 		mainPVL = 1;
-		$('#checkbox_mainPVL').attr('value', '1');
+		$('#checkbox_mainPVL').attr("value","1");
 	} else {
-		$('#checkbox_mainPVL').attr('value', '0');
+		$('#checkbox_mainPVL').attr("value", "0");
 	}
 
-	if ($('#checkbox_uploadPVL').attr('checked') == 'checked') {
+	if ($('#checkbox_uploadPVL').prop('checked') == true) {
 		uploadPVL = 1;
 		$('#checkbox_uploadPVL').attr('value', '1');
 	} else {
-		$('#checkbox_mainPVL').attr('value', '0');
+		$('#checkbox_uploadPVL').attr('value', '0');
 	}
 
-	if ($('#checkbox_updatePVL').attr('checked') == 'checked') {
+	if ($('#checkbox_updatePVL').prop('checked') == true) {
 		updatePVL = 1;
 		$('#checkbox_updatePVL').attr('value', '1');
 	} else {
-		$('#checkbox_mainPVL').attr('value', '0');
+		$('#checkbox_updatePVL').attr('value', '0');
 	}
 
-	if ($('#checkbox_grantPVL').attr('checked') == 'checked') {
+	if ($('#checkbox_grantPVL').prop('checked') == true) {
 		grantPVL = 1;
 		$('#checkbox_grantPVL').attr('value', '1');
 	} else {
-		$('#checkbox_mainPVL').attr('value', '0');
+		$('#checkbox_grantPVL').attr('value', '0');
 	}
 
-	if ($('#checkbox_allFilePVL').attr('checked') == 'checked') {
+	if ($('#checkbox_allFilePVL').prop('checked') == true) {
 		allFilePVL = 1;
 		$('#checkbox_allFilePVL').attr('value', '1');
 	} else {
-		$('#checkbox_mainPVL').attr('value', '0');
+		allFilePVL = 0;
+		$('#checkbox_allFilePVL').attr('value', '0');
 	}
-
-	// $.ajax({
-	// url:'/myfiles/MFM/updatePrivilege.do',
-	// type:'POST',
-	// asyn:false,
-	// data:$('#mfm_update_form').serialize(),
-	// success:(function(){
-	// window.location.reload();
-	// })
-	// });
+	
+	//alert($('#mfm_update_form').serialize());
+	$.ajax({
+		url:'/myfiles/MFM/updatePrivilege.do',
+		type:'POST',
+		asyn:false,
+		data:$('#mfm_update_form').serialize(),
+		success:(function(){
+		window.location.reload();
+	 })
+	 });
 
 }

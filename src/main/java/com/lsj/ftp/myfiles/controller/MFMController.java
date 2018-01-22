@@ -182,6 +182,7 @@ public class MFMController {
 		ModelAndView modelAndView = new ModelAndView();
 		Map resultMap = null;
 		ManPrivilege mPrivilege=null;
+		logger.debug(manPrivilege.toString());
 		String userIdString = (String) session.getAttribute("userId");
 		if (userIdString == null || userIdString.equals("0")) {
 			modelAndView.setViewName("mfm_manager_error");

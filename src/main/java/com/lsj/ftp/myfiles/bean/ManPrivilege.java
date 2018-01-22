@@ -21,6 +21,7 @@ public class ManPrivilege {
 	private int allFilesPVL=0;
 	//主管理员权限（不显示出来，初始管理员，有最高权限）
 	private int mainPVL=0;
+
 	
 	public int getId() {
 		return id;
@@ -58,4 +59,13 @@ public class ManPrivilege {
 	public void setMainPVL(int mainPVL) {
 		this.mainPVL = mainPVL;
 	}
+	
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Main:"+mainPVL+"\nupload:"+uploadPVL+"\nupdate:"+updatePVL+"\ngrant:"+grantPVL+"\nallFile:"+allFilesPVL;
+	}
+	
+	
 }

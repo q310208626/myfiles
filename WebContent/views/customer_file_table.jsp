@@ -64,7 +64,7 @@
 	</nav>
 </body>
 <script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.0.0.js"></script>
+	src="https://code.jquery.com/jquery-3.2.1.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 <script type="text/javascript"

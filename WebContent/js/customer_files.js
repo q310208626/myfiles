@@ -8,6 +8,7 @@ function getFiles(page,pageCount){
 	var projectName=getRootPath();
 	var files_tbody=$('#file_tbody');
 	var searchFileName=$('#search_input').val();
+	
 	$.ajax({
 		url:projectName+"/myFile/getCustomerFileByPage.do",
 		type:"post",

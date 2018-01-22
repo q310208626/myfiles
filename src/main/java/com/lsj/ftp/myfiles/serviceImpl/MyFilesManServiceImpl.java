@@ -311,9 +311,9 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 		MyFilesManager doneFilesManager=myFilesManDao.selectMFMById(manPrivilege.getId());
 		ManPrivilege updateManPrivilege=doneFilesManager.getManPrivilege();
 		
-		if(doneFilesManager.getManPrivilege().getMainPVL()==1) {
+		if(doneFilesManager.getManPrivilege().getMainPVL()==1&&doId==doneFilesManager.getId()) {
 			resultMap.put("status", "error");
-			resultMap.put("error", "主管理员不允许被修改权限");
+			resultMap.put("error", "不允许被修改自身的主管理权限");
 			return resultMap;
 		}else {
 			
