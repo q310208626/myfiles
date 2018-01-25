@@ -120,6 +120,7 @@ public class MyFileController {
 		List<MyFile> myFileList=null;
 		logger.debug("fileName========"+fileName);
 		myFileList=myFileService.getCustomerFilesTableByPage(startIndex, pageCount,fileName);
+		
 		fileCount=myFileService.getMyFilesCount();
 	
 		HashMap.put("fileLists", myFileList);

@@ -24,7 +24,7 @@
             		<a id="clearInput" onclick="clearInput()">X</a>
             	</div>
                 <span class="input-group-btn" style="display:inline-block">
-                    <input type="submit" class="btn btn-primary" value="搜索" onclick="getFiles()"></input>
+                    <input type="submit" class="btn btn-primary" value="搜索" onclick="getFiles(1,10)"></input>
                 </span>
                 </form>
             </div>
