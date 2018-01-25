@@ -76,26 +76,26 @@ public class MyFileController {
 	}
 	
 	@RequestMapping(value="/getAllFilesByPage.do")
-	public ModelAndView getMyFileByPage(int page,int pageCount,HttpSession session){
-		ModelAndView modelAndView=new ModelAndView();
+	@ResponseBody
+	public Map getMyFileByPage(int page,int pageCount,String fileName,HttpSession session){
+		Map map=new HashMap();
 		try{
 			int manId=Integer.parseInt(session.getAttribute("userId").toString());
 			logger.debug("========userID:"+manId);
 			int fileCount=0;
 			int startIndex=(page-1)*pageCount;
 			fileCount=myFileService.getMyFilesCount();
-			List<MyFile> myFileList=myFileService.getMyFilesTableByPage(manId, startIndex, pageCount);
-			modelAndView.addObject("MyFileList", myFileList);
-			modelAndView.addObject("MyFileList", myFileList);
-			modelAndView.addObject("fileCount", fileCount);
-			modelAndView.addObject("currentPage", page);
-			modelAndView.addObject("totalPage", (fileCount/11)+1);
-			modelAndView.setViewName("manager_file_table");
-			return modelAndView;
+			List<MyFile> myFileList=myFileService.getMyFilesTableByPage(manId, startIndex, pageCount,fileName);
+			map.put("status", "success");
+			map.put("fileLists", myFileList);
+			map.put("fileCount", fileCount);
+			map.put("currentPage", page);
+			map.put("totalPage", (fileCount/11)+1);
+			return map;
 		}catch(NullPointerException e){
-			modelAndView.addObject("error", "管理员未登录，请重新登录");
-			modelAndView.setViewName("file_manager_error");
-			return modelAndView;
+			map.put("status", "error");
+			map.put("error", "管理员未登录");
+			return map;
 		}
 		
 		

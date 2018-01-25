@@ -62,7 +62,7 @@ public interface MyFileService {
 	 * @return: List<MyFile>      
 	 * @throws   
 	 */  
-	public List<MyFile> getMyFilesTableByPage(int id,int startIndex,int count);
+	public List<MyFile> getMyFilesTableByPage(int id,int startIndex,int count,String fileName);
 	
 	/**   
 	 * @Title: getCustomerFilesTable   

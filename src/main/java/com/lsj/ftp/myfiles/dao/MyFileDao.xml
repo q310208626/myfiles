@@ -41,6 +41,13 @@
 		LIMIT #{arg1},#{arg2}
 	</select>
 	
+	<select id="selectMyFileByOwnerAndByPageAndFileName" resultMap="myFileMap">
+		<include refid="selectAllMyFileSql"></include>
+		WHERE owner_id=#{arg0}
+		AND file_name like concat(concat('%',#{fileName}),'%') 
+		LIMIT #{arg1},#{arg2}
+	</select>
+	
 	<select id="selectAllMyByPage" resultMap="myFileMap">
 		<include refid="selectAllMyFileSql"></include>
 		LIMIT #{arg0},#{arg1}

@@ -64,7 +64,7 @@ public class MyFileServiceImpl implements MyFileService {
 	
 
 	@Override
-	public List<MyFile> getMyFilesTableByPage(int id, int startIndex, int count) {
+	public List<MyFile> getMyFilesTableByPage(int id, int startIndex, int count,String fileName) {
 		// TODO Auto-generated method stub
 		List<MyFile> myFiles = null;
 		MyFilesManager myFilesManager = null;
@@ -76,11 +76,21 @@ public class MyFileServiceImpl implements MyFileService {
 		// 如果管理员为主管理员或者拥有操作全部文件权限
 		else if (myFilesManager.getManPrivilege().getMainPVL() == 1
 				|| myFilesManager.getManPrivilege().getAllFilesPVL() == 1) {
-			myFiles = myFileDao.selectAllMyByPage(startIndex, count);
+			if(fileName==null||fileName.equals("")){
+				myFiles = myFileDao.selectAllMyByPage(startIndex, count);
+			}else{
+				myFiles = myFileDao.selectAllMyByPageAndFileName(startIndex, count, fileName);
+			}
+			
 		}
 		// 没有权限则只获取自己的文件
 		else {
-			myFiles = myFileDao.selectMyFileByOwnerAndByPage(id, startIndex, count);
+			if(fileName==null||fileName.equals("")){
+				myFiles = myFileDao.selectMyFileByOwnerAndByPage(id, startIndex, count);
+			}else{
+				myFiles = myFileDao.selectMyFileByOwnerAndByPageAndFileName(id, startIndex, count, fileName);
+			}
+			
 		}
 		return myFiles;
 	}
