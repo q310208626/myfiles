@@ -22,11 +22,8 @@
 		</div>
 		<hr><!-- 分割线 -->
 		<div>
-			<%-- <iframe id="customer_file_iframe" src="${pageContext.request.contextPath}/myFile/getCustomerFileByPage.do?page=1&pageCount=10" width="100%"   frameborder="no" scrolling="no" onload="setIframeHeight(this)">
-			</iframe> --%>
 			<iframe id="customer_file_iframe" src="${pageContext.request.contextPath}/views/customer_file_table.jsp" width="100%"   frameborder="no" scrolling="no" onload="setIframeHeight(this)">
 			</iframe>
-			
 		</div>
 	</div>
 </body>

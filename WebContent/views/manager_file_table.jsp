@@ -24,7 +24,7 @@
             		<a id="clearInput" onclick="clearInput()">X</a>
             	</div>
                 <span class="input-group-btn" style="display:inline-block">
-                    <input type="submit" class="btn btn-primary" value="搜索" onclick="searchFile()"></input>
+                    <input type="submit" class="btn btn-primary" value="搜索" onclick="getFiles()"></input>
                 </span>
                 </form>
             </div>
@@ -32,10 +32,8 @@
         </div>
     </div>
     <iframe name="frameFile" style="display:none;"></iframe>
-	<!-- <button class="btn btn-success button-modal-upload" 
-		data-toggle="modal" data-target="#upload_modal" onclick="uploadFile()">上传文件</button> -->
-
-	<table class="table table-striped">
+	<div style="height:600px">
+	<table class="table table-striped" >
 		<thead>
 			<tr>
 				<th>文件名</th>
@@ -47,20 +45,20 @@
 			</tr>
 		</thead>
 		<tbody id="file_tbody">
-			<c:forEach var="myFile" items="${MyFileList}">
+<%-- 			<c:forEach var="myFile" items="${MyFileList}">
 				<tr>
 					<td>${myFile.fileName}</td>
 					<td>${myFile.ownerId}</td>
 					<td>${myFile.createDate}</td>
 					<td>${myFile.lastModifiedDate}</td>
 					<td>${myFile.lastModifiedId}</td>
-					<%-- <a id="${myFile.id}" class="btn btn-warning" data-toggle="modal" data-target="#update_modal" >重传</a> --%>
+					<a id="${myFile.id}" class="btn btn-warning" data-toggle="modal" data-target="#update_modal" >重传</a>
 					<td><a id="${myFile.id}" class="btn btn-warning" onclick="updateFile(this)" >重传</a>
 						<a class="btn btn-danger"
 						href="${pageContext.request.contextPath}/myFile/deleteFile.do?fileId=${myFile.id}">删除</a>
 					</td>
 				</tr>
-			</c:forEach>
+			</c:forEach> --%>
 		</tbody>
 	</table>
 	</div>
@@ -127,7 +125,6 @@
 			</div>
 		</div>
 	</div>
-	
 </body>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.js"></script>
@@ -138,39 +135,8 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/bootstrap-paginator.js"></script>	
 <script type="text/javascript">
-$(function(){
-	pageinit();
-});
-
-function pageinit(){
-    var element = $('#bp-element');
-    options = {
-    	alignment:"center", //居中显示
-        bootstrapMajorVersion:3, //对应的bootstrap版本
-        currentPage:"${currentPage}", //当前页数，这里是用的EL表达式，获取从后台传过来的值
-        numberOfPages:10, //每页页数
-        totalPages:"${totalPage}", //总页数，这里是用的EL表达式，获取从后台传过来的值
-        shouldShowPage:true,//是否显示该按钮
-        itemTexts: function (type, page, current) {//设置显示的样式，默认是箭头
-            switch (type) {
-                case "first":
-                    return "首页";
-                case "prev":
-                    return "上一页";
-                case "next":
-                    return "下一页";
-                case "last":
-                    return "末页";
-                case "page":
-                    return page;
-            }
-        },
-        //点击事件
-        onPageClicked: function (event, originalEvent, type, page) {
-            location.href = "/myfiles/myFile/getAllFilesByPage.do?manId="+"${sessionScope.userId}"+"&page=" + page+"&pageCount="+10;
-        }
-    };
-    element.bootstrapPaginator(options);
+window.onload = function() { 
+	getFiles(1,10);
 }
 </script>
 </html>

@@ -43,10 +43,9 @@
 				<hr>
 				
 				<!-- 管理内容 -->
-				<div class="container-narrow">
-					<iframe id="manager_iframe" name="manager_iframe_name"
-						src="${pageContext.request.contextPath}/myFile/getAllFiles.do?page=1&pageCount=10"
-						width="100%" height="700px" frameborder="no"></iframe>
+				<!-- <div class="container-narrow"> -->
+				<div>
+					<iframe id="manager_iframe" name="manager_iframe_name" src="${pageContext.request.contextPath}/views/manager_file_table.jsp" width="100%"  frameborder="no" scrolling="no"></iframe>
 				</div>
 				
 			</div>
@@ -62,4 +61,18 @@
 	src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 <script type="text/javascript" 
 	src="${pageContext.request.contextPath}/js/manager_main.js"></script>
+<script type="text/javascript">
+function setIframeHeight(iframe) {
+	if (iframe) {
+		var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+		if (iframeWin.document.body) {
+		iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+			}
+		}
+	};
+
+	window.onload = function () {
+		setIframeHeight(document.getElementById('manager_iframe'));
+	};
+</script>	
 </html>

@@ -2,7 +2,7 @@
  * customer_file_table
  * 访客列表js
  */
-//搜索框方法
+//获取文件方法
 function getFiles(page,pageCount){
 
 	var projectName=getRootPath();
