@@ -117,11 +117,19 @@ function getFiles(page,pageCount){
 				var ownerId=item.ownerId;
 				var lastModifiedDate=item.lastModifiedDate;
 				var lastModifiedId=item.lastModifiedId;
-				var operate=$('<a></a>');
-				operate.attr("id",item.id);
-				operate.attr("class","btn btn-success");
-				operate.attr("href",getRootPath()+"/myFile/downloadFile.do?fileId="+item.id);
-				operate.html("下载");
+				var operateUpdate=$('<a></a>');
+				operateUpdate.attr("id",item.id);
+				operateUpdate.attr("class","btn btn-warning");
+				operateUpdate.click(function(){
+					updateFile(operateUpdate);
+				})
+				operateUpdate.html("重传");
+				
+				var oprateDelete=$('<a></a>');
+				oprateDelete.attr("id",item.id);
+				oprateDelete.attr("class","btn btn-danger");
+				oprateDelete.attr("onclick",updateFile(operateUpdate));
+				oprateDelete.html("删除");
 
 				
 				var nameTd=$('<td></td>');
@@ -136,7 +144,8 @@ function getFiles(page,pageCount){
 				createDateTd.append(createDate);
 				lastModifiedDateTd.append(lastModifiedDate);
 				lastModifiedIdTd.append(lastModifiedId);
-				operateTd.append(operate);
+				operateTd.append(operateUpdate);
+				operateTd.append(oprateDelete);
 				
 				fileRow.append(nameTd);
 				fileRow.append(createDateTd);
