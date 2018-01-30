@@ -212,8 +212,8 @@ public class MyFileController {
 		resultMap=myFileService.uploadMyFile(uploadFile, userId);
 //		myFileService.uploadMyFile(uploadFile, ownerId);
 		if(resultMap.get("status").equals("success")){
-//			modelAndView.setViewName("redirect:/myFile/getAllFiles.do?manId="+userId);
-			modelAndView.setViewName("redirect:/myFile/getAllFilesByPage.do?manId="+userId+"&page=1&pageCount=10");
+			//modelAndView.setViewName("redirect:/myFile/getAllFilesByPage.do?manId="+userId+"&page=1&pageCount=10");
+			modelAndView.setViewName("manager_file_table");
 		}
 		//失败跳转到失败页面
 		else{
@@ -243,7 +243,7 @@ public class MyFileController {
 		//session中userId不存在，则返回错误页面
 		if(userIdString==null||userIdString.equals("")){
 			modelAndView.setViewName("file_manager_error");
-			modelAndView.addObject("error","用户回话过期");
+			modelAndView.addObject("error","用户会话过期，请重新登录");
 			return modelAndView;
 		}
 		else{
@@ -251,7 +251,8 @@ public class MyFileController {
 			resultMap=myFileService.deleteMyFile(userId,fileId);
 			//删除结果成功
 			if(resultMap.get("status").equals("success")){
-				modelAndView.setViewName("redirect:/myFile/getAllFilesByPage.do?manId="+userId+"&page=1&pageCount=10");
+				//modelAndView.setViewName("redirect:/myFile/getAllFilesByPage.do?manId="+userId+"&page=1&pageCount=10");
+				modelAndView.setViewName("manager_file_table");
 			}
 			//删除结果失败
 			else{
@@ -289,7 +290,7 @@ public class MyFileController {
 			resultMap=myFileService.updateMyFile(userId, fileId, updateFile);
 			//结果成功
 			if(resultMap.get("status").equals("success")){
-				modelAndView.setViewName("redirect:/myFile/getAllFilesByPage.do?manId="+userId+"&page=1&pageCount=10");
+				modelAndView.setViewName("manager_file_table");
 			}			
 			//删除结果失败
 			else{
