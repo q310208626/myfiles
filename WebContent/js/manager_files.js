@@ -54,6 +54,34 @@ function updateFileChange(file){
 	}
 }
 
+function continueUpload(url,formId){
+	var file=document.getElementById("uploadFileInput").files;
+	var form=$('#uploadForm');
+	if(typeof HTMLElement===file){
+		var fileName=file[0].name;
+		var fileSize=file[0].size;
+		var fileType=file[0].type;
+		//分块大小
+		var block=1024;
+		//分块数量
+		var blockNum=Math.ceil(fileSize/block);
+	}
+	
+	//分割文件
+	for(var i=0;i<blockNum;i++){
+		//分段起始位置
+		var blockFrom=i*block;
+		//分段结束位置
+		var blockTo=(i==blockNum-1)?fileSize:(i+1)*block;
+		//上传百分比
+		var persent=100*blockFrom/fileSize.toFixed(1);
+		var uploadFormData=new FormData($('#uploadForm')[0]);
+	}
+	
+	
+		
+}
+
 /*//搜索框方法
 function searchFile(){
 	var searchFileInput=$('#search_input');

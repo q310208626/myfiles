@@ -78,11 +78,12 @@
 							<h4 class="modal-title" id="myModalLabel">上传文件</h4>
 						</div>
 
-						<form
-							action="${pageContext.request.contextPath}/myFile/uploadFile.do"
-							enctype="multipart/form-data" method="post">
+						<form 
+							id="uploadForm" action=""
+							<%-- action="${pageContext.request.contextPath}/myFile/uploadFile.do" --%>
+							enctype="multipart/form-data" method="post" target="frameFile">
 							<div class="modal-body">
-								<a class="a-upload">选择文件 <input type="file"
+								<a class="a-upload">选择文件 <input id="uploadFileInput" type="file"
 									name="uploadFile" width="50px" height="50px" onchange="uploadFileChange(this.value)"/>
 								</a>
 								<input id="uploadFileShow" type="text" value="未选择文件" style="border:none; padding:4px 5px;margin-top:0px;">
@@ -91,8 +92,10 @@
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default"
 									data-dismiss="modal">关闭</button>
-								<input type="submit" value="上传"
-								class="btn btn-success input-submit-fileupload">
+								<!-- <input type="submit" value="上传"
+								class="btn btn-success input-submit-fileupload"> -->
+								<input type="submit" value="上传" onclick="continueUpload()"
+								class="btn btn-success">
 							</div>
 						</form>
 					</div>
