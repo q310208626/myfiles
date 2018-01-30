@@ -22,12 +22,36 @@ function updateFile(obj){
 	 
 }
 
+/*function deleteFile(fileId){
+	$.ajax({
+		
+	})
+}*/
+
 function uploadFile(){
 	var uploadModal=$('#upload_modal');
 	uploadModal.modal({
 		  backdrop:false
 		});
 	uploadModal.modal('show');
+}
+
+function uploadFileChange(file){
+	var fileShow=$('#uploadFileShow');
+	if(file==""||file==null){
+		fileShow.val("未选择文件")
+	}else{
+		fileShow.val(file)
+	}
+}
+
+function updateFileChange(file){
+	var fileShow=$('#updateFileShow');
+	if(file==""||file==null){
+		fileShow.val("未选择文件")
+	}else{
+		fileShow.val(file)
+	}
 }
 
 /*//搜索框方法
@@ -120,7 +144,7 @@ function getFiles(page,pageCount){
 				var operateUpdate=$('<a></a>');
 				operateUpdate.attr("id",item.id);
 				operateUpdate.attr("class","btn btn-warning");
-				operateUpdate.click(function(){
+				operateUpdate.bind('click',function(){
 					updateFile(operateUpdate);
 				})
 				operateUpdate.html("重传");
@@ -128,7 +152,7 @@ function getFiles(page,pageCount){
 				var oprateDelete=$('<a></a>');
 				oprateDelete.attr("id",item.id);
 				oprateDelete.attr("class","btn btn-danger");
-				oprateDelete.attr("onclick",updateFile(operateUpdate));
+				oprateDelete.attr("href",getRootPath()+"/myFile/deleteFile.do?fileId="+item.id);
 				oprateDelete.html("删除");
 
 				
@@ -166,7 +190,7 @@ function getFiles(page,pageCount){
 		},
 		error:function(data){
 			var myFileList=eval(data);
-			alert("失败"+myFileList);
+			alert("获取失败，请按F5刷新");
 		}
 	});
 }

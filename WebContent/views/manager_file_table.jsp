@@ -83,8 +83,9 @@
 							enctype="multipart/form-data" method="post">
 							<div class="modal-body">
 								<a class="a-upload">选择文件 <input type="file"
-									name="uploadFile" width="50px" height="50px" />
+									name="uploadFile" width="50px" height="50px" onchange="uploadFileChange(this.value)"/>
 								</a>
+								<input id="uploadFileShow" type="text" value="未选择文件" style="border:none; padding:4px 5px;margin-top:0px;">
 							</div>
 							
 							<div class="modal-footer">
@@ -113,8 +114,9 @@
 					enctype="multipart/form-data" method="post">
 					<div class="modal-body">
 						<a class="a-upload">选择文件 <input type="file" name="updateFile"
-							width="50px" height="50px" />
+							width="50px" height="50px" onchange="updateFileChange(this.value)"/>
 						</a>
+						<input id="updateFileShow" type="text" value="未选择文件" style="border:none; padding:4px 5px;margin-top:0px;">
 					</div>
 
 					<div class="modal-footer">
