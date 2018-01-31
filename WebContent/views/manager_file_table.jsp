@@ -79,7 +79,7 @@
 						</div>
 
 						<form 
-							id="uploadForm" action=""
+							id="uploadForm" action="" onclick="continueUpload(uploadForm)" 
 							<%-- action="${pageContext.request.contextPath}/myFile/uploadFile.do" --%>
 							enctype="multipart/form-data" method="post" target="frameFile">
 							<div class="modal-body">
@@ -94,7 +94,7 @@
 									data-dismiss="modal">关闭</button>
 								<!-- <input type="submit" value="上传"
 								class="btn btn-success input-submit-fileupload"> -->
-								<input type="submit" value="上传" onclick="continueUpload()"
+								<input type="submit" value="上传" 
 								class="btn btn-success">
 							</div>
 						</form>

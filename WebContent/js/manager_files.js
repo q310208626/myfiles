@@ -54,10 +54,13 @@ function updateFileChange(file){
 	}
 }
 
-function continueUpload(url,formId){
+//续传
+function continueUpload(formId){
 	var file=document.getElementById("uploadFileInput").files;
 	var form=$('#uploadForm');
-	if(typeof HTMLElement===file){
+	var chunk;
+	var isPause=0;
+	if(file[0]!=undefined){
 		var fileName=file[0].name;
 		var fileSize=file[0].size;
 		var fileType=file[0].type;
@@ -65,22 +68,74 @@ function continueUpload(url,formId){
 		var block=1024;
 		//分块数量
 		var blockNum=Math.ceil(fileSize/block);
+		
+		startUpload('first');
 	}
+
 	
-	//分割文件
-	for(var i=0;i<blockNum;i++){
-		//分段起始位置
-		var blockFrom=i*block;
-		//分段结束位置
-		var blockTo=(i==blockNum-1)?fileSize:(i+1)*block;
+	
+	//续传上传方法
+	function startUpload(times){
+		chunk=window.localStorage.getItem(fileName+'_chunk')||0;
+		chunk=parseInt(chunk,10);
+		var isLastChunk=(chunk==blockNum-1)?true:false;
+		
+		
+        if (times === 'first' && isLastChunk == true) {
+            window.localStorage.setItem(fileName + '_chunk', 0);
+            chunk = 0;
+            isLastChunk = false;
+        }
+        
+        //分段起始位置
+        var blockFrom=chunk*block;
+        //分段结束位置
+		var blockTo=((chunk+1)*block)>fileSize?fileSize:(chunk+1)*block;
 		//上传百分比
 		var persent=100*blockFrom/fileSize.toFixed(1);
-		var uploadFormData=new FormData($('#uploadForm')[0]);
-	}
-	
-	
+		//传输数据
+		/*var uploadFormData=new FormData($('#uploadForm')[0]);*/
+		var uploadFormData=new FormData();
+		//uploadFormData.append('uploadFile',fileName.slice(blockFrom,blockTo));
+		uploadFormData.append('uploadFile',$('#uploadFileInput')[0].files[0].slice(blockFrom,blockTo));
+		uploadFormData.append('fileName',fileName);
+		uploadFormData.append('fileSize',fileSize);
+		uploadFormData.append('isLast',isLastChunk);
+		uploadFormData.append('isFirst', times === 'first' ? true : false);
 		
+		$.ajax({
+			url:getRootPath()+"/myFile/continueUpload.do",
+			type:"post",
+			processData : false,
+			contentType : false,
+	        data:uploadFormData,
+	        dataType:"json",
+			success:function(result){
+				result=eval(result);
+				//如果传输成功
+				if(result.status==200){
+					if(chunk==blockNum-1){
+						alert('传输完成');
+					}else{
+						window.localStorage.setItem(fileName + '_chunk', ++chunk);
+						if(isPause!=1){
+							startUpload();
+						}
+					}
+				}
+				
+			},
+			error:function(){
+				alert('传输出错');
+			}
+			
+		})
+		
+		
+	}
 }
+
+
 
 /*//搜索框方法
 function searchFile(){

@@ -3,13 +3,17 @@ package com.lsj.ftp.myfiles.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.naming.spi.DirStateFactory.Result;
@@ -324,6 +328,51 @@ public class MyFileController {
 			return myFileList;
 			
 		}
+	}
+	
+	@RequestMapping(value="continueUpload.do",method=RequestMethod.POST)
+	@ResponseBody
+	public Map continueUploadFile(HttpSession session,String fileName,String fileSize,boolean isFirst,boolean isLast,MultipartFile uploadFile){
+		logger.debug("===============\n"+fileName+"\nsize:"+fileSize+"\nisFirst:"+isFirst+"\nisLast:"+isLast+"\nuploadFile:"+uploadFile+"\npersentSize:"+
+				uploadFile.getSize());
+		logger.debug("============"+session+"==============");
+		Map map=new HashMap();
+		//存储路径
+		String savePathString="E:\\myFiles\\upload";
+		//文件临时后缀
+		UUID tmpId;
+		//获取文件临时后缀
+		tmpId=(UUID) session.getAttribute("fileUUID");
+		if(tmpId==null){
+			tmpId=UUID.randomUUID();
+			session.setAttribute("fileUUID", tmpId);
+		}
+		//文件临时名称
+		String tmpFileName=fileName+tmpId;
+		try {
+		//创建临时存储文件
+			File tmpSaveFile=new File(savePathString,tmpFileName);
+			if(!tmpSaveFile.exists()){
+				tmpSaveFile.createNewFile();
+			}
+		
+			FileOutputStream fileOutputStream=new FileOutputStream(tmpSaveFile, true);
+			fileOutputStream.write(uploadFile.getBytes());
+			fileOutputStream.flush();
+			fileOutputStream.close();
+			if(isLast==true){
+				session.setAttribute("fileUUID", null);
+				File saveFile=new File(savePathString,fileName);
+				tmpSaveFile.renameTo(saveFile);
+				tmpSaveFile.delete();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		map.put("status", 200);
+		return map;
 	}
 
 }
