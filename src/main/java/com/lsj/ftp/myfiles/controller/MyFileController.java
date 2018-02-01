@@ -337,8 +337,14 @@ public class MyFileController {
 				uploadFile.getSize());
 		logger.debug("============"+session+"==============");
 		Map map=new HashMap();
-		//存储路径
-		String savePathString="E:\\myFiles\\upload";
+		
+		int manId=Integer.parseInt(session.getAttribute("userId").toString());
+		String userIdString=String.valueOf( manId);
+		if(userIdString==null||userIdString.equals("")){
+			map.put("status",000);
+			map.put("error","用户回话过期");
+		}else{
+		
 		//文件临时后缀
 		UUID tmpId;
 		//获取文件临时后缀
@@ -347,31 +353,10 @@ public class MyFileController {
 			tmpId=UUID.randomUUID();
 			session.setAttribute("fileUUID", tmpId);
 		}
-		//文件临时名称
-		String tmpFileName=fileName+tmpId;
-		try {
-		//创建临时存储文件
-			File tmpSaveFile=new File(savePathString,tmpFileName);
-			if(!tmpSaveFile.exists()){
-				tmpSaveFile.createNewFile();
-			}
-		
-			FileOutputStream fileOutputStream=new FileOutputStream(tmpSaveFile, true);
-			fileOutputStream.write(uploadFile.getBytes());
-			fileOutputStream.flush();
-			fileOutputStream.close();
-			if(isLast==true){
-				session.setAttribute("fileUUID", null);
-				File saveFile=new File(savePathString,fileName);
-				tmpSaveFile.renameTo(saveFile);
-				tmpSaveFile.delete();
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		map=myFileService.continueUploadFile(uploadFile,fileName,tmpId,isLast,manId);
 		map.put("status", 200);
+		
+		}
 		return map;
 	}
 

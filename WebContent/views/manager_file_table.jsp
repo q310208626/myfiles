@@ -79,9 +79,8 @@
 						</div>
 
 						<form 
-							id="uploadForm" action="" onclick="continueUpload(uploadForm)" 
+							id="uploadForm" action="" onclick="continueUpload(uploadForm)" target="frameFile"> 
 							<%-- action="${pageContext.request.contextPath}/myFile/uploadFile.do" --%>
-							enctype="multipart/form-data" method="post" target="frameFile">
 							<div class="modal-body">
 								<a class="a-upload">选择文件 <input id="uploadFileInput" type="file"
 									name="uploadFile" width="50px" height="50px" onchange="uploadFileChange(this.value)"/>
