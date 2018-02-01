@@ -86,6 +86,7 @@
 									name="uploadFile" width="50px" height="50px" onchange="uploadFileChange(this.value)"/>
 								</a>
 								<input id="uploadFileShow" type="text" value="未选择文件" style="border:none; padding:4px 5px;margin-top:0px;">
+								<input id="uplaodPersentShow" type="text" value="0%" style="border:none; padding:4px 5px;margin-top:0px;">
 							</div>
 							
 							<div class="modal-footer">

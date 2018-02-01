@@ -92,7 +92,7 @@ function continueUpload(formId){
         //分段结束位置
 		var blockTo=((chunk+1)*block)>fileSize?fileSize:(chunk+1)*block;
 		//上传百分比
-		var persent=100*blockFrom/fileSize.toFixed(1);
+		var persent=(100*blockFrom/fileSize).toFixed(1);
 		//传输数据
 		/*var uploadFormData=new FormData($('#uploadForm')[0]);*/
 		var uploadFormData=new FormData();
@@ -115,17 +115,23 @@ function continueUpload(formId){
 				//如果传输成功
 				if(result.status==200){
 					if(chunk==blockNum-1){
-						alert('传输完成');
+						$('#uplaodPersentShow').val("100%");
+						location.reload();
 					}else{
 						window.localStorage.setItem(fileName + '_chunk', ++chunk);
+						$('#uplaodPersentShow').val(persent+"%");
 						if(isPause!=1){
 							startUpload();
 						}
 					}
+				}else{
+					isPause=1;
+					alert('传输出错');
 				}
 				
 			},
 			error:function(){
+				isPause=1;
 				alert('传输出错');
 			}
 			

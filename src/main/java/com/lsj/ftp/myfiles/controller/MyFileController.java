@@ -175,7 +175,6 @@ public class MyFileController {
 			String fileName=downloadFile.getName();
 			logger.debug("=============="+savePath);
 //			设置响应文件
-
 			headers.setContentDispositionFormData("attachment",fileName);
 //			设置为字节流
 			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
