@@ -3,6 +3,7 @@ package com.lsj.ftp.myfiles.serviceImpl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -368,6 +370,9 @@ public class MyFileServiceImpl implements MyFileService {
 		}
 		
 		File downloadFile=new File(savePath,myFile.getSaveName());
+		if(!downloadFile.exists()){
+			myFileDao.deleteMyFile(myFileId);
+		}
 		return downloadFile;
 		
 	}
@@ -379,6 +384,63 @@ public class MyFileServiceImpl implements MyFileService {
 		searchFiles=myFileDao.selectMyFilesByName(fileName);
 		return searchFiles;
 	}
+
 	
 
-}
+	@Override
+	public Map continueUploadFile(MultipartFile file, String fileName,UUID fileNameSuffix, boolean isLast,int ownerId) {
+		// TODO Auto-generated method stub
+		Map resultMap=new HashMap();
+		
+		//临时文件名
+		String tmpFileName=fileName+fileNameSuffix;
+		File tmpSaveFile=new File(savePath,tmpFileName);
+			try {
+				//如果文件不存在，则创建文件
+				if(!tmpSaveFile.exists()){
+					tmpSaveFile.createNewFile();
+				}
+				FileOutputStream fileOutputStream=new FileOutputStream(tmpSaveFile, true);
+				fileOutputStream.write(file.getBytes());
+				fileOutputStream.flush();
+				fileOutputStream.close();
+				if(isLast==true){
+					resultMap.put("status", 200);
+					//myFile对象存储入数据库
+					MyFile myFile = new MyFile();
+					//存储日期
+					SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					//存储名称后缀
+					SimpleDateFormat fileSuffixDateFormat=new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+					Date date = new Date();
+					String formatDateString=simpleDateFormat.format(date);
+					myFile.setCreateDate(formatDateString);
+					myFile.setLastModifiedDate(date);
+					myFile.setOwnerId(ownerId);
+					myFile.setLastModifiedId(ownerId);
+					myFile.setSavePath(savePath);
+					String fileNmae = fileName;
+					String saveName= fileName+ fileSuffixDateFormat.format(date);
+					myFile.setSaveName(saveName);
+					myFile.setFileName(fileNmae);
+					myFileDao.insertMyFile(myFile);
+					
+					//临时文件重命名
+					File saveFile=new File(savePath,saveName);
+					tmpSaveFile.renameTo(saveFile);
+					//删除临时文件
+					tmpSaveFile.delete();
+					resultMap.put("msg", "文件传输完成");
+				}
+				resultMap.put("status", 200);
+				
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				resultMap.put("msg","文件传输出错");
+				e.printStackTrace();
+			}
+		
+		return resultMap;
+	}
+	}

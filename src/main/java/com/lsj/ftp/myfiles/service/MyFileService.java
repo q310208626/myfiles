@@ -3,6 +3,7 @@ package com.lsj.ftp.myfiles.service;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -169,5 +170,20 @@ public interface MyFileService {
 	 * @throws   
 	 */  
 	public List<MyFile> searchFiles(String fileName);
+	
+
+	/**   
+	 * @Title: continueUploadFile   
+	 * @Description: TODO(文件续传)   Service
+	 * @param file 续传文件
+	 * @param fileName 文件名
+	 * @param isLast 是否是最后分段
+	 * @param fileNameSuffix 临时文件后缀
+	 * @param ownerId 管理员Id
+	 * @return      
+	 * @return: Map      
+	 * @throws   
+	 */ 
+	public Map continueUploadFile(MultipartFile file,String fileName,UUID fileNameSuffix,boolean isLast,int ownerId);
 		
 }
