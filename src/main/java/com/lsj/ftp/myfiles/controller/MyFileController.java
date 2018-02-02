@@ -341,7 +341,7 @@ public class MyFileController {
 		String userIdString=String.valueOf( manId);
 		if(userIdString==null||userIdString.equals("")){
 			map.put("status",000);
-			map.put("error","用户回话过期");
+			map.put("error","用户会话过期");
 		}else{
 		
 		//文件临时后缀

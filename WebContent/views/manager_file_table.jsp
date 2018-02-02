@@ -78,8 +78,8 @@
 							<h4 class="modal-title" id="myModalLabel">上传文件</h4>
 						</div>
 
-						<form 
-							id="uploadForm" action="" onclick="continueUpload(uploadForm)" target="frameFile"> 
+						<!-- <form 
+							id="uploadForm" action="" onclick="" target="frameFile">  -->
 							<%-- action="${pageContext.request.contextPath}/myFile/uploadFile.do" --%>
 							<div class="modal-body">
 								<a class="a-upload">选择文件 <input id="uploadFileInput" type="file"
@@ -94,10 +94,10 @@
 									data-dismiss="modal">关闭</button>
 								<!-- <input type="submit" value="上传"
 								class="btn btn-success input-submit-fileupload"> -->
-								<input type="submit" value="上传" 
+								<input id="uploadButton" type="button" value="上传" onclick="continueUpload()" 
 								class="btn btn-success">
 							</div>
-						</form>
+						<!-- </form> -->
 					</div>
 				</div>
 			</div>
