@@ -1,8 +1,8 @@
 /**
  * 管理员文件管理js
  */
-var isPause=1;
-var times=1;
+var uploadIsPause=1;
+var uploadTimes=1;
 	
 
 //获取要更新的文件Id
@@ -21,7 +21,7 @@ function updateFile(obj){
 		  backdrop:false
 		});
 	modal.modal('show');
-	$('#update-form').attr('action','/myfiles/myFile/updateFile.do?fileId='+id);
+	$('#updateId').val(id);
 	 
 }
 
@@ -60,10 +60,19 @@ function updateFileChange(file){
 
 
 //续传
-function continueUpload(){
+function continueUpload(operate){
+	alert(operate);
 	//上传的文件
-	var file=$('#uploadFileInput')[0].files[0];
-	var uploadButton=$('#uploadButton');
+	var file;
+	var operateButton;
+	if(operate=='upload'){
+		file=$('#uploadFileInput')[0].files[0];
+		operateButton=$('#uploadButton');
+	}else if(operate=='update'){
+		file=$('#updateFileInput')[0].files[0];
+		operateButton=$('#uploadButton');
+	}
+	
 	
 	if(file!=undefined){
 		var fileName=file.name;
@@ -75,30 +84,40 @@ function continueUpload(){
 		window.localStorage.setItem("fileType",fileType);
 		
 		//修改按键绑定监听事件
-		//$('#uploadButton').unbind('click','continueUpload');
-		//$('#uploadButton').attr('onclick','').unbind('click')
-		$('#uploadButton').attr('onclick','uploadOrTemp()');
-		isPause=0;
-		uploadButton.val("暂停");
-		startUpload(1);
+		if(operate=='upload'){
+			operateButton.attr('onclick',"uploadOrTemp('upload')");
+		}else if(operate=='upload'){
+			operateButton.attr('onclick',"uploadOrTemp('update')");
+		}
+		uploadIsPause=0;
+		operateButton.val("暂停");
+		startUpload(1,operate);
+		
 	}	
 }
 
 
-function uploadOrTemp(){
-	var uploadButton=$('#uploadButton');
-	if(isPause==1){
-		isPause=0;
-		$('#uploadButton').val("暂停");
-		startUpload(-1);
-	}else if(isPause==0){
-		isPause=1;
-		$('#uploadButton').val("上传");
+function uploadOrTemp(operate){
+	var operateButton;
+	if(operate=='upload'){
+		operateButton=$('#uploadButton');
+	}else if(operate=='update'){
+		operateButton=$('#uploadButton');
+	}
+	
+	if(uploadIsPause==1){
+		uploadIsPause=0;
+		operateButton.val("暂停");
+		startUpload(-1,operate);
+		
+	}else if(uploadIsPause==0){
+		uploadIsPause=1;
+		operateButton.val("上传");
 	}
 }
 
 //续传上传方法
-function startUpload(times){
+function startUpload(uploadTimes,operate){
 	var fileName=window.localStorage.getItem("fileName");
 	var fileSize=window.localStorage.getItem("fileSize");
 	//分块大小
@@ -107,18 +126,25 @@ function startUpload(times){
 	var blockNum=Math.ceil(fileSize/block);
 	//当前上传块数
 	var chunk;
-	var uploadButton=$('#uploadButton');
+
 	chunk=window.localStorage.getItem(fileName+'_chunk')||0;
 	chunk=parseInt(chunk,10);
 	
-	
 	var isLastChunk=(chunk==blockNum-1)?true:false;
 	
+	var operateButton;
 	
-    if (times ==1 && isLastChunk == true) {
+	if(operate=='upload'){
+		operateButton=$('#uploadButton');
+	}else if(operate=='update'){
+		operateButton=$('#uploadButton');
+	}
+	
+	
+    if (uploadTimes ==1 && isLastChunk == true) {
         window.localStorage.setItem(fileName + '_chunk', 0);
         chunk = 0;
-        times=-1;
+        uploadTimes=-1;
         isLastChunk = false;
     }
     
@@ -132,12 +158,18 @@ function startUpload(times){
 	/*var uploadFormData=new FormData($('#uploadForm')[0]);*/
 	var uploadFormData=new FormData();
 	//uploadFormData.append('uploadFile',fileName.slice(blockFrom,blockTo));
-	uploadFormData.append('uploadFile',$('#uploadFileInput')[0].files[0].slice(blockFrom,blockTo));
+	if(operate=='upload'){
+		uploadFormData.append('uploadFile',$('#uploadFileInput')[0].files[0].slice(blockFrom,blockTo));
+	}else if(operate=='update'){
+		uploadFormData.append('uploadFile',$('#updateFileInput')[0].files[0].slice(blockFrom,blockTo));
+		uploadFormData.append('fileId',$('#updateId').val());
+	}
 	uploadFormData.append('fileName',fileName);
 	uploadFormData.append('fileSize',fileSize);
 	uploadFormData.append('isLast',isLastChunk);
-	uploadFormData.append('isFirst', times ==1 ? true : false);
+	uploadFormData.append('isFirst', uploadTimes ==1 ? true : false);
 	
+	if(operate=='upload'){
 	$.ajax({
 		url:getRootPath()+"/myFile/continueUpload.do",
 		type:"post",
@@ -149,8 +181,8 @@ function startUpload(times){
 			result=eval(result);
 			//如果传输成功
 			if(result.status==200){
-				if(times==1){
-					times=-1;
+				if(uploadTimes==1){
+					uploadTimes=-1;
 				}
 				
 				//传输完成
@@ -158,98 +190,78 @@ function startUpload(times){
 					$('#uplaodPersentShow').val("100%");
 					//设置当前传输块为0
 					window.localStorage.setItem(fileName + '_chunk',0);
-					times=1;
+					uploadTimes=1;
 					location.reload();
 				}else{
 					window.localStorage.setItem(fileName + '_chunk', ++chunk);
 					$('#uplaodPersentShow').val(persent+"%");
-					if(isPause!=1){
-						startUpload(-1);
+					if(uploadIsPause!=1){
+						startUpload(-1,operate);
 					}
 				}
 			}else{
-				isPause=1;
+				uploadIsPause=1;
 				//设置当前传输块为0
 				//window.localStorage.setItem(fileName + '_chunk',0);
-				uploadButton.val("上传");
+				operateButton.val("上传");
 			}
 			
 		},
 		error:function(){
-			isPause=1;
+			uploadIsPause=1;
 			//设置当前传输块为0
-			uploadButton.val("上传");
+			operateButton.val("上传");
 		}
-		
-	})	
+	})
+	}else if(operate=='update'){
+		$.ajax({
+			url:getRootPath()+"/myFile/continueUpdate.do",
+			type:"post",
+			processData : false,
+			contentType : false,		
+	        data:uploadFormData,
+	        dataType:"json",
+			success:function(result){
+				result=eval(result);
+				//如果传输成功
+				if(result.status==200){
+					if(uploadTimes==1){
+						uploadTimes=-1;
+					}
+					
+					//传输完成
+					if(chunk==blockNum-1){
+						$('#updatePersentShow').val("100%");
+						//设置当前传输块为0
+						window.localStorage.setItem(fileName + '_chunk',0);
+						uploadTimes=1;
+						location.reload();
+					}else{
+						window.localStorage.setItem(fileName + '_chunk', ++chunk);
+						$('#updatePersentShow').val(persent+"%");
+						if(uploadIsPause!=1){
+							startUpload(-1,operate);
+						}
+					}
+				}else{
+					uploadIsPause=1;
+					//设置当前传输块为0
+					//window.localStorage.setItem(fileName + '_chunk',0);
+					operateButton.val("上传");
+				}
+				
+			},
+			error:function(){
+				uploadIsPause=1;
+				//设置当前传输块为0
+				operateButton.val("上传");
+			}
+		})
+	}
 }
 
 
 
-
-
-/*//搜索框方法
-function searchFile(){
-	var searchFileInput=$('#search_input');
-	var fileName=searchFileInput.val();
-	if(fileName==''||fileName==null){
-		return ;
-	}
-	var projectName=getRootPath();
-	var files_tbody=$('#file_tbody');
-	$.ajax({
-		url:projectName+"/myFile/mfm_searchFile.do",
-		type:"post",
-		data:{"fileName":fileName},
-		async:true,
-		dataType:"json",
-		success:function(data){
-			files_tbody.html("");
-			var myFileList=eval(data);
-			$.each(myFileList,function(index,item){
-				var fileRow=$('<tr></tr>');
-				var fileName=item.fileName;
-				var createDate=item.createDate;
-				var ownerId=item.ownerId;
-				var lastModifiedDate=item.lastModifiedDate;
-				var lastModifiedId=item.lastModifiedId;
-				var operate=$('<a></a>');
-				operate.attr("id",item.id);
-				operate.attr("class","btn btn-success");
-				operate.attr("href",getRootPath()+"/myFile/downloadFile.do?fileId="+item.id);
-				operate.html("下载");
-
-				
-				var nameTd=$('<td></td>');
-				var createDateTd=$('<td></td>');
-				var ownerIdTd=$('<td></td>');
-				var lastModifiedDateTd=$('<td></td>');
-				var lastModifiedIdTd=$('<td></td>');
-				var operateTd=$('<td></td>');
-				
-				nameTd.append(fileName);
-				ownerIdTd.append(ownerId);
-				createDateTd.append(createDate);
-				lastModifiedDateTd.append(lastModifiedDate);
-				lastModifiedIdTd.append(lastModifiedId);
-				operateTd.append(operate);
-				
-				fileRow.append(nameTd);
-				fileRow.append(createDateTd);
-				fileRow.append(ownerIdTd);
-				fileRow.append(lastModifiedDateTd);
-				fileRow.append(lastModifiedIdTd);
-				fileRow.append(operateTd)
-				
-				files_tbody.append(fileRow);
-			});
-		},
-		error:function(data){
-			var myFileList=eval(data);
-			alert("失败"+myFileList);
-		}
-	});
-}*/
 
 function getFiles(page,pageCount){
 

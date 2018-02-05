@@ -358,5 +358,35 @@ public class MyFileController {
 		}
 		return map;
 	}
+	
+	@RequestMapping(value="continueUpdate.do",method=RequestMethod.POST)
+	@ResponseBody
+	public Map continueUpdateFile(HttpSession session,String fileName,String fileSize,boolean isFirst,boolean isLast,MultipartFile uploadFile,int fileId){
+		logger.debug("===============\n"+fileName+"\nsize:"+fileSize+"\nisFirst:"+isFirst+"\nisLast:"+isLast+"\nuploadFile:"+uploadFile+"\npersentSize:"+
+				uploadFile.getSize()+"\nfileId:"+fileId);
+		logger.debug("============"+session+"==============");
+		Map map=new HashMap();
+		
+		int manId=Integer.parseInt(session.getAttribute("userId").toString());
+		String userIdString=String.valueOf( manId);
+		if(userIdString==null||userIdString.equals("")){
+			map.put("status",000);
+			map.put("error","用户会话过期");
+		}else{
+		
+		//文件临时后缀
+		UUID tmpId;
+		//获取文件临时后缀
+		tmpId=(UUID) session.getAttribute("fileUUID");
+		if(tmpId==null){
+			tmpId=UUID.randomUUID();
+			session.setAttribute("fileUUID", tmpId);
+		}
+		map=myFileService.continueUploadFile(uploadFile,fileName,tmpId,isLast,manId);
+		map.put("status", 200);
+		
+		}
+		return map;
+	}
 
 }

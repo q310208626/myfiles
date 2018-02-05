@@ -94,7 +94,7 @@
 									data-dismiss="modal">关闭</button>
 								<!-- <input type="submit" value="上传"
 								class="btn btn-success input-submit-fileupload"> -->
-								<input id="uploadButton" type="button" value="上传" onclick="continueUpload()" 
+								<input id="uploadButton" type="button" value="上传" onclick="continueUpload('upload')" 
 								class="btn btn-success">
 							</div>
 						<!-- </form> -->
@@ -111,22 +111,20 @@
 						aria-hidden="true">&times;</button>
 					<h4 class="modal-title" id="myModalLabel">更新文件</h4>
 				</div>
-
-				<form
-					id="update-form" action="${pageContext.request.contextPath}/myFile/updateFile.do?fileId=0"
-					enctype="multipart/form-data" method="post">
 					<div class="modal-body">
-						<a class="a-upload">选择文件 <input type="file" name="updateFile"
+						<a class="a-upload">选择文件 <input type="file" id="updateFileInput" name="updateFile"
 							width="50px" height="50px" onchange="updateFileChange(this.value)"/>
 						</a>
 						<input id="updateFileShow" type="text" value="未选择文件" style="border:none; padding:4px 5px;margin-top:0px;">
+						<input id="updatePersentShow" type="text" value="0%" style="border:none; padding:4px 5px;margin-top:0px;">
+						<input id='updateId' type='hidden'>
 					</div>
 
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<input type="submit" value="上传" class="btn btn-success input-submit-fileupload">
+						<input id="updateButton" type="button" value="上传" class="btn btn-success" onclick="continueUpload('update')">
 					</div>
-				</form>
+
 			</div>
 		</div>
 	</div>

@@ -185,5 +185,19 @@ public interface MyFileService {
 	 * @throws   
 	 */ 
 	public Map continueUploadFile(MultipartFile file,String fileName,UUID fileNameSuffix,boolean isLast,int ownerId);
+	
+	/**   
+	 * @Title: continueUpdateFile   
+	 * @Description: TODO(文件续传) 更新   
+	 * @param file
+	 * @param fileName
+	 * @param fileNameSuffix
+	 * @param isLast
+	 * @param ownerId
+	 * @return      
+	 * @return: Map      
+	 * @throws   
+	 */ 
+	public Map continueUpdateFile(MultipartFile file,String fileName,UUID fileNameSuffix,boolean isLast,int ownerId,int fileId);
 		
 }
