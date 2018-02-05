@@ -1,7 +1,8 @@
 /**
  * 管理员文件管理js
  */
-
+var isPause=1;
+var times=1;
 	
 
 //获取要更新的文件Id
@@ -57,8 +58,7 @@ function updateFileChange(file){
 }
 
 
-var isPause=1;
-var times=1;
+
 //续传
 function continueUpload(){
 	//上传的文件
@@ -75,9 +75,9 @@ function continueUpload(){
 		window.localStorage.setItem("fileType",fileType);
 		
 		//修改按键绑定监听事件
-		uploadButton.unbind("click").click(function(){
-			uploadOrTemp();
-		});
+		//$('#uploadButton').unbind('click','continueUpload');
+		//$('#uploadButton').attr('onclick','').unbind('click')
+		$('#uploadButton').attr('onclick','uploadOrTemp()');
 		isPause=0;
 		uploadButton.val("暂停");
 		startUpload(1);
@@ -89,11 +89,11 @@ function uploadOrTemp(){
 	var uploadButton=$('#uploadButton');
 	if(isPause==1){
 		isPause=0;
-		uploadButton.val("暂停");
+		$('#uploadButton').val("暂停");
 		startUpload(-1);
-	}else{
+	}else if(isPause==0){
 		isPause=1;
-		uploadButton.val("上传");
+		$('#uploadButton').val("上传");
 	}
 }
 
@@ -115,10 +115,10 @@ function startUpload(times){
 	var isLastChunk=(chunk==blockNum-1)?true:false;
 	
 	
-    if (times ==1 || isLastChunk == true) {
+    if (times ==1 && isLastChunk == true) {
         window.localStorage.setItem(fileName + '_chunk', 0);
         chunk = 0;
-        times=0;
+        times=-1;
         isLastChunk = false;
     }
     
@@ -142,7 +142,7 @@ function startUpload(times){
 		url:getRootPath()+"/myFile/continueUpload.do",
 		type:"post",
 		processData : false,
-		contentType : false,
+		contentType : false,		
         data:uploadFormData,
         dataType:"json",
 		success:function(result){
@@ -152,11 +152,13 @@ function startUpload(times){
 				if(times==1){
 					times=-1;
 				}
+				
 				//传输完成
 				if(chunk==blockNum-1){
 					$('#uplaodPersentShow').val("100%");
 					//设置当前传输块为0
 					window.localStorage.setItem(fileName + '_chunk',0);
+					times=1;
 					location.reload();
 				}else{
 					window.localStorage.setItem(fileName + '_chunk', ++chunk);
@@ -168,8 +170,7 @@ function startUpload(times){
 			}else{
 				isPause=1;
 				//设置当前传输块为0
-				window.localStorage.setItem(fileName + '_chunk',0);
-				times=0;
+				//window.localStorage.setItem(fileName + '_chunk',0);
 				uploadButton.val("上传");
 			}
 			
@@ -177,8 +178,6 @@ function startUpload(times){
 		error:function(){
 			isPause=1;
 			//设置当前传输块为0
-			window.localStorage.setItem(fileName + '_chunk',0);
-			times=0;
 			uploadButton.val("上传");
 		}
 		
