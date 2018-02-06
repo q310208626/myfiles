@@ -382,7 +382,7 @@ public class MyFileController {
 			tmpId=UUID.randomUUID();
 			session.setAttribute("fileUUID", tmpId);
 		}
-		map=myFileService.continueUploadFile(uploadFile,fileName,tmpId,isLast,manId);
+		map=myFileService.continueUpdateFile(uploadFile,fileName,tmpId,isLast,manId,fileId);
 		map.put("status", 200);
 		
 		}

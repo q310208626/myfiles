@@ -455,6 +455,7 @@ public class MyFileServiceImpl implements MyFileService {
 		MyFile updateFile=myFileDao.selectMyFIleById(fileId);
 		MyFilesManager myFilesManager=myFileManDao.selectMFMById(ownerId);
 		
+		
 		//如果文件不存在
 		if(updateFile==null||updateFile.equals("")){
 			resultMap.put("status",000);
@@ -488,6 +489,7 @@ public class MyFileServiceImpl implements MyFileService {
 		//临时文件名
 		String tmpFileName=fileName+fileNameSuffix;
 		File tmpSaveFile=new File(savePath,tmpFileName);
+		
 			try {
 				//如果文件不存在，则创建文件
 				if(!tmpSaveFile.exists()){
@@ -499,28 +501,31 @@ public class MyFileServiceImpl implements MyFileService {
 				fileOutputStream.close();
 				if(isLast==true){
 					resultMap.put("status", 200);
-					//myFile对象存储入数据库
-					MyFile myFile = new MyFile();
 					//存储日期
 					SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					//存储名称后缀
 					SimpleDateFormat fileSuffixDateFormat=new SimpleDateFormat("yyyy-MM-dd_HHmmss");
 					Date date = new Date();
 					String formatDateString=simpleDateFormat.format(date);
-					myFile.setCreateDate(formatDateString);
-					myFile.setLastModifiedDate(date);
-					myFile.setOwnerId(ownerId);
-					myFile.setLastModifiedId(ownerId);
-					myFile.setSavePath(savePath);
-					String fileNmae = fileName;
-					String saveName= fileName+ fileSuffixDateFormat.format(date);
-					myFile.setSaveName(saveName);
-					myFile.setFileName(fileNmae);
-					myFileDao.insertMyFile(myFile);
 					
-					//临时文件重命名
+					//旧文件
+					File oldFile=new File(savePath,updateFile.getSaveName());
+					
+					//数据库更新
+				    updateFile.setLastModifiedDate(date);
+				    updateFile.setOwnerId(ownerId);
+				    updateFile.setLastModifiedId(ownerId);
+				    updateFile.setSavePath(savePath);
+					String saveName= updateFile.getFileName()+ fileSuffixDateFormat.format(date);
+					updateFile.setSaveName(saveName);
+					myFileDao.updateMyFile(updateFile);
+					
+					//临时文件重新命名
 					File saveFile=new File(savePath,saveName);
+					oldFile.delete();
 					tmpSaveFile.renameTo(saveFile);
+/*					//删除旧文件
+					oldFile.delete();*/
 					//删除临时文件
 					tmpSaveFile.delete();
 					resultMap.put("msg", "文件传输完成");
