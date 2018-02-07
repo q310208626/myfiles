@@ -25,6 +25,12 @@ function updateFile(obj){
 	 
 }
 
+function updateModalClose(){
+	var modal=$('#update_modal');
+	var modal=$('#update_modal');
+	modal.modal('hide');
+}
+
 /*function deleteFile(fileId){
 	$.ajax({
 		

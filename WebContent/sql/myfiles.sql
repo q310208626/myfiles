@@ -115,4 +115,14 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+DROP TABLE IF EXISTS `del_schedule`;
+
+create table del_schedule(
+id int(11) primary key auto_increment,
+file_id int(11) not null,
+del_date date,
+FOREIGN KEY (file_id) REFERENCES myfile(id))
+default character set utf8;
+
+
 -- Dump completed on 2017-09-30 16:51:55
