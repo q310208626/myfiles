@@ -331,9 +331,9 @@ public class MyFileController {
 	
 	@RequestMapping(value="continueUpload.do",method=RequestMethod.POST)
 	@ResponseBody
-	public Map continueUploadFile(HttpSession session,String fileName,String fileSize,boolean isFirst,boolean isLast,MultipartFile uploadFile){
+	public Map continueUploadFile(HttpSession session,String fileName,String fileSize,boolean isFirst,boolean isLast,MultipartFile uploadFile,int del_time){
 		logger.debug("===============\n"+fileName+"\nsize:"+fileSize+"\nisFirst:"+isFirst+"\nisLast:"+isLast+"\nuploadFile:"+uploadFile+"\npersentSize:"+
-				uploadFile.getSize());
+				uploadFile.getSize()+"\ndel_time:"+del_time);
 		logger.debug("============"+session+"==============");
 		Map map=new HashMap();
 		
@@ -352,7 +352,7 @@ public class MyFileController {
 			tmpId=UUID.randomUUID();
 			session.setAttribute("fileUUID", tmpId);
 		}
-		map=myFileService.continueUploadFile(uploadFile,fileName,tmpId,isLast,manId);
+		map=myFileService.continueUploadFile(uploadFile,fileName,tmpId,isLast,manId,del_time);
 		map.put("status", 200);
 		
 		}

@@ -166,6 +166,8 @@ function startUpload(uploadTimes,operate){
 	//uploadFormData.append('uploadFile',fileName.slice(blockFrom,blockTo));
 	if(operate=='upload'){
 		uploadFormData.append('uploadFile',$('#uploadFileInput')[0].files[0].slice(blockFrom,blockTo));
+		var del_time=$('#del_select option:selected').val();
+		uploadFormData.append('del_time',del_time);
 	}else if(operate=='update'){
 		uploadFormData.append('uploadFile',$('#updateFileInput')[0].files[0].slice(blockFrom,blockTo));
 		uploadFormData.append('fileId',$('#updateId').val());

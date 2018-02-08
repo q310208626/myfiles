@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class MyFileDelSchedule {
 	private int id;
 	private int fileId;
-	private Date delDate;
+	private String delDate;
 	public int getId() {
 		return id;
 	}
@@ -22,10 +22,10 @@ public class MyFileDelSchedule {
 	public void setFileId(int fileId) {
 		this.fileId = fileId;
 	}
-	public Date getDelDate() {
+	public String getDelDate() {
 		return delDate;
 	}
-	public void setDelDate(Date delDate) {
+	public void setDelDate(String delDate) {
 		this.delDate = delDate;
 	}
 	@Override

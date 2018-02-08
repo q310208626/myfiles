@@ -180,11 +180,12 @@ public interface MyFileService {
 	 * @param isLast 是否是最后分段
 	 * @param fileNameSuffix 临时文件后缀
 	 * @param ownerId 管理员Id
+	 * @param del_time 定时删除时间
 	 * @return      
 	 * @return: Map      
 	 * @throws   
 	 */ 
-	public Map continueUploadFile(MultipartFile file,String fileName,UUID fileNameSuffix,boolean isLast,int ownerId);
+	public Map continueUploadFile(MultipartFile file,String fileName,UUID fileNameSuffix,boolean isLast,int ownerId,int del_time);
 	
 	/**   
 	 * @Title: continueUpdateFile   

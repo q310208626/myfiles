@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.lsj.ftp.myfiles.bean.ManPrivilege;
 import com.lsj.ftp.myfiles.bean.MyFile;
+import com.lsj.ftp.myfiles.bean.MyFileDelSchedule;
 import com.lsj.ftp.myfiles.bean.MyFilesManager;
 import com.lsj.ftp.myfiles.dao.MyFileDao;
+import com.lsj.ftp.myfiles.dao.MyFileDelScheduleDao;
 import com.lsj.ftp.myfiles.dao.MyFilesManDao;
 import com.lsj.ftp.myfiles.service.MyFileService;
 import com.lsj.ftp.myfiles.service.MyFilesManService;
@@ -36,6 +39,8 @@ public class MyFileServiceImpl implements MyFileService {
 	private MyFileDao myFileDao;
 	@Autowired
 	private MyFilesManDao myFileManDao;
+	@Autowired
+	private MyFileDelScheduleDao myFileDelScheduleDao;
 	//private static String savePath = "/home/shaojia/myFiles/upload";
 	private static String savePath ="E:\\myfiles\\save";
 
@@ -388,7 +393,7 @@ public class MyFileServiceImpl implements MyFileService {
 	
 
 	@Override
-	public Map continueUploadFile(MultipartFile file, String fileName,UUID fileNameSuffix, boolean isLast,int ownerId) {
+	public Map continueUploadFile(MultipartFile file, String fileName,UUID fileNameSuffix, boolean isLast,int ownerId,int del_time) {
 		// TODO Auto-generated method stub
 		Map resultMap=new HashMap();
 		
@@ -431,6 +436,30 @@ public class MyFileServiceImpl implements MyFileService {
 					//删除临时文件
 					tmpSaveFile.delete();
 					resultMap.put("msg", "文件传输完成");
+					
+					//定时删除任务
+					//如果不是永久文件
+					if(del_time!=0&&(del_time==1||del_time==2||del_time==3)){
+						MyFileDelSchedule myFileDelSchedule=new MyFileDelSchedule();
+						Calendar calendar=Calendar.getInstance();
+						calendar.setTime(date);
+						//一天后删除
+						if(del_time==1){
+							calendar.add(Calendar.DAY_OF_MONTH, 1);
+						}
+						//一个星期后删除
+						else if(del_time==2){
+							calendar.add(Calendar.WEEK_OF_MONTH, 1);
+						}
+						//一个月后删除
+						else if(del_time==3){
+							calendar.add(Calendar.MONDAY, 1);
+						}
+						myFileDelSchedule.setFileId(myFile.getId());
+						myFileDelSchedule.setDelDate(simpleDateFormat.format(calendar.getTime()));
+						myFileDelScheduleDao.insertDelSchedule(myFileDelSchedule);
+					}
+					
 				}
 				resultMap.put("status", 200);
 				

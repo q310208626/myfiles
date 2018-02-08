@@ -94,6 +94,13 @@
 									data-dismiss="modal">关闭</button>
 								<!-- <input type="submit" value="上传"
 								class="btn btn-success input-submit-fileupload"> -->
+								<select id='del_select' class='btn selectpicker' data-style="btn-info">
+									<option value='0'>定时删除</option>
+									<option value='0'>永久</option>
+									<option value='1'>一天</option>
+									<option value='2'>一星期</option>
+									<option value='3'>一个月</option>
+								</select>
 								<input id="uploadButton" type="button" value="上传" onclick="continueUpload('upload')" 
 								class="btn btn-success">
 							</div>
