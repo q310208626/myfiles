@@ -457,6 +457,7 @@ public class MyFileServiceImpl implements MyFileService {
 						}
 						myFileDelSchedule.setFileId(myFile.getId());
 						myFileDelSchedule.setDelDate(simpleDateFormat.format(calendar.getTime()));
+						logger.debug(calendar.getTime());
 						myFileDelScheduleDao.insertDelSchedule(myFileDelSchedule);
 					}
 					
