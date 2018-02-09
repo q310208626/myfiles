@@ -4,7 +4,7 @@
 	<resultMap type="MyFileDelSchedule" id="myFileDelScheduleMap">
 		<id property="id" column="id"/> 
 		<result property="fileId" column="file_id" javaType="int"/>
-		<result property="delDate" column="del_date" javaType="Date"/>
+		<result property="delDate" column="del_date" javaType="String"/>
 	</resultMap>
 	
 	<sql id="selectAllDelScheduleSql">

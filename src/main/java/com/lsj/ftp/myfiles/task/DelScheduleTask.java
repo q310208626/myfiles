@@ -38,6 +38,7 @@ public class DelScheduleTask extends TimerTask{
 			MyFile myFile;
 			myFile=myFileDao.selectMyFIleById(myFileDelSchedule.getFileId());
 			File delScheduleFile=new File(savePath,myFile.getSavePath());
+			logger.debug("==================="+myFile.getFileName()+" "+delScheduleFile.getAbsoluteFile()+" is exists:"+delScheduleFile.exists());
 			//文件存在，则删除本地存储文件，并删除数据库记录
 			if(delScheduleFile.exists()){
 				try {
