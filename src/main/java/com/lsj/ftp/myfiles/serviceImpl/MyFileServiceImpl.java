@@ -453,11 +453,10 @@ public class MyFileServiceImpl implements MyFileService {
 						}
 						//一个月后删除
 						else if(del_time==3){
-							calendar.add(Calendar.MONDAY, 1);
+							calendar.add(Calendar.MONTH, 1);
 						}
 						myFileDelSchedule.setFileId(myFile.getId());
 						myFileDelSchedule.setDelDate(simpleDateFormat.format(calendar.getTime()));
-						logger.debug(calendar.getTime());
 						myFileDelScheduleDao.insertDelSchedule(myFileDelSchedule);
 					}
 					
