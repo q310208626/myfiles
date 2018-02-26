@@ -27,7 +27,6 @@ function updateFile(obj){
 
 function updateModalClose(){
 	var modal=$('#update_modal');
-	var modal=$('#update_modal');
 	modal.modal('hide');
 }
 
@@ -67,7 +66,6 @@ function updateFileChange(file){
 
 //续传
 function continueUpload(operate){
-	alert(operate);
 	//上传的文件
 	var file;
 	var operateButton;

@@ -389,5 +389,13 @@ public class MyFileController {
 		}
 		return map;
 	}
+	
+	@RequestMapping(value="shareFile.do",method=RequestMethod.POST)
+	public ModelAndView shareFile(int fileId){
+		ModelAndView modelAndView=null;
+		
+		modelAndView.setViewName("customer_share_file");
+		return modelAndView;
+	}
 
 }

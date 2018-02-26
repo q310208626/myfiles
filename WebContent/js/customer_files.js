@@ -27,10 +27,19 @@ function getFiles(page,pageCount){
 				var lastModifiedDate=item.lastModifiedDate;
 				var lastModifiedId=item.lastModifiedId;
 				var operate=$('<a></a>');
+				var shareLink=$('<a></a>')
+				
+				//下载Button属性
 				operate.attr("id",item.id);
 				operate.attr("class","btn btn-success");
 				operate.attr("href",getRootPath()+"/myFile/downloadFile.do?fileId="+item.id);
 				operate.html("下载");
+				
+				//分享Button属性
+				shareLink.attr("id","share"+item.id);
+				shareLink.attr("class","btn btn-primary");
+				shareLink.attr("onclick","shareModalOpen()");
+				shareLink.html("分享");
 
 				
 				var nameTd=$('<td></td>');
@@ -46,10 +55,11 @@ function getFiles(page,pageCount){
 				lastModifiedDateTd.append(lastModifiedDate);
 				lastModifiedIdTd.append(lastModifiedId);
 				operateTd.append(operate);
+				operateTd.append(shareLink);
 				
 				fileRow.append(nameTd);
-				fileRow.append(createDateTd);
 				fileRow.append(ownerIdTd);
+				fileRow.append(createDateTd);
 				fileRow.append(lastModifiedDateTd);
 				fileRow.append(lastModifiedIdTd);
 				fileRow.append(operateTd)
@@ -65,6 +75,19 @@ function getFiles(page,pageCount){
 			alert("失败"+myFileList);
 		}
 	});
+}
+
+function shareModalOpen(){
+	var shareModal=$('#share_modal');
+	shareModal.modal({
+		  backdrop:false
+		});
+	shareModal.modal('show');
+}
+
+function shareModalClose(){
+	var shareModal=$('#share_modal');
+	shareModal.modal('close');
 }
 
 //获取工程路径

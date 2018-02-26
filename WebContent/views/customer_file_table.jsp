@@ -62,6 +62,33 @@
 	<nav style="text-align: center">
 		<ul id="bp-element" class="pagination"></ul>
 	</nav>
+	
+	<!-- share modal -->
+	<div  id="share_modal" tabindex="-1" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">文件分享</h4>
+						</div>
+						<div class="modal-body">
+							<div class="input-group">
+								<span class="input-group-addon ">分享地址</span>
+								<input id="share_url" type="text" style="border:none"></input><br>
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon">分享密码</span>
+								<input id="share_pwd" type="text"></input>
+							</div>
+						</div>
+						<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭</button>
+								<input  type="button" value="设置" class="btn btn-primary"></input>
+					    </div>
+			</div>
+		</div>
+	</div>
 </body>
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.2.1.js"></script>
