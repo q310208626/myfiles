@@ -200,5 +200,18 @@ public interface MyFileService {
 	 * @throws   
 	 */ 
 	public Map continueUpdateFile(MultipartFile file,String fileName,UUID fileNameSuffix,boolean isLast,int ownerId,int fileId);
+	
+	
+	
+	/**   
+	 * @Title: shareFile   
+	 * @Description: TODO(文件分享)   
+	 * @param fileId 分享的文件Id
+	 * @param sharePwd 分享密码
+	 * @return      
+	 * @return: Boolean      
+	 * @throws   
+	 */ 
+	public Map shareFile(int fileId,String sharePwd);
 		
 }

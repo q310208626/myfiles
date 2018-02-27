@@ -23,9 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lsj.ftp.myfiles.bean.ManPrivilege;
 import com.lsj.ftp.myfiles.bean.MyFile;
 import com.lsj.ftp.myfiles.bean.MyFileDelSchedule;
+import com.lsj.ftp.myfiles.bean.MyFileShare;
 import com.lsj.ftp.myfiles.bean.MyFilesManager;
 import com.lsj.ftp.myfiles.dao.MyFileDao;
 import com.lsj.ftp.myfiles.dao.MyFileDelScheduleDao;
+import com.lsj.ftp.myfiles.dao.MyFileShareDao;
 import com.lsj.ftp.myfiles.dao.MyFilesManDao;
 import com.lsj.ftp.myfiles.service.MyFileService;
 import com.lsj.ftp.myfiles.service.MyFilesManService;
@@ -41,6 +43,8 @@ public class MyFileServiceImpl implements MyFileService {
 	private MyFilesManDao myFileManDao;
 	@Autowired
 	private MyFileDelScheduleDao myFileDelScheduleDao;
+	@Autowired
+	private MyFileShareDao myFileShareDao;
 	//private static String savePath = "/home/shaojia/myFiles/upload";
 	private static String savePath ="E:\\myfiles\\save";
 
@@ -570,5 +574,34 @@ public class MyFileServiceImpl implements MyFileService {
 		
 		return resultMap;
 	}
+
+
+
+	@Override
+	public Map shareFile(int fileId,String sharePwd) {
+		// TODO Auto-generated method stub
+		Map map=new HashMap();
+		MyFile shareFile=myFileDao.selectMyFIleById(fileId);
+		MyFileShare myFileShare=null;
+		if(shareFile==null){
+			map.put("status", 100);
+			map.put("msg", "文件不存在");
+		}else{
+			myFileShare=new MyFileShare();
+			myFileShare.setFileId(fileId);
+			myFileShare.setSharePwd(sharePwd);
+			try{
+				myFileShareDao.insertMyFileShare(myFileShare);
+				map.put("status", 200);
+				map.put("msg", "设置成功");
+			}catch(Exception e){
+				map.put("status", 100);
+				map.put("msg", "内部错误");
+			}
+		}
+		return map;
+	}
+	
+	
 
 	}

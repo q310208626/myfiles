@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lsj.ftp.myfiles.dao.MyFileShareDao"> 
+	<resultMap type="MyFileShare" id="myFileShareMap">
+		<id property="id" column="id"/>
+		<result property="fileId" column="file_id" javaType="int"/>
+		<result property="sharePwd" column="share_pwd" javaType="String"/>
+	</resultMap>
+	
+	<sql id="selectAllShare">
+		SELECT * FROM myfile_share
+	</sql>
+	
+	<insert id="insertMyFileShare" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO 
+			myfile_share(file_id,share_pwd) 
+		VALUES(#{fileId},#{sharePwd})
+	</insert>
+	
+	<select id="selectMyFileShareById" resultType="MyFileShare">
+		<include refid="selectAllShare"></include>
+		WHERE id=#{id}
+	</select>
+</mapper>
