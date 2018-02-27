@@ -62,29 +62,31 @@
 	<nav style="text-align: center">
 		<ul id="bp-element" class="pagination"></ul>
 	</nav>
-	
+		<div id="toastDiv" class="toast">
+			<span id="tipMsg"></span>
+		</div>
 	<!-- share modal -->
 	<div  id="share_modal" tabindex="-1" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="shareModalClose()">&times;</button>
 							<h4 class="modal-title" id="myModalLabel">文件分享</h4>
 						</div>
 						<div class="modal-body">
-							<div class="input-group">
-								<span class="input-group-addon ">分享地址</span>
-								<input id="share_url" type="text" style="border:none"></input><br>
-							</div>
-							<div class="input-group">
-								<span class="input-group-addon">分享密码</span>
-								<input id="share_pwd" type="text"></input>
-							</div>
+							
+							<input type="hidden" id="fileIdInput">
+							<span>分享地址</span>
+							<input id="share_url" type="text" style="border:none"></input><br>
+							
+							<span>分享密码</span>
+							<input id="share_pwd" type="text" style="margin-left:10px;"></input>
+							
 						</div>
 						<div class="modal-footer">
 								<button type="button" class="btn btn-default"
-									data-dismiss="modal">关闭</button>
-								<input  type="button" value="设置" class="btn btn-primary"></input>
+									onclick="shareModalClose()">关闭</button>
+								<input  id="shareSetButton" type="button" value="设置" class="btn btn-primary" onclick=""></input>
 					    </div>
 			</div>
 		</div>

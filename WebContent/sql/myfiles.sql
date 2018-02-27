@@ -125,4 +125,13 @@ FOREIGN KEY (file_id) REFERENCES myfile(id))
 default character set utf8;
 
 
+drop table if exists `myfile_share`;
+
+create table myfile_share(
+id int(11) primary key auto_increment,
+file_id int(11),
+share_pwd varchar(10),
+foreign key (file_id) references myfile(id))
+default character set utf8;
+
 -- Dump completed on 2017-09-30 16:51:55

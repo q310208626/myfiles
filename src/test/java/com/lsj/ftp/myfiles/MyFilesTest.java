@@ -33,10 +33,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lsj.ftp.myfiles.bean.ManPrivilege;
 import com.lsj.ftp.myfiles.bean.MyFile;
 import com.lsj.ftp.myfiles.bean.MyFileDelSchedule;
+import com.lsj.ftp.myfiles.bean.MyFileShare;
 import com.lsj.ftp.myfiles.bean.MyFilesManager;
 import com.lsj.ftp.myfiles.dao.ManPrivilegeDao;
 import com.lsj.ftp.myfiles.dao.MyFileDao;
 import com.lsj.ftp.myfiles.dao.MyFileDelScheduleDao;
+import com.lsj.ftp.myfiles.dao.MyFileShareDao;
 import com.lsj.ftp.myfiles.dao.MyFilesManDao;
 import com.lsj.ftp.myfiles.service.MyFileService;
 import com.lsj.ftp.myfiles.service.MyFilesManService;
@@ -58,6 +60,8 @@ public class MyFilesTest {
 	private MyFileDao myFileDao;
 	@Autowired
 	private MyFileDelScheduleDao myFileDelScheduleDao;
+	@Autowired
+	private MyFileShareDao myFileShareDao;
 	private ApplicationContext applicationContext;
 	private static Logger logger=Logger.getLogger(MyFilesTest.class);
 	
@@ -68,12 +72,9 @@ public class MyFilesTest {
 	
 	@Test
 	public void test(){
-		MyFileDelSchedule myFileDelSchedule=(MyFileDelSchedule) applicationContext.getBean(MyFileDelSchedule.class);
-		List<MyFileDelSchedule> myFileDelSchedules=null;
-		
-		myFileDelSchedule=myFileDelScheduleDao.selectDelScheduleByFileId(11);
-		myFileDelSchedules=myFileDelScheduleDao.selectAllDelSchedule();
-		System.out.println(myFileDelSchedule.toString());
+		MyFileShare  myFileShare=(MyFileShare)applicationContext.getBean(MyFileShare.class);
+		myFileShare=myFileShareDao.selectMyFileShareById(1);
+		System.out.println(myFileShare.toString());
 		//myFileDelSchedules.stream().forEach(System.out::println);
 	}
 	

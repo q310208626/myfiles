@@ -139,6 +139,20 @@ div.row{
 	z-index: 3;  
 }
 
+.toast{
+	position: fixed;
+	height: 100px;
+	width: 200px;
+	top:50%;
+	left:50%;
+	margin:-50px 0 0 -100px;
+	background-color: #c0c0c0;
+	z-index=10;
+	border-radius:10px 10px;
+	text-align: center;
+	padding: 20px;
+	display: none;
+}
 /* .modal.fade{
 	top:-50%;
 } */

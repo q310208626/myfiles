@@ -36,9 +36,10 @@ function getFiles(page,pageCount){
 				operate.html("下载");
 				
 				//分享Button属性
-				shareLink.attr("id","share"+item.id);
+				shareLink.attr("id","share_"+item.id);
 				shareLink.attr("class","btn btn-primary");
-				shareLink.attr("onclick","shareModalOpen()");
+				var shareMethod="shareModalOpen("+item.id+")";
+				shareLink.attr("onclick",shareMethod);
 				shareLink.html("分享");
 
 				
@@ -77,17 +78,24 @@ function getFiles(page,pageCount){
 	});
 }
 
-function shareModalOpen(){
-	var shareModal=$('#share_modal');
+//分享modal打开
+function shareModalOpen(fileId){
+	var shareModal=$('#share_modal');	
+	var shareSetButton=$('#shareSetButton');
+	var clickMethod="createShareLink("+fileId+")";
 	shareModal.modal({
 		  backdrop:false
 		});
 	shareModal.modal('show');
+	shareSetButton.attr("onclick",clickMethod);
 }
 
+//关闭分享modal
 function shareModalClose(){
 	var shareModal=$('#share_modal');
-	shareModal.modal('close');
+	var sharePwdInput=$('#share_pwd');
+	sharePwdInput.val("");
+	shareModal.modal('hide');
 }
 
 //获取工程路径
@@ -118,7 +126,7 @@ function clearInput(){
 }
 
 
-
+//页面选择初始化
 function pageinit(currentPage,totalPage,fileName){
     var element = $('#bp-element');
     options = {
@@ -148,5 +156,43 @@ function pageinit(currentPage,totalPage,fileName){
         }
     };
     element.bootstrapPaginator(options);
+}
+
+//分享modal设置按钮方法，生成分享链接
+function createShareLink(fileId){
+	var sharePwdInput=$('#share_pwd');
+	var sharePwd=sharePwdInput.val();
+	var projectName=getRootPath();
+	var resultStatus=null;
+	var resultMsg="";
+	if(sharePwd==null||sharePwd==""){
+		toastShow("密码不能为空",1000);
+	}else{
+		$.ajax({
+			url:projectName+"/myFile/shareFile.do",
+			type:"post",
+			data:{"fileId":fileId,"sharePwd":sharePwd},
+			success:function(data){
+				resultStatus=data.status;
+				resultMsg=data.msg;
+				alert(resultStatus+":"+resultMsg);
+				toastShow("设置分享成功",1000);
+			},
+			error:function(data){
+				toastShow("设置分享成功",1000);
+			}
+		});
+		
+	}
+}
+
+function toastShow(msg,time){
+	var toast=$('#toastDiv');
+	var tipMsg=$('#tipMsg');
+	tipMsg.text(msg);
+	toast.fadeIn();
+	setTimeout(function(){
+		toast.fadeOut();
+	}, time);
 }
 
