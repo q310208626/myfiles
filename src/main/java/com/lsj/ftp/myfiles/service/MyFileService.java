@@ -213,5 +213,37 @@ public interface MyFileService {
 	 * @throws   
 	 */ 
 	public Map shareFile(int fileId,String sharePwd);
+	
+	/**   
+	 * @Title: shareFileSearch   
+	 * @Description: TODO(文件共享查询)   
+	 * @param shareId	共享文件Id
+	 * @param sharePwd	提取密码
+	 * @return      
+	 * @return: Map      
+	 * @throws   
+	 */ 
+	public Map shareFileSearch(int shareId,String sharePwd);
+	
+	/**   
+	 * @Title: getShareFile   
+	 * @Description: TODO(获取共享文件)   
+	 * @param shareId  共享文件Id
+	 * @param sharePwd 提取密码
+	 * @return      
+	 * @return: File      
+	 * @throws   
+	 */ 
+	public File getShareFile(int shareId,String sharePwd);
+	
+	/**   
+	 * @Title: getMyFileByShareId   
+	 * @Description: TODO(根据shareId获取myFile对象)   
+	 * @param shareId
+	 * @return      
+	 * @return: MyFile      
+	 * @throws   
+	 */ 
+	public MyFile getMyFileByShareId(int shareId);
 		
 }

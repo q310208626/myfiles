@@ -397,5 +397,41 @@ public class MyFileController {
 		map=myFileService.shareFile(fileId, sharePwd);
 		return map;
 	}
+	
+	@RequestMapping(value="shareFileSearch.do")
+	public Map shareFileSearch(int shareId,String sharePwd){
+		Map map=null;
+		map=myFileService.shareFileSearch(shareId, sharePwd);
+		return map;
+	}
+	@RequestMapping(value="shareFileDownload.do")
+	public ResponseEntity<byte[]> shareFileDown(int shareId,String sharePwd){
+		ResponseEntity<byte[]> downloadSource=null;
+		File shareFile=null;
+		FileInputStream fileInputStream=null;
+		HttpHeaders httpHeaders=null;
+		String fileName=null;
+		
+		shareFile=myFileService.getShareFile(shareId, sharePwd);
+		if(shareFile==null){
+			logger.debug("文件不存在或提取码错误");
+		}else{
+			httpHeaders=new HttpHeaders();
+			fileName=shareFile.getName();
+//			设置响应文件
+			httpHeaders.setContentDispositionFormData("attachment",fileName);
+//			设置为字节流
+			httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			try {
+				downloadSource=new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(shareFile),httpHeaders, HttpStatus.CREATED);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				logger.debug("IO出错");
+				e.printStackTrace();
+			}
+		}
+		
+		return downloadSource;
+	}
 
 }

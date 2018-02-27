@@ -175,7 +175,6 @@ function createShareLink(fileId){
 			success:function(data){
 				resultStatus=data.status;
 				resultMsg=data.msg;
-				alert(resultStatus+":"+resultMsg);
 				toastShow("设置分享成功",1000);
 			},
 			error:function(data){

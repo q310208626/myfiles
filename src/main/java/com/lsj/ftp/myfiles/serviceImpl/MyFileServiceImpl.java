@@ -601,7 +601,72 @@ public class MyFileServiceImpl implements MyFileService {
 		}
 		return map;
 	}
-	
+
+
+
+	@Override
+	public Map shareFileSearch(int shareId, String sharePwd) {
+		// TODO Auto-generated method stub
+		Map resultMap=new HashMap();
+		MyFile shareFile=null;
+		MyFileShare myFileShare=null;
+		
+		myFileShare=myFileShareDao.selectMyFileShareById(shareId);
+		if(myFileShare==null){
+			resultMap.put("status", 100);
+			resultMap.put("msg", "文件不存在");
+		}else{
+			shareFile=myFileDao.selectMyFIleById(myFileShare.getFileId());
+			if(shareFile==null){
+				resultMap.put("status", 101);
+				resultMap.put("msg", "文件不存在");
+			}
+			else{
+				if(!sharePwd.equals(myFileShare.getSharePwd())){
+					resultMap.put("status", 102);
+					resultMap.put("msg", "提取码不正确");
+				}else{
+					resultMap.put("status", 200);
+					resultMap.put("msg", "共享文件提取成功");
+				}
+			}
+		}
+		return resultMap;
+	}
+
+
+
+	@Override
+	public File getShareFile(int shareId,String sharePwd) {
+		// TODO Auto-generated method stub
+		File shareFile=null;
+		MyFileShare myFileShare=null;
+		MyFile myFile=null;
+		
+		myFileShare=myFileShareDao.selectMyFileShareById(shareId);
+		
+		if(myFileShare.getSharePwd().equals(sharePwd)){
+			myFile=myFileDao.selectMyFIleById(myFileShare.getFileId());
+			if(myFile!=null){
+				shareFile=new File(savePath, myFile.getSaveName());
+			}
+		}
+		return shareFile;
+	}
+
+
+
+	@Override
+	public MyFile getMyFileByShareId(int shareId) {
+		// TODO Auto-generated method stub
+		MyFile myFile=null;
+		MyFileShare myFileShare=null;
+		myFileShare=myFileShareDao.selectMyFileShareById(shareId);
+		if(myFileShare!=null){
+			myFile=myFileDao.selectMyFIleById(myFileShare.getFileId());
+		}
+		return myFile;
+	}
 	
 
 	}
