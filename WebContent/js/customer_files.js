@@ -220,17 +220,26 @@ function getShareFile(){
 	var shareIdInput=$('#shareIdInput');
 	var sharePwd=sharePwdInput.val();
 	var shareId=shareIdInput.val();
-	if(shareId=null||shareId==""){
+	if(shareId==null||shareId==""){
 		toastShow("分享文件Id为空",1000);
 	}else{
-		if(sharePwd=null||sharePwd==""){
+		if(sharePwd==null||sharePwd==""){
 			toastShow("提取码为空",1000);
 		}else{
 			$.ajax({
-				url:getRootPath()+"/shareFileSearch.do",
+				url:getRootPath()+"/myFile/shareFileSearch.do",
 				data:{"shareId":shareId,"sharePwd":sharePwd},
-				type:post,
-				
+				type:"post",
+				success:function(data){
+					if(data.msg!=200){
+						toastShow(data.msg, 1000);
+					}else{
+						
+					}
+				},
+				error:function(data){
+					toastShow("查找文件出错",1000);
+				}
 			});
 		}
 	}

@@ -24,9 +24,18 @@
 			<div class="input-group">
 				<span class="input-group-addon">提取码</span>
 				<input id="share_pwd" type="text" class="form-control"></input>
-				<a id="getShareFileButton" class="input-group-addon">提取</a>
+				<a id="getShareFileButton" class="input-group-addon" onclick="getShareFile()" style="cursor: pointer;">提取</a>
 			</div>
 		</div>
 	</div>
+	<div id="toastDiv" class="toast">
+		<span id="tipMsg"></span>
+	</div>
 </body>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/customer_files.js" defer=true></script>
 </html>

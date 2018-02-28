@@ -398,12 +398,14 @@ public class MyFileController {
 		return map;
 	}
 	
-	@RequestMapping(value="shareFileSearch.do")
+	@RequestMapping(value="/shareFileSearch.do",method=RequestMethod.POST)
+	@ResponseBody
 	public Map shareFileSearch(int shareId,String sharePwd){
 		Map map=null;
 		map=myFileService.shareFileSearch(shareId, sharePwd);
 		return map;
 	}
+	
 	@RequestMapping(value="shareFileDownload.do")
 	public ResponseEntity<byte[]> shareFileDown(int shareId,String sharePwd){
 		ResponseEntity<byte[]> downloadSource=null;
