@@ -58,7 +58,7 @@ public class ToOtherViewController {
 	//跳转到文件分享界面
 	@RequestMapping(value="to_share.do")
 	public ModelAndView toShareView(int shareId){
-		ModelAndView modelAndView=null;
+		ModelAndView modelAndView=new ModelAndView();
 		MyFile myFile=null;
 		myFile=myFileService.getMyFileByShareId(shareId);
 		modelAndView.addObject("fileName", myFile.getFileName());

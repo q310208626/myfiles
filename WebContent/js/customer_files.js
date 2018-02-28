@@ -94,7 +94,9 @@ function shareModalOpen(fileId){
 function shareModalClose(){
 	var shareModal=$('#share_modal');
 	var sharePwdInput=$('#share_pwd');
+	var shareLinkInput=$('#share_link');
 	sharePwdInput.val("");
+	shareLinkInput.val("");
 	shareModal.modal('hide');
 }
 
@@ -161,10 +163,12 @@ function pageinit(currentPage,totalPage,fileName){
 //分享modal设置按钮方法，生成分享链接
 function createShareLink(fileId){
 	var sharePwdInput=$('#share_pwd');
+	var shareLinkInput=$('#share_link');
 	var sharePwd=sharePwdInput.val();
 	var projectName=getRootPath();
 	var resultStatus=null;
 	var resultMsg="";
+	var shareLink="";
 	if(sharePwd==null||sharePwd==""){
 		toastShow("密码不能为空",1000);
 	}else{
@@ -175,6 +179,8 @@ function createShareLink(fileId){
 			success:function(data){
 				resultStatus=data.status;
 				resultMsg=data.msg;
+				shareLink=getRootPath()+data.shareLink;
+				shareLinkInput.val(shareLink);
 				toastShow("设置分享成功",1000);
 			},
 			error:function(data){
@@ -193,5 +199,16 @@ function toastShow(msg,time){
 	setTimeout(function(){
 		toast.fadeOut();
 	}, time);
+}
+
+function shareLinkCopy(){
+	/*var shareLinkCopyButton=document.getElementById("shareCopyButton");*/
+	var shareLinkInput=$('#share_link');
+	var shareLink=shareLinkInput.val();
+	if(shareLink!=null&&shareLink!=""){
+		shareLinkInput.select();
+		document.execCommand("Copy");
+		toastShow("链接已复制",1000);
+	}
 }
 

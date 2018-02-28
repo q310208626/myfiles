@@ -76,11 +76,12 @@
 						<div class="modal-body">
 							
 							<input type="hidden" id="fileIdInput">
-							<span>分享地址</span>
-							<input id="share_url" type="text" style="border:none"></input><br>
-							
+							<span style="width: 20%;">分享链接</span>
+							<input id="share_link" type="text" style="margin-left:10px;width:70%"></input>
+							<a id="shareCopyButton" style="width: 10%;" onclick="shareLinkCopy()" class="btn btn-success" >复制</a>
+							<br>
 							<span>分享密码</span>
-							<input id="share_pwd" type="text" style="margin-left:10px;"></input>
+							<input id="share_pwd" type="text" style="margin-left:10px;width: 70%" maxlength="6" ></input>
 							
 						</div>
 						<div class="modal-footer">
@@ -99,7 +100,7 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/bootstrap-paginator.js"></script>	
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/customer_files.js"></script>
+	src="${pageContext.request.contextPath}/js/customer_files.js" defer=true></script>
 <script type="text/javascript">
 	window.onload = function() { 
 		getFiles(1,10);

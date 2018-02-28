@@ -15,9 +15,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.ServletContextListener;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lsj.ftp.myfiles.bean.ManPrivilege;
@@ -583,6 +587,7 @@ public class MyFileServiceImpl implements MyFileService {
 		Map map=new HashMap();
 		MyFile shareFile=myFileDao.selectMyFIleById(fileId);
 		MyFileShare myFileShare=null;
+		String shareLink="";
 		if(shareFile==null){
 			map.put("status", 100);
 			map.put("msg", "文件不存在");
@@ -592,8 +597,10 @@ public class MyFileServiceImpl implements MyFileService {
 			myFileShare.setSharePwd(sharePwd);
 			try{
 				myFileShareDao.insertMyFileShare(myFileShare);
+				shareLink="/to_share.do?shareId="+myFileShare.getId();
 				map.put("status", 200);
 				map.put("msg", "设置成功");
+				map.put("shareLink", shareLink);
 			}catch(Exception e){
 				map.put("status", 100);
 				map.put("msg", "内部错误");
@@ -659,11 +666,14 @@ public class MyFileServiceImpl implements MyFileService {
 	@Override
 	public MyFile getMyFileByShareId(int shareId) {
 		// TODO Auto-generated method stub
+		logger.debug("==================shareId:"+shareId+"===============");
 		MyFile myFile=null;
 		MyFileShare myFileShare=null;
 		myFileShare=myFileShareDao.selectMyFileShareById(shareId);
+		logger.debug("==================myFileShare:"+myFileShare+"===============");
 		if(myFileShare!=null){
 			myFile=myFileDao.selectMyFIleById(myFileShare.getFileId());
+			logger.debug("==================myFile:"+myFile+"===============");
 		}
 		return myFile;
 	}
