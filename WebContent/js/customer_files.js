@@ -191,6 +191,7 @@ function createShareLink(fileId){
 	}
 }
 
+//消息展示，类似Toast
 function toastShow(msg,time){
 	var toast=$('#toastDiv');
 	var tipMsg=$('#tipMsg');
@@ -201,6 +202,7 @@ function toastShow(msg,time){
 	}, time);
 }
 
+//复制文件分享链接方法
 function shareLinkCopy(){
 	/*var shareLinkCopyButton=document.getElementById("shareCopyButton");*/
 	var shareLinkInput=$('#share_link');
@@ -210,5 +212,28 @@ function shareLinkCopy(){
 		document.execCommand("Copy");
 		toastShow("链接已复制",1000);
 	}
+}
+
+//提取分享文件方法
+function getShareFile(){
+	var sharePwdInput=$('#share_pwd');
+	var shareIdInput=$('#shareIdInput');
+	var sharePwd=sharePwdInput.val();
+	var shareId=shareIdInput.val();
+	if(shareId=null||shareId==""){
+		toastShow("分享文件Id为空",1000);
+	}else{
+		if(sharePwd=null||sharePwd==""){
+			toastShow("提取码为空",1000);
+		}else{
+			$.ajax({
+				url:getRootPath()+"/shareFileSearch.do",
+				data:{"shareId":shareId,"sharePwd":sharePwd},
+				type:post,
+				
+			});
+		}
+	}
+	
 }
 

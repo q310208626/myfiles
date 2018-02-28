@@ -16,6 +16,7 @@
 	<div class="container-narrow" style="text-align: center;">
 		<div class="share_container">
 			<span style="font-size: 50px">文件提取</span>
+			<input id="shareIdInput" type="hidden" value="${shareId}">
 			<div class="input-group">
 				<span class="input-group-addon" style="border: none" >文件名</span>
 				<input id="share_file_name" type="text" value="${fileName}" class="form-control"></input>

@@ -61,6 +61,7 @@ public class ToOtherViewController {
 		ModelAndView modelAndView=new ModelAndView();
 		MyFile myFile=null;
 		myFile=myFileService.getMyFileByShareId(shareId);
+		modelAndView.addObject("shareId",shareId);
 		modelAndView.addObject("fileName", myFile.getFileName());
 		modelAndView.setViewName("customer_share_file");
 		return modelAndView;
