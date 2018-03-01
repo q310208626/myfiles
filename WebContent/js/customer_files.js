@@ -231,10 +231,30 @@ function getShareFile(){
 				data:{"shareId":shareId,"sharePwd":sharePwd},
 				type:"post",
 				success:function(data){
-					if(data.msg!=200){
-						toastShow(data.msg, 1000);
-					}else{
+					
+					if(data.status==200){
+						//status是200则正确，返发起请求获取分享文件
+						var getShareForm=$('<form></form>');
+						var shareIdInput=$('<input type="text"></input>');
+						var sharePwdInput=$('<input type="text"></input>');
 						
+						getShareForm.attr("method","post");
+						getShareForm.attr("action",getRootPath()+"/myFile/shareFileDownload.do");
+						getShareForm.attr("enctype","multipart/form-data");
+						shareIdInput.attr("name","shareId");
+						shareIdInput.attr("value",shareId);
+						sharePwdInput.attr("name","sharePwd");
+						sharePwdInput.attr("value",sharePwd);
+						
+						getShareForm.append(shareIdInput);
+						getShareForm.append(sharePwdInput);
+						getShareForm.appendTo("body");
+						getShareForm.hide();
+						getShareForm.submit();
+						
+					}else{
+						//status不是200则是有错误，显示错误信息
+						toastShow(data.msg, 1000);
 					}
 				},
 				error:function(data){

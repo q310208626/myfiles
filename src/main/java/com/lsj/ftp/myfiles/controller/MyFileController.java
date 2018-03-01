@@ -406,7 +406,7 @@ public class MyFileController {
 		return map;
 	}
 	
-	@RequestMapping(value="shareFileDownload.do")
+	@RequestMapping(value="/shareFileDownload.do")
 	public ResponseEntity<byte[]> shareFileDown(int shareId,String sharePwd){
 		ResponseEntity<byte[]> downloadSource=null;
 		File shareFile=null;
@@ -421,6 +421,7 @@ public class MyFileController {
 			httpHeaders=new HttpHeaders();
 			fileName=shareFile.getName();
 //			设置响应文件
+			logger.debug("===========ShareFileName:"+fileName);
 			httpHeaders.setContentDispositionFormData("attachment",fileName);
 //			设置为字节流
 			httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
