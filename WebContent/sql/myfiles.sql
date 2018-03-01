@@ -121,7 +121,7 @@ create table del_schedule(
 id int(11) primary key auto_increment,
 file_id int(11) not null,
 del_date date,
-FOREIGN KEY (file_id) REFERENCES myfile(id))
+FOREIGN KEY (file_id) REFERENCES myfile(id) on delete cascade)
 default character set utf8;
 
 
@@ -131,7 +131,7 @@ create table myfile_share(
 id int(11) primary key auto_increment,
 file_id int(11),
 share_pwd varchar(10),
-foreign key (file_id) references myfile(id))
+foreign key (file_id) references myfile(id) on delete cascade)
 default character set utf8;
 
 -- Dump completed on 2017-09-30 16:51:55
