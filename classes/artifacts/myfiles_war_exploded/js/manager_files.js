@@ -207,6 +207,9 @@ function startUpload(uploadTimes,operate){
 				}
 			}else{
 				uploadIsPause=1;
+				if(result.status=108){
+					toastShow(result.error,1000);
+				}
 				//设置当前传输块为0
 				//window.localStorage.setItem(fileName + '_chunk',0);
 				operateButton.val("上传");
@@ -345,6 +348,17 @@ function getFiles(page,pageCount){
 			alert("获取失败，请按F5刷新");
 		}
 	});
+}
+
+//消息展示，类似Toast
+function toastShow(msg,time){
+    var toast=$('#toastDiv');
+    var tipMsg=$('#tipMsg');
+    tipMsg.text(msg);
+    toast.fadeIn();
+    setTimeout(function(){
+        toast.fadeOut();
+    }, time);
 }
 
 //获取工程路径

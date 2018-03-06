@@ -57,8 +57,7 @@ public class MyFileController {
 	/**   
 	 * @Title: getMyFile   
 	 * @Description: TODO 获取管理员对应的文件   
-	 * @param manId 管理员ID
-	 * @return      
+	 * @return
 	 * @return: ModelAndView      
 	 * @throws   
 	 */  
@@ -338,26 +337,33 @@ public class MyFileController {
 		logger.debug("============"+session+"==============");
 		Map map=new HashMap();
 		
-		int manId=Integer.parseInt(session.getAttribute("userId").toString());
-		String userIdString=String.valueOf( manId);
-		if(userIdString==null||userIdString.equals("")){
-			map.put("status",000);
-			map.put("error","用户会话过期");
-		}else{
-		
-		//文件临时后缀
-		UUID tmpId;
-		//获取文件临时后缀
-		tmpId=(UUID) session.getAttribute("fileUUID");
-		if(tmpId==null){
-			tmpId=UUID.randomUUID();
-			session.setAttribute("fileUUID", tmpId);
+		try {
+
+			int manId = Integer.parseInt(session.getAttribute("userId").toString());
+			String userIdString = String.valueOf(manId);
+			if (userIdString == null || userIdString.equals("")) {
+				map.put("status", 108);
+				map.put("error", "用户会话过期");
+			} else {
+
+				//文件临时后缀
+				UUID tmpId;
+				//获取文件临时后缀
+				tmpId = (UUID) session.getAttribute("fileUUID");
+				if (tmpId == null) {
+					tmpId = UUID.randomUUID();
+					session.setAttribute("fileUUID", tmpId);
+				}
+				map = myFileService.continueUploadFile(uploadFile, fileName, tmpId, isLast, manId, del_time);
+				map.put("status", 200);
+
+			}
+		}catch (NullPointerException e){
+			map.put("status", 108);
+			map.put("error", "用户会话过期");
+		}finally {
+			return map;
 		}
-		map=myFileService.continueUploadFile(uploadFile,fileName,tmpId,isLast,manId,del_time);
-		map.put("status", 200);
-		
-		}
-		return map;
 	}
 	
 	@RequestMapping(value="continueUpdate.do",method=RequestMethod.POST)

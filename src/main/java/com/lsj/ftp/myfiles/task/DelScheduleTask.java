@@ -24,7 +24,7 @@ public class DelScheduleTask extends TimerTask{
 	private MyFileDelScheduleDao myFileDelScheduleDao;
 	@Autowired 
 	private MyFileDao myFileDao;
-	private static String savePath ="E:\\myfiles\\save";
+	private static String savePath ="C:\\myfiles\\save";
 	private Logger logger=Logger.getLogger(DelScheduleTask.class);
 	private static SimpleDateFormat simpleDateFormat;
 	

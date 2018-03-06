@@ -50,7 +50,7 @@ public class MyFileServiceImpl implements MyFileService {
 	@Autowired
 	private MyFileShareDao myFileShareDao;
 	//private static String savePath = "/home/shaojia/myFiles/upload";
-	private static String savePath ="E:\\myfiles\\save";
+	private static String savePath ="C:\\myfiles\\save";
 
 
 	@Override
@@ -465,6 +465,8 @@ public class MyFileServiceImpl implements MyFileService {
 						}
 						myFileDelSchedule.setFileId(myFile.getId());
 						myFileDelSchedule.setDelDate(simpleDateFormat.format(calendar.getTime()));
+						logger.debug("================="+myFileDelSchedule.getDelDate()+"===============");
+						logger.debug("================="+simpleDateFormat.format(calendar.getTime())+"===============");
 						myFileDelScheduleDao.insertDelSchedule(myFileDelSchedule);
 					}
 					
@@ -474,6 +476,7 @@ public class MyFileServiceImpl implements MyFileService {
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				resultMap.put("status",000);
 				resultMap.put("msg","文件传输出错");
 				e.printStackTrace();
 			}

@@ -5,9 +5,9 @@
   <listener>
   	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-<!--   <listener>
+   <listener>
   	<listener-class>com.lsj.ftp.myfiles.context.listener.DelScheduleListener</listener-class>
-  </listener> -->
+  </listener>
   
   <context-param>
   	<param-name>contextConfigLocation</param-name>

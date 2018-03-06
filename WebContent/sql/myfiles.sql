@@ -120,7 +120,7 @@ DROP TABLE IF EXISTS `del_schedule`;
 create table del_schedule(
 id int(11) primary key auto_increment,
 file_id int(11) not null,
-del_date date,
+del_date datetime,
 FOREIGN KEY (file_id) REFERENCES myfile(id) on delete cascade)
 default character set utf8;
 

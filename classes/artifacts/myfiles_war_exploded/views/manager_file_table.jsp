@@ -62,7 +62,11 @@
 		</tbody>
 	</table>
 	</div>
-	
+
+	//消息框
+	<div id="toastDiv" class="toast">
+		<span id="tipMsg"></span>
+	</div>
 	<!-- 分页插件 -->
 		<nav style="text-align: center">
 			<ul id="bp-element" class="pagination"></ul>
