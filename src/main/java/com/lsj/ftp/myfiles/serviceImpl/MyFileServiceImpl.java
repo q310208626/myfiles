@@ -476,12 +476,14 @@ public class MyFileServiceImpl implements MyFileService {
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				resultMap.put("status",000);
+				resultMap.put("status",100);
 				resultMap.put("msg","文件传输出错");
 				e.printStackTrace();
+			}finally {
+				return resultMap;
 			}
 		
-		return resultMap;
+
 	}
 
 

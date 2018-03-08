@@ -336,8 +336,6 @@ public class MyFileController {
 				uploadFile.getSize()+"\ndel_time:"+del_time);
 		logger.debug("============"+session+"==============");
 		Map map=new HashMap();
-		
-		try {
 
 			int manId = Integer.parseInt(session.getAttribute("userId").toString());
 			String userIdString = String.valueOf(manId);
@@ -355,15 +353,11 @@ public class MyFileController {
 					session.setAttribute("fileUUID", tmpId);
 				}
 				map = myFileService.continueUploadFile(uploadFile, fileName, tmpId, isLast, manId, del_time);
-				map.put("status", 200);
 
 			}
-		}catch (NullPointerException e){
-			map.put("status", 108);
-			map.put("error", "用户会话过期");
-		}finally {
+
 			return map;
-		}
+
 	}
 	
 	@RequestMapping(value="continueUpdate.do",method=RequestMethod.POST)
