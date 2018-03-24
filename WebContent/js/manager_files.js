@@ -56,6 +56,13 @@ function uploadFileChange(file){
 	if(file==""||file==null){
 		fileShow.val("未选择文件")
 	}else{
+        mfile=$('#uploadFileInput')[0].files[0];
+        var fileName=mfile.name;
+        var fileSize=mfile.size;
+        var fileType=mfile.type;
+        window.localStorage.setItem("fileName",fileName);
+        window.localStorage.setItem("fileSize",fileSize);
+        window.localStorage.setItem("fileType",fileType);
 		fileShow.val(file)
 	}
 }
@@ -65,6 +72,13 @@ function updateFileChange(file){
 	if(file==""||file==null){
 		fileShow.val("未选择文件")
 	}else{
+        mfile=$('#uploadFileInput')[0].files[0];
+        var fileName=mfile.name;
+        var fileSize=mfile.size;
+        var fileType=mfile.type;
+        window.localStorage.setItem("fileName",fileName);
+        window.localStorage.setItem("fileSize",fileSize);
+        window.localStorage.setItem("fileType",fileType);
 		fileShow.val(file)
 	}
 }
@@ -218,7 +232,7 @@ function startUpload(uploadTimes,operate){
 
 				//如果是第一次上传，记录下该文件
 				if(uploadTimes==1){
-                    window.localStorage.setItem(fileName + '_chunk_'+fileSize, 0);
+                    window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 					uploadTimes=-1;
                     startUpload(-1,operate);
 				}else if(chunk==blockNum-1){
@@ -226,7 +240,7 @@ function startUpload(uploadTimes,operate){
 
 					$('#uplaodPersentShow').val("100%");
 					//设置当前传输块为0
-					window.localStorage.setItem(fileName + '_chunk',0);
+					window.localStorage.setItem(fileName + '_chunk_'+fileSize,0);
 					uploadTimes=1;
 					location.reload();
 				}else{
@@ -266,18 +280,18 @@ function startUpload(uploadTimes,operate){
 				//如果传输成功
 				if(result.status==200){
 					if(uploadTimes==1){
+                        window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 						uploadTimes=-1;
 					}
-					
 					//传输完成
-					if(chunk==blockNum-1){
+					else if(chunk==blockNum-1){
 						$('#updatePersentShow').val("100%");
 						//设置当前传输块为0
-						window.localStorage.setItem(fileName + '_chunk',0);
+						window.localStorage.setItem(fileName + '_chunk_'+fileSize,0);
 						uploadTimes=1;
 						location.reload();
 					}else{
-						window.localStorage.setItem(fileName + '_chunk', ++chunk);
+						window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 						$('#updatePersentShow').val(persent+"%");
 						if(uploadIsPause!=1){
 							startUpload(-1,operate);

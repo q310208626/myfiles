@@ -347,15 +347,16 @@ public class MyFileController {
 				//文件临时后缀
 				UUID tmpId;
 				//获取文件临时后缀
-				tmpId = (UUID) session.getAttribute("fileUUID");
+				tmpId = (UUID) session.getAttribute(fileName+"_upload_"+fileSize);
+
+				//如果文件之前未中断上传，则生成新的临时ID
 				if (tmpId == null) {
 					tmpId = UUID.randomUUID();
-					session.setAttribute("fileUUID", tmpId);
+					session.setAttribute(fileName+"_upload_"+fileSize, tmpId);
 				}
 				map = myFileService.continueUploadFile(uploadFile, fileName, tmpId, isLast, manId, del_time);
 
 			}
-
 			return map;
 
 	}

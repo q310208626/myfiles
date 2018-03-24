@@ -3,6 +3,8 @@
  */
 var uploadIsPause=1;
 var uploadTimes=1;
+//文件上传Request对象
+var uploadRequest;
 	
 
 //获取要更新的文件Id
@@ -25,8 +27,13 @@ function updateFile(obj){
 	 
 }
 
-function updateModalClose(){
-	var modal=$('#update_modal');
+//Modal关闭方法
+function modalClose(modalId){
+	var modalJQId='#'+modalId;
+	var modal=$(modalJQId);
+	if(typeof uploadRequest ==='object'){
+        uploadRequest.abort();
+	}
 	modal.modal('hide');
 }
 
@@ -49,6 +56,13 @@ function uploadFileChange(file){
 	if(file==""||file==null){
 		fileShow.val("未选择文件")
 	}else{
+        mfile=$('#uploadFileInput')[0].files[0];
+        var fileName=mfile.name;
+        var fileSize=mfile.size;
+        var fileType=mfile.type;
+        window.localStorage.setItem("fileName",fileName);
+        window.localStorage.setItem("fileSize",fileSize);
+        window.localStorage.setItem("fileType",fileType);
 		fileShow.val(file)
 	}
 }
@@ -58,6 +72,13 @@ function updateFileChange(file){
 	if(file==""||file==null){
 		fileShow.val("未选择文件")
 	}else{
+        mfile=$('#uploadFileInput')[0].files[0];
+        var fileName=mfile.name;
+        var fileSize=mfile.size;
+        var fileType=mfile.type;
+        window.localStorage.setItem("fileName",fileName);
+        window.localStorage.setItem("fileSize",fileSize);
+        window.localStorage.setItem("fileType",fileType);
 		fileShow.val(file)
 	}
 }
@@ -68,7 +89,9 @@ function updateFileChange(file){
 function continueUpload(operate){
 	//上传的文件
 	var file;
+	//操作的按钮，分为上传跟更新两个按钮
 	var operateButton;
+
 	if(operate=='upload'){
 		file=$('#uploadFileInput')[0].files[0];
 		operateButton=$('#uploadButton');
@@ -100,7 +123,7 @@ function continueUpload(operate){
 	}	
 }
 
-
+//暂停继续上传
 function uploadOrTemp(operate){
 	var operateButton;
 	if(operate=='upload'){
@@ -121,6 +144,10 @@ function uploadOrTemp(operate){
 }
 
 //续传上传方法
+/*
+* uploadTimes 1表示第一次上传，-1表示续传
+* operate  代表操作：1.上传 2.更新
+*/
 function startUpload(uploadTimes,operate){
 	var fileName=window.localStorage.getItem("fileName");
 	var fileSize=window.localStorage.getItem("fileSize");
@@ -131,9 +158,17 @@ function startUpload(uploadTimes,operate){
 	//当前上传块数
 	var chunk;
 
-	chunk=window.localStorage.getItem(fileName+'_chunk')||0;
+
+	//获取当前上传文件上传的块数，没有则取0，0表示未上传过该文件
+	chunk=window.localStorage.getItem(fileName+'_chunk_'+fileSize)||0;
 	chunk=parseInt(chunk,10);
-	
+
+	//如果chunk不是0，代表着之前上传过相同文件
+	if(chunk!=0){
+        uploadTimes=-1;
+	}
+
+	//判断是否是最后一块
 	var isLastChunk=(chunk==blockNum-1)?true:false;
 	
 	var operateButton;
@@ -144,13 +179,20 @@ function startUpload(uploadTimes,operate){
 		operateButton=$('#uploadButton');
 	}
 	
-	
-    if (uploadTimes ==1 && isLastChunk == true) {
-        window.localStorage.setItem(fileName + '_chunk', 0);
+/*	//如果是第一次上传，则初始化
+    if (uploadTimes ==1) {
+        window.localStorage.setItem(fileName + '_chunk_'+fileSize, 0);
         chunk = 0;
         uploadTimes=-1;
+    }*/
+
+/*    //如果是最后一次上传，则初始化
+    if( isLastChunk == true){
+        window.localStorage.setItem(fileName + '_chunk_'+fileSize, 0);
+        chunk = 0;
+        uploadTimes=1;
         isLastChunk = false;
-    }
+	}*/
     
     //分段起始位置
     var blockFrom=chunk*block;
@@ -176,7 +218,7 @@ function startUpload(uploadTimes,operate){
 	uploadFormData.append('isFirst', uploadTimes ==1 ? true : false);
 	
 	if(operate=='upload'){
-	$.ajax({
+        uploadRequest=$.ajax({
 		url:getRootPath()+"/myFile/continueUpload.do",
 		type:"post",
 		processData : false,
@@ -187,19 +229,22 @@ function startUpload(uploadTimes,operate){
 			result=eval(result);
 			//如果传输成功
 			if(result.status==200){
+
+				//如果是第一次上传，记录下该文件
 				if(uploadTimes==1){
+                    window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 					uploadTimes=-1;
-				}
-				
-				//传输完成
-				if(chunk==blockNum-1){
+                    startUpload(-1,operate);
+				}else if(chunk==blockNum-1){
+                    //如果传输完成
+
 					$('#uplaodPersentShow').val("100%");
 					//设置当前传输块为0
-					window.localStorage.setItem(fileName + '_chunk',0);
+					window.localStorage.setItem(fileName + '_chunk_'+fileSize,0);
 					uploadTimes=1;
 					location.reload();
 				}else{
-					window.localStorage.setItem(fileName + '_chunk', ++chunk);
+					window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 					$('#uplaodPersentShow').val(persent+"%");
 					if(uploadIsPause!=1){
 						startUpload(-1,operate);
@@ -207,23 +252,23 @@ function startUpload(uploadTimes,operate){
 				}
 			}else{
 				uploadIsPause=1;
-				if(result.status=108){
-					toastShow(result.error,1000);
+				if(result.status=100){
+					toastShow(result.msg,1000);
 				}
 				//设置当前传输块为0
-				//window.localStorage.setItem(fileName + '_chunk',0);
+				//window.localStorage.setItem(fileName + '_chunk_'+fileSize,0);
 				operateButton.val("上传");
 			}
 			
 		},
 		error:function(){
 			uploadIsPause=1;
-			//设置当前传输块为0
+            toastShow("文件上传出错",1000);
 			operateButton.val("上传");
 		}
 	})
 	}else if(operate=='update'){
-		$.ajax({
+        uploadRequest=$.ajax({
 			url:getRootPath()+"/myFile/continueUpdate.do",
 			type:"post",
 			processData : false,
@@ -235,18 +280,18 @@ function startUpload(uploadTimes,operate){
 				//如果传输成功
 				if(result.status==200){
 					if(uploadTimes==1){
+                        window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 						uploadTimes=-1;
 					}
-					
 					//传输完成
-					if(chunk==blockNum-1){
+					else if(chunk==blockNum-1){
 						$('#updatePersentShow').val("100%");
 						//设置当前传输块为0
-						window.localStorage.setItem(fileName + '_chunk',0);
+						window.localStorage.setItem(fileName + '_chunk_'+fileSize,0);
 						uploadTimes=1;
 						location.reload();
 					}else{
-						window.localStorage.setItem(fileName + '_chunk', ++chunk);
+						window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 						$('#updatePersentShow').val(persent+"%");
 						if(uploadIsPause!=1){
 							startUpload(-1,operate);

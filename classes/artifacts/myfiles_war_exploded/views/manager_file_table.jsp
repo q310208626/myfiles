@@ -63,7 +63,7 @@
 	</table>
 	</div>
 
-	//消息框
+	<%--消息框--%>
 	<div id="toastDiv" class="toast">
 		<span id="tipMsg"></span>
 	</div>
@@ -94,8 +94,7 @@
 							</div>
 							
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default"
-									data-dismiss="modal">关闭</button>
+								<button type="button" class="btn btn-default" onclick="modalClose('upload_modal')">关闭</button>
 								<!-- <input type="submit" value="上传"
 								class="btn btn-success input-submit-fileupload"> -->
 								<select id='del_select' class='btn selectpicker' data-style="btn-info">
@@ -120,7 +119,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">更新文件</h4>
+					<h4 class="modal-title" id="myModalUpdateLabel">更新文件</h4>
 				</div>
 					<div class="modal-body">
 						<a class="a-upload">选择文件 <input type="file" id="updateFileInput" name="updateFile"

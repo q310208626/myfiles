@@ -21,7 +21,7 @@
 			<div class="well sidebar-nav">
 				<ul class="nav nav-list">
 					<li class="nav-header">管理选项</li>
-					<li class="active nav-li"><a href=""javascript:void(0);" onclick="getFiles(1,10)" >文件管理</a></li>
+					<li class="active nav-li"><a href="${pageContext.request.contextPath}/views/manager_file_table.jsp" onclick="getFiles(1,10)" target="manager_iframe_name">文件管理</a></li>
 					<li class="nav-li"><a href="${pageContext.request.contextPath}/MFM/getAllMFM.do" target="manager_iframe_name">管理员管理</a></li>
 				</ul>
 			</div>
