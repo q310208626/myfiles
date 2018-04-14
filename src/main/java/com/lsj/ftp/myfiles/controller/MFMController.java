@@ -1,4 +1,5 @@
 package com.lsj.ftp.myfiles.controller;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lsj.ftp.myfiles.bean.ManPrivilege;
@@ -178,6 +180,46 @@ public class MFMController {
 	}
 
 	@RequestMapping(value = "/updatePrivilege.do",method=RequestMethod.POST)
+	@ResponseBody
+	public Map updateMFMPrivilege(ManPrivilege manPrivilege,HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView();
+		Map resultMap = null;
+		ManPrivilege mPrivilege=null;
+		logger.debug(manPrivilege.toString());
+		String userIdString = (String) session.getAttribute("userId");
+		if (userIdString == null || userIdString.equals("0")) {
+			modelAndView.setViewName("mfm_manager_error");
+			modelAndView.addObject("error", "操作员未登录");
+			if (logger.isDebugEnabled()) {
+				logger.debug("操作员未登录");
+			}
+		} else {
+			// 操作员Id
+			int doId = Integer.valueOf(userIdString);
+			System.out.println("====================getId==========="+manPrivilege.getId());
+			resultMap = myFilesManService.updateMFMPrivilege(doId, manPrivilege);
+
+			//根据结果集返回视图
+			if (resultMap.get("status").equals("success")) {
+				modelAndView.setViewName("redirect:/MFM/getAllMFM.do");
+				//resultMap.put("status",200);
+				if (logger.isDebugEnabled()) {
+					logger.debug("权限更新成功");
+				}
+			}else{
+				modelAndView.setViewName("mfm_manager_error");
+				//resultMap.put("status",104);
+				modelAndView.addObject("error",resultMap.get("error"));
+				if (logger.isDebugEnabled()) {
+					logger.debug("权限更新失败，跳转到失败显示界面");
+				}
+			}
+
+		}
+		return resultMap;
+	}
+
+/*	@RequestMapping(value = "/updatePrivilege.do",method=RequestMethod.POST)
 	public ModelAndView updateMFMPrivilege(ManPrivilege manPrivilege,HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		Map resultMap = null;
@@ -211,6 +253,6 @@ public class MFMController {
 			
 		}
 		return modelAndView;
-	}
+	}*/
 
 }

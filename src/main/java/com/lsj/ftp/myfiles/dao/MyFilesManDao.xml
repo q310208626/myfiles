@@ -24,7 +24,8 @@
 	
 	<select id="selectMFMById" resultMap="MyFilesManagerMap">
 		<include refid="selectAllMFMSql"></include>
-		WHERE m.id=#{m_id} and m.id=p.id
+		WHERE m.id=p.id
+		AND m.id=#{id}
 	</select>
 	
 	<select id="selectMFMIsActivited" resultMap="MyFilesManagerMap">

@@ -50,7 +50,7 @@ public class MyFileServiceImpl implements MyFileService {
 	@Autowired
 	private MyFileShareDao myFileShareDao;
 	//private static String savePath = "/home/shaojia/myFiles/upload";
-	private static String savePath ="C:\\myfiles\\save";
+	private static String savePath ="D:\\myfiles";
 
 
 	@Override

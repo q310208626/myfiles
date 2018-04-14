@@ -106,8 +106,8 @@
 								aria-hidden="true">&times;</button>
 							<h4 class="modal-title" id="myModalLabel">权限修改</h4>
 						</div>
-
-						<form id="mfm_update_form" action="${pageContext.request.contextPath}/MFM/updatePrivilege.do" method="post" >
+						<%--action="${pageContext.request.contextPath}/MFM/updatePrivilege.do"--%>
+						<form id="mfm_update_form"  method="post" >
 							<div class="modal-body">
 								<span>ID:</span><input id="mfm_id" name="id" type="text"  border="none"  value="mfmId"  size="6" readonly><br>
 								<span>主管理</span><input id="checkbox_mainPVL" name="mainPVL" type="checkbox" >
@@ -120,14 +120,17 @@
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default"
 									data-dismiss="modal">关闭</button>
-								<input type="submit" value="修改"
+								<input type="button" value="修改"
 								class="btn btn-success input-submit-fileupload" onclick="updateMFMPrivilege()">
 							</div>
 						</form>
 					</div>
 				</div>
-			</div>		
-
+			</div>
+	<%--消息框--%>
+	<div id="toastDiv" class="toast">
+		<span id="tipMsg"></span>
+	</div>
 </body>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.js"></script>

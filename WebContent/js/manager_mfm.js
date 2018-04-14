@@ -63,12 +63,13 @@ function updatePrivilegeModal(obj) {
 
 function updateMFMPrivilege() {
 	var contextPath = window.document.location.pathname;
+    var privilegeForm = new FormData();
 	var id = 0;
 	var mainPVL = 0;
 	var uploadPVL = 0;
 	var updatePVL = 0;
 	var grantPVL = 0;
-	var allFilePVL = 0;
+	var allFilesPVL = 0;
 
 	id = $('#mfm_id').attr('value');
 	if ($('#checkbox_mainPVL').prop('checked') == true) {
@@ -100,22 +101,52 @@ function updateMFMPrivilege() {
 	}
 
 	if ($('#checkbox_allFilePVL').prop('checked') == true) {
-		allFilePVL = 1;
+        allFilesPVL = 1;
 		$('#checkbox_allFilePVL').attr('value', '1');
 	} else {
-		allFilePVL = 0;
+        allFilesPVL = 0;
 		$('#checkbox_allFilePVL').attr('value', '0');
 	}
-	
+    privilegeForm.append("id",id);
+    privilegeForm.append("mainPVL",mainPVL);
+    privilegeForm.append("uploadPVL",uploadPVL);
+    privilegeForm.append("updatePVL",updatePVL);
+    privilegeForm.append("grantPVL",grantPVL);
+    privilegeForm.append("allFilesPVL",allFilesPVL);
 	//alert($('#mfm_update_form').serialize());
 	$.ajax({
 		url:'/myfiles/MFM/updatePrivilege.do',
 		type:'POST',
 		asyn:false,
-		data:$('#mfm_update_form').serialize(),
-		success:(function(){
-		window.location.reload();
-	 })
+        processData : false,
+        contentType : false,
+        data:privilegeForm,
+        dataType:"json",
+        success:function(result){
+            result=eval(result);
+			if(result.status=='error'){
+                toastShow(result.error,1000);
+			}else if(result.status=='success'){
+                window.location.reload()
+				//window.reload();
+			}
+	 	},
+		error:function (result) {
+            result=eval(result);
+            toastShow(result,1000);
+        }
 	 });
 
+}
+
+
+//消息展示，类似Toast
+function toastShow(msg,time){
+    var toast=$('#toastDiv');
+    var tipMsg=$('#tipMsg');
+    tipMsg.text(msg);
+    toast.fadeIn();
+    setTimeout(function(){
+        toast.fadeOut();
+    }, time);
 }

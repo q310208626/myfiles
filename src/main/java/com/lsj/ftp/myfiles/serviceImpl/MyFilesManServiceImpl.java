@@ -180,6 +180,16 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 			resultMap.put("error", "操作管理员不存在授权权限，无法冻结用户!");
 			return resultMap;
 		}
+
+		//如果被注销的是主管理员，则无法被注销
+		if(doneFilesManager.getManPrivilege().equals(1)){
+			if(logger.isDebugEnabled()){
+				logger.debug("主管理员不能被注销");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "主管理员不能被注销");
+			return resultMap;
+		}
 		
 		doneFilesManager.setIsActivited(0);
 		myFilesManDao.updateMFM(doneFilesManager);
@@ -216,6 +226,18 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 			resultMap.put("error", "操作管理员不存在");
 			return resultMap;
 		}
+
+		//如果被注销的是主管理员，则无法被注销
+		if(myFilesManager.getManPrivilege().equals(1)){
+			if(logger.isDebugEnabled()){
+				logger.debug("主管理员权限无法被修改");
+			}
+			resultMap.put("status", "error");
+			resultMap.put("error", "主管理员权限无法被修改");
+			return resultMap;
+		}
+
+
 		
 		try {
 			myFilesManDao.updateMFM(myFilesManager);
@@ -309,9 +331,9 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 		Map resultMap=new HashMap<String, String>();
 		MyFilesManager doFilesManager=myFilesManDao.selectMFMById(doId);
 		MyFilesManager doneFilesManager=myFilesManDao.selectMFMById(manPrivilege.getId());
-		ManPrivilege updateManPrivilege=doneFilesManager.getManPrivilege();
+		ManPrivilege oldDoneManPrivilege=doneFilesManager.getManPrivilege();
 		
-		if(doneFilesManager.getManPrivilege().getMainPVL()==1&&doId==doneFilesManager.getId()) {
+		if(oldDoneManPrivilege.getMainPVL()==1&&doId==doneFilesManager.getId()) {
 			resultMap.put("status", "error");
 			resultMap.put("error", "不允许被修改自身的主管理权限");
 			return resultMap;
@@ -346,7 +368,7 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 		}
 		
 		//无法修改自己的授权权限
-		if(doneFilesManager.getId()==doFilesManager.getId()&&updateManPrivilege.getGrantPVL()==0) {if(logger.isDebugEnabled()){
+		if(doneFilesManager.getId()==doFilesManager.getId()&&manPrivilege.getGrantPVL()==0) {if(logger.isDebugEnabled()){
 			logger.debug("无法修改自己的授权权限");
 		}
 		resultMap.put("status", "error");
