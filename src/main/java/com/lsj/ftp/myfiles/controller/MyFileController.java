@@ -84,9 +84,12 @@ public class MyFileController {
 	public Map getMyFileByPage(int page,int pageCount,String fileName,HttpSession session){
 		Map map=new HashMap();
 		try{
+			//检查session中的userId是否存在，不存在则提醒登录
 			int manId=Integer.parseInt(session.getAttribute("userId").toString());
 			logger.debug("========userID:"+manId);
+			//文件总数
 			int fileCount=0;
+			//起始下标
 			int startIndex=(page-1)*pageCount;
 			fileCount=myFileService.getMyFilesCount();
 			List<MyFile> myFileList=myFileService.getMyFilesTableByPage(manId, startIndex, pageCount,fileName);
@@ -108,7 +111,7 @@ public class MyFileController {
 	
 	/**   
 	 * @Title: getCustomerFileByPage   
-	 * @Description: TODO 后去访客列表文件，分页
+	 * @Description: TODO 货取访客列表文件，分页
 	 * @param page 页数
 	 * @param pageCount 每页的文件数
 	 * @return      
@@ -120,6 +123,7 @@ public class MyFileController {
 	public Map getCustomerFileByPage(int page,int pageCount,String fileName){
 		Map HashMap=new HashMap();
 		int fileCount=0;
+		//计算要获取的文件起始下标
 		int startIndex=(page-1)*pageCount;
 		List<MyFile> myFileList=null;
 		logger.debug("fileName========"+fileName);

@@ -11,7 +11,9 @@ var isLoginPWDRight=false;
 
 //登录输入监听
 app.controller('loginValidate',function($scope){
+	//账户名匹配，字母开头，8到15位长度
 	var accountPattern=/^\w[a-zA-Z0-9]{7,14}/;
+	//密码匹配，以下字符8-15位长度
 	var passwordPattern=/[^a-zA-Z0-9!@#$%&_+]/;
 	$scope.$watch('account',function(newValue ,oldValue){
 		//输入发生变化
@@ -60,7 +62,9 @@ var isRegistConfirmPWDRight=false;
 
 //注册输入监听
 app.controller('registValidate',function($scope){
+    //账户名匹配，字母开头，8到15位长度
 	var accountPattern=/^\w[a-zA-Z0-9]{7,14}/;
+    //密码匹配，以下字符8-15位长度
 	var passwordPattern=/[^a-zA-Z0-9!@#$%&_+]/;
 	
 	$scope.$watch('account',function(newValue ,oldValue){

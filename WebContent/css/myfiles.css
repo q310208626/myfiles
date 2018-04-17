@@ -37,8 +37,8 @@ input.sign_button{
 .error_container{
 	text-align: center;
 	width:300px;
-	height:100px;
-	margin:30px;
+	height: 30%;
+	margin:30% auto;
 	padding: 40px;
 	background-color: #c1e4ff;
 }
@@ -149,7 +149,7 @@ div.row{
 	left:50%;
 	margin:-50px 0 0 -100px;
 	background-color: #c0c0c0;
-	z-index=10;
+	z-index:10;
 	border-radius:10px 10px;
 	text-align: center;
 	padding: 20px;
