@@ -308,7 +308,7 @@ public class MyFileServiceImpl implements MyFileService {
 		}
 		
 		//权限检查，不是主管理员并且不具备上传权限
-		if(myFilesManager.getManPrivilege().getMainPVL()!=1&&myFilesManager.getManPrivilege().getUpdatePVL()!=1){
+		if(myFilesManager.getManPrivilege().getMainPVL()!=1&&myFilesManager.getManPrivilege().getUploadPVL()!=1){
 			resultMap.put("status", "error");
 			resultMap.put("error", "管理员没有权限上传文件");
 			resultMap.put("code", "100");

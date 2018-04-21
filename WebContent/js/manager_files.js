@@ -72,7 +72,7 @@ function updateFileChange(file){
 	if(file==""||file==null){
 		fileShow.val("未选择文件")
 	}else{
-        mfile=$('#uploadFileInput')[0].files[0];
+        mfile=$('#updateFileInput')[0].files[0];
         var fileName=mfile.name;
         var fileSize=mfile.size;
         var fileType=mfile.type;
@@ -97,7 +97,7 @@ function continueUpload(operate){
 		operateButton=$('#uploadButton');
 	}else if(operate=='update'){
 		file=$('#updateFileInput')[0].files[0];
-		operateButton=$('#uploadButton');
+		operateButton=$('#updateButton');
 	}
 	
 	
@@ -129,7 +129,7 @@ function uploadOrTemp(operate){
 	if(operate=='upload'){
 		operateButton=$('#uploadButton');
 	}else if(operate=='update'){
-		operateButton=$('#uploadButton');
+		operateButton=$('#updateButton');
 	}
 	
 	if(uploadIsPause==1){
@@ -176,7 +176,7 @@ function startUpload(uploadTimes,operate){
 	if(operate=='upload'){
 		operateButton=$('#uploadButton');
 	}else if(operate=='update'){
-		operateButton=$('#uploadButton');
+		operateButton=$('#updateButton');
 	}
 	
 /*	//如果是第一次上传，则初始化
@@ -230,19 +230,19 @@ function startUpload(uploadTimes,operate){
 			//如果传输成功
 			if(result.status==200){
 
+            	if(chunk==blockNum-1){
+                    //如果传输完成
+                    $('#uplaodPersentShow').val("100%");
+                    //设置当前传输块为0
+                    window.localStorage.setItem(fileName + '_chunk_'+fileSize,0);
+                    uploadTimes=1;
+                    location.reload();
+                }
 				//如果是第一次上传，记录下该文件
-				if(uploadTimes==1){
+				else if(uploadTimes==1){
                     window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 					uploadTimes=-1;
                     startUpload(-1,operate);
-				}else if(chunk==blockNum-1){
-                    //如果传输完成
-
-					$('#uplaodPersentShow').val("100%");
-					//设置当前传输块为0
-					window.localStorage.setItem(fileName + '_chunk_'+fileSize,0);
-					uploadTimes=1;
-					location.reload();
 				}else{
 					window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 					$('#uplaodPersentShow').val(persent+"%");
@@ -279,18 +279,19 @@ function startUpload(uploadTimes,operate){
 				result=eval(result);
 				//如果传输成功
 				if(result.status==200){
-					if(uploadTimes==1){
+                    //传输完成
+                	if(chunk==blockNum-1){
+                        $('#updatePersentShow').val("100%");
+                        //设置当前传输块为0
+                        window.localStorage.setItem(fileName + '_chunk_'+fileSize,0);
+                        uploadTimes=1;
+                        location.reload();
+                    }
+					else if(uploadTimes==1){
                         window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 						uploadTimes=-1;
 					}
-					//传输完成
-					else if(chunk==blockNum-1){
-						$('#updatePersentShow').val("100%");
-						//设置当前传输块为0
-						window.localStorage.setItem(fileName + '_chunk_'+fileSize,0);
-						uploadTimes=1;
-						location.reload();
-					}else{
+					else{
 						window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 						$('#updatePersentShow').val(persent+"%");
 						if(uploadIsPause!=1){
@@ -299,6 +300,9 @@ function startUpload(uploadTimes,operate){
 					}
 				}else{
 					uploadIsPause=1;
+                    if(result.status=100){
+                        toastShow(result.msg,1000);
+                    }
 					//设置当前传输块为0
 					//window.localStorage.setItem(fileName + '_chunk',0);
 					operateButton.val("上传");
