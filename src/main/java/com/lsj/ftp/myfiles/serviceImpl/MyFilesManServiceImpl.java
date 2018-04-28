@@ -333,11 +333,7 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 		MyFilesManager doneFilesManager=myFilesManDao.selectMFMById(manPrivilege.getId());
 		ManPrivilege oldDoneManPrivilege=doneFilesManager.getManPrivilege();
 		
-		if(oldDoneManPrivilege.getMainPVL()==1&&doId==doneFilesManager.getId()) {
-			resultMap.put("status", "error");
-			resultMap.put("error", "不允许被修改自身的主管理权限");
-			return resultMap;
-		}else {
+
 			
 		if(doFilesManager==null){
 			if(logger.isDebugEnabled()){
@@ -347,6 +343,13 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 			resultMap.put("error", "操作管理员不存在");
 			return resultMap;
 		}
+
+		//主管理员无法搞掉自己的主管理权限
+		if(oldDoneManPrivilege.getMainPVL()==1&&manPrivilege.getMainPVL()==0&&doId==doneFilesManager.getId()) {
+			resultMap.put("status", "error");
+			resultMap.put("error", "不允许被修改自身的主管理权限");
+			return resultMap;
+		}else {
 		
 		if(doFilesManager.getManPrivilege().getMainPVL()!=1
 				&&doFilesManager.getManPrivilege().getGrantPVL()!=1){

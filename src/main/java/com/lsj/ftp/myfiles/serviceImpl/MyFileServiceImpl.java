@@ -126,9 +126,12 @@ public class MyFileServiceImpl implements MyFileService {
 			int pageCount,String fileName) {
 		// TODO Auto-generated method stub
 		List<MyFile> myFiles = null;
+		//获取全部文件
 		if(fileName==null||fileName.equals("")) {
 			myFiles=myFileDao.selectAllMyByPage(startIndex, pageCount);
-		}else {
+		}
+		//文件搜索
+		else {
 			myFiles=myFileDao.selectAllMyByPageAndFileName(startIndex, pageCount,fileName);
 		}
 		return myFiles;
@@ -253,7 +256,7 @@ public class MyFileServiceImpl implements MyFileService {
 		MyFile myFile = myFileDao.selectMyFIleById(MyFileId);
 		// 如果文件不存在
 		if (myFile == null) {
-			resultMap.put("status", "error");
+			resultMap.put("status", "success");
 			resultMap.put("error", "文件不存在");
 			return resultMap;
 		}

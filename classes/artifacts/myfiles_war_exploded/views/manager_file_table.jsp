@@ -131,7 +131,7 @@
 					</div>
 
 					<div class="modal-footer">
-						<button id="update_modal_close" type="button" class="btn btn-default" >关闭</button>
+						<button id="update_modal_close" type="button" class="btn btn-default" onclick="modalClose('update_modal')">关闭</button>
 						<input id="updateButton" type="button" value="上传" class="btn btn-success" onclick="continueUpload('update')">
 					</div>
 

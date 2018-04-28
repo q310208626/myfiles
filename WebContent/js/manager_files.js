@@ -298,7 +298,9 @@ function startUpload(uploadTimes,operate){
 							startUpload(-1,operate);
 						}
 					}
-				}else{
+				}
+				//如果失败
+				else{
 					uploadIsPause=1;
                     if(result.status=100){
                         toastShow(result.msg,1000);
@@ -354,9 +356,9 @@ function getFiles(page,pageCount){
 				operateUpdate.html("重传");
 				
 				var oprateDelete=$('<a></a>');
-				oprateDelete.attr("id",item.id);
+				oprateDelete.attr("id","del"+item.id);
 				oprateDelete.attr("class","btn btn-danger");
-				oprateDelete.attr("href",getRootPath()+"/myFile/deleteFile.do?fileId="+item.id);
+                oprateDelete.attr("href",getRootPath()+"/myFile/deleteFile.do?fileId="+item.id);
 				oprateDelete.html("删除");
 
 				

@@ -16,7 +16,7 @@
 	<insert id="insertPVL" parameterType="ManPrivilege">
 		INSERT INTO 
 			man_privilege(id,upload_pvl,update_pvl,grant_pvl,all_files_pvl,main_pvl)
-			VALUES(#{id},#{uploadPVL},#{updatePVL},#{grantPVL},#{allFilesPVL},#{mainPVL})
+			VALUES(#{id},#{uploadPVL},#{updatePVL},#{grantPVL},#{allFilesPVL},0)
 	</insert>
 	
 	<select id="selectPVL" parameterType="int" resultMap="privilegeMap">
@@ -30,7 +30,7 @@
 
 	<update id="updatePVL" parameterType="ManPrivilege">
 		UPDATE man_privilege SET
-		upload_pvl=#{uploadPVL},update_pvl=#{updatePVL},grant_pvl=#{grantPVL},all_files_pvl=#{allFilesPVL},main_pvl=#{mainPVL}
+		upload_pvl=#{uploadPVL},update_pvl=#{updatePVL},grant_pvl=#{grantPVL},all_files_pvl=#{allFilesPVL}
 		WHERE id=#{id} 
 	</update>
 
