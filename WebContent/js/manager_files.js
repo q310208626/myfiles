@@ -113,7 +113,7 @@ function continueUpload(operate){
 		//修改按键绑定监听事件
 		if(operate=='upload'){
 			operateButton.attr('onclick',"uploadOrTemp('upload')");
-		}else if(operate=='upload'){
+		}else if(operate=='update'){
 			operateButton.attr('onclick',"uploadOrTemp('update')");
 		}
 		uploadIsPause=0;
@@ -242,7 +242,9 @@ function startUpload(uploadTimes,operate){
 				else if(uploadTimes==1){
                     window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 					uploadTimes=-1;
-                    startUpload(-1,operate);
+					if(uploadIsPause!=1){
+                        startUpload(-1,operate);
+					}
 				}else{
 					window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 					$('#uplaodPersentShow').val(persent+"%");
@@ -290,6 +292,9 @@ function startUpload(uploadTimes,operate){
 					else if(uploadTimes==1){
                         window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 						uploadTimes=-1;
+                        if(uploadIsPause!=1){
+                            startUpload(-1,operate);
+                        }
 					}
 					else{
 						window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);

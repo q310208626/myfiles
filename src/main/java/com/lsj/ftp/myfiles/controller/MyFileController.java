@@ -383,11 +383,11 @@ public class MyFileController {
 		//文件临时后缀
 		UUID tmpId;
 		//获取文件临时后缀
-		tmpId=(UUID) session.getAttribute("fileUUID");
-		if(tmpId==null){
-			tmpId=UUID.randomUUID();
-			session.setAttribute("fileUUID", tmpId);
-		}
+		tmpId = (UUID) session.getAttribute(fileName+"_update_"+fileSize);
+		if (tmpId == null) {
+				tmpId = UUID.randomUUID();
+				session.setAttribute(fileName+"_update_"+fileSize, tmpId);
+			}
 		map=myFileService.continueUpdateFile(uploadFile,fileName,tmpId,isLast,manId,fileId);
 		map.put("status", 200);
 		

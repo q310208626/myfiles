@@ -21,6 +21,7 @@
 				<td>账号</td>
 				<td>权限</td>
 				<td>操作</td>
+				<td>当前状态</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -82,6 +83,8 @@
 					</td>
 					<td>
 						<a id="${status.index+1}" class="btn btn-warning" onclick="updatePrivilegeModal(this)" >权限修改</a>
+					</td>
+					<td>
 						<c:choose>
 							<c:when test="${myMFM.isActivited==0}">
 								<a class="btn btn-success" href="${pageContext.request.contextPath}/MFM/activityMFM.do?doneId=${myMFM.id}">激活</a>
@@ -90,8 +93,8 @@
 							</c:when>
 							<c:otherwise>
 								<a class="btn btn-warning" href="${pageContext.request.contextPath}/MFM/freezeMFM.do?doneId=${myMFM.id}">注销</a>
-							</c:otherwise> 
-						</c:choose> 
+							</c:otherwise>
+						</c:choose>
 					</td>
 				</tr>
 			</c:forEach>
