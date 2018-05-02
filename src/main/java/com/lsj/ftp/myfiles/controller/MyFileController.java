@@ -389,8 +389,6 @@ public class MyFileController {
 				session.setAttribute(fileName+"_update_"+fileSize, tmpId);
 			}
 		map=myFileService.continueUpdateFile(uploadFile,fileName,tmpId,isLast,manId,fileId);
-		map.put("status", 200);
-		
 		}
 		return map;
 	}

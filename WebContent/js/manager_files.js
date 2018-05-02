@@ -254,9 +254,7 @@ function startUpload(uploadTimes,operate){
 				}
 			}else{
 				uploadIsPause=1;
-				if(result.status=100){
-					toastShow(result.msg,1000);
-				}
+				toastShow(result.msg,1000);
 				//设置当前传输块为0
 				//window.localStorage.setItem(fileName + '_chunk_'+fileSize,0);
 				operateButton.val("上传");
@@ -307,9 +305,7 @@ function startUpload(uploadTimes,operate){
 				//如果失败
 				else{
 					uploadIsPause=1;
-                    if(result.status=100){
-                        toastShow(result.msg,1000);
-                    }
+					toastShow(result.msg,1000);
 					//设置当前传输块为0
 					//window.localStorage.setItem(fileName + '_chunk',0);
 					operateButton.val("上传");
@@ -383,8 +379,8 @@ function getFiles(page,pageCount){
 				operateTd.append(oprateDelete);
 				
 				fileRow.append(nameTd);
+                fileRow.append(ownerIdTd);
 				fileRow.append(createDateTd);
-				fileRow.append(ownerIdTd);
 				fileRow.append(lastModifiedDateTd);
 				fileRow.append(lastModifiedIdTd);
 				fileRow.append(operateTd)

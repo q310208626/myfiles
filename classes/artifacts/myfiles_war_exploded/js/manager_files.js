@@ -113,7 +113,7 @@ function continueUpload(operate){
 		//修改按键绑定监听事件
 		if(operate=='upload'){
 			operateButton.attr('onclick',"uploadOrTemp('upload')");
-		}else if(operate=='upload'){
+		}else if(operate=='update'){
 			operateButton.attr('onclick',"uploadOrTemp('update')");
 		}
 		uploadIsPause=0;
@@ -242,7 +242,9 @@ function startUpload(uploadTimes,operate){
 				else if(uploadTimes==1){
                     window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 					uploadTimes=-1;
-                    startUpload(-1,operate);
+					if(uploadIsPause!=1){
+                        startUpload(-1,operate);
+					}
 				}else{
 					window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 					$('#uplaodPersentShow').val(persent+"%");
@@ -252,9 +254,7 @@ function startUpload(uploadTimes,operate){
 				}
 			}else{
 				uploadIsPause=1;
-				if(result.status=100){
-					toastShow(result.msg,1000);
-				}
+				toastShow(result.msg,1000);
 				//设置当前传输块为0
 				//window.localStorage.setItem(fileName + '_chunk_'+fileSize,0);
 				operateButton.val("上传");
@@ -290,6 +290,9 @@ function startUpload(uploadTimes,operate){
 					else if(uploadTimes==1){
                         window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
 						uploadTimes=-1;
+                        if(uploadIsPause!=1){
+                            startUpload(-1,operate);
+                        }
 					}
 					else{
 						window.localStorage.setItem(fileName + '_chunk_'+fileSize, ++chunk);
@@ -302,9 +305,7 @@ function startUpload(uploadTimes,operate){
 				//如果失败
 				else{
 					uploadIsPause=1;
-                    if(result.status=100){
-                        toastShow(result.msg,1000);
-                    }
+					toastShow(result.msg,1000);
 					//设置当前传输块为0
 					//window.localStorage.setItem(fileName + '_chunk',0);
 					operateButton.val("上传");
@@ -378,8 +379,8 @@ function getFiles(page,pageCount){
 				operateTd.append(oprateDelete);
 				
 				fileRow.append(nameTd);
+                fileRow.append(ownerIdTd);
 				fileRow.append(createDateTd);
-				fileRow.append(ownerIdTd);
 				fileRow.append(lastModifiedDateTd);
 				fileRow.append(lastModifiedIdTd);
 				fileRow.append(operateTd)

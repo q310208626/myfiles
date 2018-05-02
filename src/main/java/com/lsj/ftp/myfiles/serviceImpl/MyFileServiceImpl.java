@@ -87,8 +87,10 @@ public class MyFileServiceImpl implements MyFileService {
 		// 管理员不存在
 		if (myFilesManager == null) {
 			return null;
+		}else{
+			myFiles = myFileDao.selectAllMyByPageAndFileName(startIndex, count, fileName);
 		}
-		// 如果管理员为主管理员或者拥有操作全部文件权限
+/*		// 如果管理员为主管理员或者拥有操作全部文件权限
 		else if (myFilesManager.getManPrivilege().getMainPVL() == 1
 				|| myFilesManager.getManPrivilege().getAllFilesPVL() == 1) {
 			if(fileName==null||fileName.equals("")){
@@ -106,7 +108,7 @@ public class MyFileServiceImpl implements MyFileService {
 				myFiles = myFileDao.selectMyFileByOwnerAndByPageAndFileName(id, startIndex, count, fileName);
 			}
 			
-		}
+		}*/
 		return myFiles;
 	}
 
@@ -407,7 +409,22 @@ public class MyFileServiceImpl implements MyFileService {
 	public Map continueUploadFile(MultipartFile file, String fileName,UUID fileNameSuffix, boolean isLast,int ownerId,int del_time) {
 		// TODO Auto-generated method stub
 		Map resultMap=new HashMap();
-		
+
+		//管理员权限判断
+		MyFilesManager manager=myFileManDao.selectMFMById(ownerId);
+		if (manager==null){
+			resultMap.put("status",108);
+			resultMap.put("msg","管理员不存在");
+			return resultMap;
+		}else{
+			ManPrivilege privilege= manager.getManPrivilege();
+			if(privilege.getMainPVL()!=1&&privilege.getUploadPVL()!=1){
+				resultMap.put("status",108);
+				resultMap.put("msg","权限不足");
+				return  resultMap;
+			}
+		}
+
 		//临时文件名
 		String tmpFileName=fileName+fileNameSuffix;
 		File tmpSaveFile=new File(savePath,tmpFileName);
@@ -499,8 +516,7 @@ public class MyFileServiceImpl implements MyFileService {
 		
 		MyFile updateFile=myFileDao.selectMyFIleById(fileId);
 		MyFilesManager myFilesManager=myFileManDao.selectMFMById(ownerId);
-		
-		
+
 		//如果文件不存在
 		if(updateFile==null||updateFile.equals("")){
 			resultMap.put("status",000);
@@ -524,7 +540,7 @@ public class MyFileServiceImpl implements MyFileService {
 		
 			// 如果有主管理员权限或者有修改所有文件权限，则可以更新
 			// 没有以上权限，则查看文件是否属于自己，属于则可以删除
-			if (manPrivilege.getMainPVL() != 1&& manPrivilege.getUpdatePVL() == 1&&updateFile.getOwnerId() == ownerId) {
+			if (manPrivilege.getMainPVL() != 1&& manPrivilege.getUpdatePVL() !=1&&updateFile.getOwnerId() != ownerId) {
 				resultMap.put("status", 000);
 				resultMap.put("msg","没有权限");
 				return resultMap;
