@@ -331,10 +331,13 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 		Map resultMap=new HashMap<String, String>();
 		MyFilesManager doFilesManager=myFilesManDao.selectMFMById(doId);
 		MyFilesManager doneFilesManager=myFilesManDao.selectMFMById(manPrivilege.getId());
+		//被修改者之前的权限
 		ManPrivilege oldDoneManPrivilege=doneFilesManager.getManPrivilege();
+		//修改者权限
+		ManPrivilege doManPrivilege=doFilesManager.getManPrivilege();
 		
 
-			
+		//判断操作管理员是否存在
 		if(doFilesManager==null){
 			if(logger.isDebugEnabled()){
 				logger.debug("操作管理员不存在");
@@ -344,44 +347,72 @@ public class MyFilesManServiceImpl implements MyFilesManService{
 			return resultMap;
 		}
 
-		//主管理员无法搞掉自己的主管理权限
-		if(oldDoneManPrivilege.getMainPVL()==1&&manPrivilege.getMainPVL()==0&&doId==doneFilesManager.getId()) {
-			resultMap.put("status", "error");
-			resultMap.put("error", "不允许被修改自身的主管理权限");
-			return resultMap;
-		}else {
-		
-		if(doFilesManager.getManPrivilege().getMainPVL()!=1
-				&&doFilesManager.getManPrivilege().getGrantPVL()!=1){
+		//判断被操作管理员是否存在
+		if(oldDoneManPrivilege==null){
 			if(logger.isDebugEnabled()){
-				logger.debug("操作管理员不存在授权权限");
-			}
-			resultMap.put("status", "error");
-			resultMap.put("error", "操作管理员不存在授权权限");
-			return resultMap;
-		}
-		
-		if(doneFilesManager==null){
-			if(logger.isDebugEnabled()){
-				logger.debug("被操作管理员不存在");
+				logger.debug("操作管理员不存在");
 			}
 			resultMap.put("status", "error");
 			resultMap.put("error", "操作管理员不存在");
 			return resultMap;
 		}
-		
-		//无法修改自己的授权权限
-		if(doneFilesManager.getId()==doFilesManager.getId()&&manPrivilege.getGrantPVL()==0) {if(logger.isDebugEnabled()){
-			logger.debug("无法修改自己的授权权限");
+
+
+		//判断是够拥有修改权限
+		if(doManPrivilege.getMainPVL()!=1&&doManPrivilege.getGrantPVL()!=1){
+			resultMap.put("status", "error");
+			resultMap.put("error", "操作管理员不存在");
+			return  resultMap;
 		}
-		resultMap.put("status", "error");
-		resultMap.put("error", "无法修改自己的授权权限");
-		return resultMap;
+		//如果是主管理员
+		else if(doManPrivilege.getMainPVL()==1){
+			//主管理员权限不能被修改
+			if (oldDoneManPrivilege.getMainPVL() == 1) {
+				resultMap.put("status", "error");
+				resultMap.put("error", "不允许修改主管理权限");
+				return resultMap;
+			}
+
+			if(manPrivilege.getMainPVL()==1){
+				resultMap.put("status", "error");
+				resultMap.put("error", "不允许赋予主管理权限");
+				return resultMap;
+			}
 		}
-		
+		//如果是普通管理员
+		else if(doManPrivilege.getGrantPVL()==1&&doManPrivilege.getMainPVL()!=1){
+
+			//主管理员权限不能被修改
+			if (oldDoneManPrivilege.getMainPVL() == 1) {
+				resultMap.put("status", "error");
+				resultMap.put("error", "不允许修改主管理权限");
+				return resultMap;
+			}
+
+			//不允许赋予管理员权限
+			if(manPrivilege.getMainPVL()==1){
+				resultMap.put("status", "error");
+				resultMap.put("error", "不允许赋予主管理权限");
+				return resultMap;
+			}
+
+			//无法取消自己的授权权限
+			if (doneFilesManager.getId() == doFilesManager.getId() && manPrivilege.getGrantPVL() == 0) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("无法修改自己的授权权限");
+				}
+				resultMap.put("status", "error");
+				resultMap.put("error", "无法修改自己的授权权限");
+				return resultMap;
+			}
+
+			//如果被修改者与修改者不同，但是被修改者拥有授权权限
+			if (doneFilesManager.getId() != doFilesManager.getId() && oldDoneManPrivilege.getGrantPVL() == 1) {
+				resultMap.put("status", "error");
+				resultMap.put("error", "无法修改拥有授权权限的管理员");
+				return resultMap;
+			}
 		}
-		
-		
 		manPrivilegeDao.updatePVL(manPrivilege);
 		resultMap.put("status", "success");
 		return resultMap;
