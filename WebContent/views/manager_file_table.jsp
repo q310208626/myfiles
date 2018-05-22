@@ -23,7 +23,7 @@
             		<input type="text" id="search_input" class="form-control" placeholder="请输入文件名">
             		<a id="clearInput" onclick="clearInput()">X</a>
             	</div>
-                <span class="input-group-btn" style="display:inline-block">
+                <span class="input-group-btn" style="display:inline-block;position: absolute;top: 0;left: 200px;">
                     <input type="submit" class="btn btn-primary" value="搜索" onclick="getFiles(1,10)"></input>
                 </span>
                 </form>
